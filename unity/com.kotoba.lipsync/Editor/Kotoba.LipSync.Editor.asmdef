@@ -1,0 +1,6 @@
+{
+  "name": "Kotoba.LipSync.Editor",
+  "rootNamespace": "Kotoba.LipSync.Editor",
+  "references": ["Kotoba.LipSync"],
+  "includePlatforms": ["Editor"]
+}

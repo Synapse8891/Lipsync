@@ -1,0 +1,8 @@
+{
+  "name": "com.kotoba.lipsync",
+  "version": "0.1.0",
+  "displayName": "Kotoba LipSync Bridge",
+  "description": "Receive lightweight Japanese/English lip sync from the local Kotoba process. Includes an optional VRChat avatar FX builder.",
+  "unity": "2022.3",
+  "author": { "name": "Kotoba LipSync" }
+}

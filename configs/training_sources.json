@@ -1,0 +1,23 @@
+{
+  "dataset": {
+    "repo": "fixie-ai/common_voice_17_0",
+    "revision": "34f78a43893414e7b6e271ba94c1d5e05f18b239",
+    "license": "CC0-1.0"
+  },
+  "teachers": {
+    "ja": {
+      "repo": "air-air/japanese-hubert-base-phoneme-ctc-v4-ONNX",
+      "revision": "a36617c5fbf7cfde02caa067716961c03cf4d87e",
+      "license": "Apache-2.0",
+      "purpose": "training-only automatic frame annotations",
+      "model_path": "onnx/model_q4.onnx"
+    },
+    "en": {
+      "repo": "onnx-community/wav2vec2-lv-60-espeak-cv-ft-ONNX",
+      "revision": "c69750f5043e5e1f8a71ab95dd3b98338c280c92",
+      "license": "Apache-2.0",
+      "purpose": "training-only automatic frame annotations",
+      "model_path": "onnx/model_int8.onnx"
+    }
+  }
+}
