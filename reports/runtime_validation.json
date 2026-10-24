@@ -1,0 +1,15 @@
+{
+  "model_sha256": "208f761d7ad7b107e2059c9a2eed700040353c3c47abc8dd195624ba69551d77",
+  "matches_selected_trial": true,
+  "pipeline_version": "ctc-midpoint-v2",
+  "frames_verified": 585,
+  "finite_normalized_weights": true,
+  "silence_returns_neutral": true,
+  "desktop_selftest": {
+    "status": "ok",
+    "model_loaded": "C:\\Users\\harus\\Downloads\\Lipsync\\models\\kotoba_int8.npz",
+    "frames": 97,
+    "gui_created": true,
+    "parameters": 155024
+  }
+}

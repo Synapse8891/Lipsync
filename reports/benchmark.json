@@ -1,0 +1,18 @@
+{
+  "audio_seconds": 5.88,
+  "elapsed_seconds": 0.328914600002463,
+  "real_time_factor": 0.05593785714327602,
+  "frame_ms_p50": 0.5524500011233613,
+  "frame_ms_p95": 0.6003899979987181,
+  "frame_ms_p99": 0.676675003778655,
+  "parameters": 155024,
+  "model_bytes": 143433,
+  "model_float_weights_bytes": 620096,
+  "analysis_window_ms": 25,
+  "lookahead_ms": 30,
+  "resampler_buffer_ms_at_48khz": 10,
+  "smoothing_ms": 25,
+  "scope": "CPU feature extraction + inference; excludes audio driver, network, rendering and application startup",
+  "process_working_set_bytes": 102924288,
+  "memory_scope": "This CLI process after imports and inference; GUI/driver/receiver memory excluded"
+}
