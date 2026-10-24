@@ -1,0 +1,27 @@
+{
+  "standard": {
+    "ja_shards": 3,
+    "ja_train": 1800,
+    "en_train": 200,
+    "ja_eval": 180,
+    "en_eval": 40
+  },
+  "five-hour": {
+    "ja_shards": 8,
+    "ja_train": 8000,
+    "en_train": 1200,
+    "ja_eval": 300,
+    "en_eval": 100,
+    "hours": 5,
+    "preparation_fraction": 0.7,
+    "index_name": "index_five_hour.json",
+    "trials": [
+      {"hidden": [128, 64], "seed": 42},
+      {"hidden": [192, 96], "seed": 42},
+      {"hidden": [256, 128], "seed": 42},
+      {"hidden": [128, 64], "seed": 73},
+      {"hidden": [192, 96], "seed": 73},
+      {"hidden": [256, 128], "seed": 73}
+    ]
+  }
+}

@@ -17,17 +17,21 @@ TEACHERS = {
     "en": ("onnx-community/wav2vec2-lv-60-espeak-cv-ft-ONNX", "onnx/model_int8.onnx"),
 }
 
-def download(url, path):
+def download(url, path, deadline=None):
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists() and path.stat().st_size:
         return path
     for attempt in range(4):
+        if deadline is not None and time.time()>=deadline:
+            raise TimeoutError("ダウンロードの計算枠が終了しました。完了ファイルは再利用できます。")
         try:
             with requests.get(url, stream=True, timeout=(20, 180)) as r:
                 r.raise_for_status()
                 tmp = path.with_suffix(path.suffix + ".part")
                 with tmp.open("wb") as f:
                     for chunk in r.iter_content(1024 * 1024):
+                        if deadline is not None and time.time()>=deadline:
+                            raise TimeoutError("ダウンロードの計算枠が終了しました")
                         f.write(chunk)
                 tmp.replace(path)
             print(f"Downloaded {path.relative_to(ROOT)} ({path.stat().st_size/1e6:.1f} MB)", flush=True)
@@ -40,6 +44,7 @@ def download(url, path):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ja-shards", type=int, default=3)
+    p.add_argument("--deadline",type=float)
     args = p.parse_args()
     if not 1 <= args.ja_shards <= 8:
         p.error("--ja-shards must be between 1 and 8")
@@ -60,7 +65,7 @@ def main():
             jobs.append((f"https://huggingface.co/{repo}/resolve/{rev}/{file}", ROOT / "cache" / "teachers" / lang / ("model.onnx" if file == model_path else file)))
         source["teachers"][lang] = {"repo": repo, "revision": rev, "license": "Apache-2.0", "purpose": "training-only automatic frame annotations"}
     with ThreadPoolExecutor(max_workers=4) as ex:
-        list(ex.map(lambda pair: download(*pair), jobs))
+        list(ex.map(lambda pair: download(*pair,deadline=args.deadline), jobs))
     source["sha256"] = {str(p.relative_to(ROOT)).replace("\\", "/"): hashlib.file_digest(p.open("rb"), "sha256").hexdigest() for _, p in jobs}
     (ROOT / "data" / "provenance.json").write_text(json.dumps(source, ensure_ascii=False, indent=2), encoding="utf-8")
 

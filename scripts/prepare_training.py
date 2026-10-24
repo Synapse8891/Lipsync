@@ -45,7 +45,17 @@ def cache_is_current(path, signature):
 def key(value):
     return hashlib.sha256(str(value).encode()).hexdigest()
 
-def select_records(limits):
+def balanced_schedule(records):
+    """Evaluate both languages first, then grow Japanese/English training together."""
+    result=[r for r in records if r[1]!="train"]
+    ja=[r for r in records if r[1]=="train" and r[0]=="ja"]
+    en=[r for r in records if r[1]=="train" and r[0]=="en"]
+    for offset in range(max((len(ja)+39)//40,(len(en)+5)//6)):
+        result.extend(ja[offset*40:(offset+1)*40])
+        result.extend(en[offset*6:(offset+1)*6])
+    return result
+
+def select_records(limits,allow_fewer=False):
     selected = []
     seen_audio = set()
     owners = {}
@@ -91,7 +101,9 @@ def select_records(limits):
                     break
                 index += 1
             if count < limits[lang][split]:
-                raise RuntimeError(f"Only {count} eligible {lang}/{split} recordings; requested {limits[lang][split]}")
+                if not allow_fewer or count==0:
+                    raise RuntimeError(f"Only {count} eligible {lang}/{split} recordings; requested {limits[lang][split]}")
+                print(f"Using all {count} eligible {lang}/{split} recordings (target {limits[lang][split]})",flush=True)
             print(f"Selected {lang}/{split}: {count} recordings, {len({r[3] for r in selected if r[0]==lang and r[1]==split})} speakers", flush=True)
     return selected
 
@@ -150,9 +162,15 @@ def main():
     p.add_argument("--ja-eval", type=int, default=180)
     p.add_argument("--en-eval", type=int, default=40)
     p.add_argument("--threads", type=int, default=4)
+    p.add_argument("--deadline",type=float,help="Finish the current recording then save a partial index at this Unix time")
+    p.add_argument("--balanced-order",action="store_true")
+    p.add_argument("--index-name",default="index.json")
+    p.add_argument("--allow-fewer",action="store_true",help="Use all eligible recordings if the target exceeds available data")
     args = p.parse_args()
+    if Path(args.index_name).name!=args.index_name or not args.index_name.endswith(".json"):
+        p.error("--index-name must be a JSON filename")
     limits = {lang: {"train": tr, "validation": ev, "test": ev} for lang,tr,ev in [("ja",args.ja_train,args.ja_eval),("en",args.en_train,args.en_eval)]}
-    records = select_records(limits)
+    records = select_records(limits,allow_fewer=args.allow_fewer)
     config = FeatureConfig()
     out = FEATURE_DIR
     out.mkdir(parents=True, exist_ok=True)
@@ -161,47 +179,56 @@ def main():
     started = time.perf_counter()
     signatures={}
     preprocessing={}
-    for lang in ("ja", "en"):
-        teacher = Teacher(lang, args.threads)
-        signatures[lang]=teacher.signature
-        preprocessing[lang]=teacher.preprocessing
-        subset = [r for r in records if r[0] == lang]
-        for i, (_, split, name, speaker, text, blob) in enumerate(subset):
-            dest = out / f"{name}.npz"
-            try:
-                if not cache_is_current(dest,teacher.signature):
-                    audio, sr = sf.read(io.BytesIO(blob), dtype="float32", always_2d=True)
-                    audio = audio.mean(axis=1)
-                    d = gcd(sr, config.sample_rate)
-                    if sr != config.sample_rate:
-                        audio = resample_poly(audio, config.sample_rate // d, sr // d).astype(np.float32)
-                    if not .4 <= len(audio) / config.sample_rate <= 18:
-                        raise ValueError("Duration outside 0.4 to 18 seconds")
-                    features, times, diag = extract_audio(audio, config)
-                    labels, unknown = teacher.annotate(audio, times, diag)
-                    # Store only the current frame; temporal stacking is rebuilt at training.
-                    width = features.shape[1] // len(config.context)
-                    temporary=dest.with_suffix(".tmp.npz")
-                    np.savez_compressed(temporary, base=features[:, :width].astype(np.float16), y=labels, unknown=unknown, seconds=len(audio) / config.sample_rate, annotation_signature=teacher.signature,pipeline_version=PIPELINE_VERSION)
-                    temporary.replace(dest)
-                    if split == "test" and i < 3:
-                        sample_dir = ROOT / "data" / "demo"
-                        sample_dir.mkdir(exist_ok=True)
-                        sf.write(sample_dir / f"{name}.wav", audio, config.sample_rate)
-                with np.load(dest, allow_pickle=False) as data:
-                    index.append({"id": name, "language": lang, "split": split, "speaker_hash": speaker, "transcript_hash": text, "frames": len(data["y"]), "seconds": float(data["seconds"]), "unknown_phones": int(data["unknown"])})
-            except (ValueError, RuntimeError, sf.LibsndfileError) as e:
-                errors.append({"id": name, "reason": str(e)})
-            if (i + 1) % 25 == 0 or i + 1 == len(subset):
-                print(f"{lang}: {i+1}/{len(subset)}, elapsed {time.perf_counter()-started:.0f}s, skipped {len(errors)}", flush=True)
-        del teacher
+    teachers={}
+    ordered=balanced_schedule(records) if args.balanced_order else [r for lang in ("ja","en") for r in records if r[0]==lang]
+    completed={"ja":0,"en":0}
+    deadline_reached=False
+    for number, (lang, split, name, speaker, text, blob) in enumerate(ordered):
+        if args.deadline is not None and time.time()>=args.deadline:
+            deadline_reached=True
+            break
+        if lang not in teachers:
+            if not args.balanced_order:teachers.clear()
+            teachers[lang]=Teacher(lang,args.threads)
+            signatures[lang]=teachers[lang].signature
+            preprocessing[lang]=teachers[lang].preprocessing
+        teacher=teachers[lang]
+        dest = out / f"{name}.npz"
+        try:
+            if not cache_is_current(dest,teacher.signature):
+                audio, sr = sf.read(io.BytesIO(blob), dtype="float32", always_2d=True)
+                audio = audio.mean(axis=1)
+                d = gcd(sr, config.sample_rate)
+                if sr != config.sample_rate:
+                    audio = resample_poly(audio, config.sample_rate // d, sr // d).astype(np.float32)
+                if not .4 <= len(audio) / config.sample_rate <= 18:
+                    raise ValueError("Duration outside 0.4 to 18 seconds")
+                features, times, diag = extract_audio(audio, config)
+                labels, unknown = teacher.annotate(audio, times, diag)
+                # Store only the current frame; temporal stacking is rebuilt at training.
+                width = features.shape[1] // len(config.context)
+                temporary=dest.with_suffix(".tmp.npz")
+                np.savez_compressed(temporary, base=features[:, :width].astype(np.float16), y=labels, unknown=unknown, seconds=len(audio) / config.sample_rate, annotation_signature=teacher.signature,pipeline_version=PIPELINE_VERSION)
+                temporary.replace(dest)
+                if split == "test" and completed[lang] < 3:
+                    sample_dir = ROOT / "data" / "demo"
+                    sample_dir.mkdir(exist_ok=True)
+                    sf.write(sample_dir / f"{name}.wav", audio, config.sample_rate)
+            with np.load(dest, allow_pickle=False) as data:
+                index.append({"id": name, "language": lang, "split": split, "speaker_hash": speaker, "transcript_hash": text, "frames": len(data["y"]), "seconds": float(data["seconds"]), "unknown_phones": int(data["unknown"])})
+        except (ValueError, RuntimeError, sf.LibsndfileError) as e:
+            errors.append({"id": name, "reason": str(e)})
+        completed[lang]+=1
+        if (number+1)%25==0 or number+1==len(ordered):
+            print(f"Prepared {number+1}/{len(ordered)} (ja={completed['ja']}, en={completed['en']}), elapsed {time.perf_counter()-started:.0f}s, skipped {len(errors)}",flush=True)
+    teachers.clear()
     if not index:
         raise RuntimeError("No usable audio")
     document = {"feature_config": config.to_dict(), "labels": list(LABELS), "label_kind": "CTC teacher pseudo labels with midpoint boundaries; absolute silence gate -55 dBFS", "breath_note": "The breath label includes /h/. Natural inhalations are not annotated or independently validated.", "records": index, "skipped": errors, "limits": limits}
-    document.update(pipeline_version=PIPELINE_VERSION,annotation_signatures=signatures,teacher_preprocessing=preprocessing)
+    document.update(pipeline_version=PIPELINE_VERSION,annotation_signatures=signatures,teacher_preprocessing=preprocessing,deadline_reached=deadline_reached,processed_recordings=sum(completed.values()),requested_recordings=len(records))
     temporary=out/"index.tmp.json"
     temporary.write_text(json.dumps(document, ensure_ascii=False, indent=2), encoding="utf-8")
-    temporary.replace(out/"index.json")
+    temporary.replace(out/args.index_name)
     print(f"Wrote {len(index)} records; skipped {len(errors)}", flush=True)
 
 if __name__ == "__main__":

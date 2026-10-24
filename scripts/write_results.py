@@ -12,7 +12,7 @@ def main():
     for key,value in r["data_summary"].items():
         lang,split=key.split("/")
         lines.append(f"| {split} | {lang} | {value['recordings']} | {value['speakers']} | {value['seconds']/60:.1f}分 |")
-    lines += ["", f"ネットワーク: 468 → {' → '.join(map(str,r['training_config']['hidden']))} → 16。パラメータ {r['parameter_count']:,}、重み保存int8、配布モデル {r['model_bytes']:,} bytes（{r['model_bytes']/1024:.1f} KiB）。CPU演算時には重みをfloat32に展開します。", "", f"最大{r['training_config']['epochs_max']}エポック、検証値で採用したエポックは{r['best_epoch']}。実行したエポック数は{len(r['history'])}。乱数シード42。テストでモデル選択はしていません。", "", "## 未使用話者での最終int8モデル評価", "", "| 対象 | 全フレーム一致率 | 発話中の一致率 | macro-F1 | 多数クラス基準 |", "|---|---:|---:|---:|---:|"]
+    lines += ["", f"ネットワーク: 468 → {' → '.join(map(str,r['training_config']['hidden']))} → 16。パラメータ {r['parameter_count']:,}、重み保存int8、配布モデル {r['model_bytes']:,} bytes（{r['model_bytes']/1024:.1f} KiB）。CPU演算時には重みをfloat32に展開します。", "", f"最大{r['training_config']['epochs_max']}エポック、検証値で採用したエポックは{r['best_epoch']}。実行したエポック数は{len(r['history'])}。乱数シード{r['training_config'].get('seed',42)}。テストでモデル選択はしていません。", "", "## 未使用話者での最終int8モデル評価", "", "| 対象 | 全フレーム一致率 | 発話中の一致率 | macro-F1 | 多数クラス基準 |", "|---|---:|---:|---:|---:|"]
     for lang in ("all","ja","en"):
         s=r["test"][lang]
         lines.append(f"| {lang} | {s['accuracy']:.2%} | {s['speech_accuracy']:.2%} | {s['macro_f1']:.3f} | {s['majority_class_baseline']:.2%} |")
