@@ -106,8 +106,9 @@ class FeatureExtractor:
         return np.nan_to_num(feat), diag
 
 class StreamingFeatures:
-    def __init__(self, config=None):
+    def __init__(self, config=None, warmup_callback=None):
         self.config = config or FeatureConfig()
+        self.warmup_callback = warmup_callback
         self.extractor = FeatureExtractor(self.config)
         self.pending = np.zeros(self.config.frame_size - self.config.hop_size, dtype=np.float32)
         self.history = deque(maxlen=max(self.config.context) + 1)
@@ -134,6 +135,8 @@ class StreamingFeatures:
             center = ((self.frames + 1-c.lookahead_frames) * c.hop_size - c.frame_size / 2) / c.sample_rate
             if self.frames >= c.lookahead_frames:
                 result.append((stacked, max(0.0, center), self.diagnostics[0]))
+            elif self.warmup_callback is not None:
+                self.warmup_callback(stacked)
             pos += c.hop_size
             self.frames += 1
         self.pending = self.pending[pos:]

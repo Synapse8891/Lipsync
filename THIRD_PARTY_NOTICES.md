@@ -7,6 +7,12 @@
 
 The no-attribution choice concerns the recording dataset. The following libraries and training tools retain their own licenses; this does not require an on-screen dataset credit in a stream or video.
 
+## Additional event-recording lookup
+
+Freesound recordings are considered only when the individual audio license is **CC0-1.0**. The mixed-license FSD50K catalog is a lookup reference, not a declaration that the entire dataset is CC0. Reference: Fonseca et al., *FSD50K: An Open Dataset of Human-Labeled Sound Events*, https://zenodo.org/records/4060432 (catalog/curation CC BY 4.0), mirrored at https://huggingface.co/datasets/Fhrozen/FSD50k . No FSD50K event annotations or standard splits are imported; the script independently selects clips from uploader titles/descriptions. `data/breath_cc0/manifest.json` stores each selected recording's CC0 license URL, original Freesound page, pinned audio mirror URL, SHA-256, selection label and uploader-disjoint partition. Raw recordings are excluded from Git and releases. Clip descriptions are weak event labels, not human-verified breath boundaries.
+
+PyTorch (BSD-style license) is optional and used only to train temporal candidates; it is not imported by the inference application.
+
 ## Training-only automatic annotation models
 
 - **prj-beatrice/japanese-hubert-base-phoneme-ctc-v4**, Apache-2.0: https://huggingface.co/prj-beatrice/japanese-hubert-base-phoneme-ctc-v4 . Based on rinna/japanese-hubert-base. ONNX Q4 conversion by air-air: https://huggingface.co/air-air/japanese-hubert-base-phoneme-ctc-v4-ONNX . Base teacher training data is described in that model's card and is not downloaded as this project's training recordings.

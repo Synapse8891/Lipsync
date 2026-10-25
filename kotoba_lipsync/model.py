@@ -20,6 +20,8 @@ def export_model(path, weights, biases, mean, scale, config, metadata):
     np.savez_compressed(path, **arrays)
 
 class TinyModel:
+    stateful = False
+    has_breath_head = False
     def __init__(self, path):
         with np.load(path, allow_pickle=False) as data:
             self.metadata = json.loads(str(data["metadata"]))
@@ -34,6 +36,7 @@ class TinyModel:
             self.biases = [data[f"b{i}"].copy() for i in range(self.metadata["layers"])]
         self.classes = np.array(self.metadata["classes"], dtype=np.int32)
         self.parameters = sum(w.size + b.size for w, b in zip(self.weights, self.biases))
+        self.float_weights_bytes = sum(w.nbytes + b.nbytes for w, b in zip(self.weights, self.biases))
 
     def predict_proba(self, features):
         x = np.asarray(features, dtype=np.float32)
@@ -50,3 +53,14 @@ class TinyModel:
         full = np.zeros((*p.shape[:-1], 16), dtype=np.float32)
         full[..., self.classes] = p
         return full
+
+
+def load_model(path):
+    with np.load(path, allow_pickle=False) as data:
+        model_format = json.loads(str(data["metadata"])).get("format")
+    if model_format == "kotoba-int8-v1":
+        return TinyModel(path)
+    if model_format == "kotoba-tcn-int8-v1":
+        from .temporal import TemporalModel
+        return TemporalModel(path)
+    raise ValueError(f"Unsupported model format: {model_format}")

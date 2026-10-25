@@ -1,4 +1,10 @@
 import pytest
+
+
+def test_event_audio_requires_individual_cc0_license():
+    from scripts.temporal_data import breath_features
+    with pytest.raises(ValueError,match="individually declare CC0"):
+        breath_features({"path":"data/nonexistent.wav","audio_license":"CC-BY-4.0"})
 from scripts.train import audit
 
 def test_speaker_leakage_rejected():

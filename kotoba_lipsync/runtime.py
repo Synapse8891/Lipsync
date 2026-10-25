@@ -3,7 +3,7 @@ from dataclasses import dataclass, asdict
 import time
 import numpy as np
 from .features import StreamingFeatures
-from .model import TinyModel
+from .model import load_model
 from .visemes import LABELS, VRM_MAP
 
 @dataclass
@@ -25,14 +25,18 @@ class FrameResult:
         return asdict(self)
 
 class LipSyncEngine:
-    def __init__(self, model_path, silence_db=-55.0, smoothing_ms=25.0):
-        self.model = TinyModel(model_path)
-        self.features = StreamingFeatures(self.model.config)
+    def __init__(self, model_path, silence_db=-55.0, smoothing_ms=None):
+        self.model = load_model(model_path)
+        self.features = StreamingFeatures(self.model.config, self.model.predict_proba if self.model.stateful else None)
         self.silence_db = float(silence_db)
+        if smoothing_ms is None:
+            smoothing_ms = self.model.metadata.get("recommended_smoothing_ms", 25.0)
         self.smoothing_ms = max(0.0, float(smoothing_ms))
         self.state = np.zeros(16, dtype=np.float32)
         self.state[0] = 1
         self.sequence = 0
+        self.breath_state = 0.0
+        self.labels = self.model.metadata.get("labels", LABELS)
 
     def push(self, mono_samples):
         results = []
@@ -54,9 +58,15 @@ class LipSyncEngine:
             vrm = np.clip(self.state @ VRM_MAP, 0, 1)
             # /m/ also closes lips; this auxiliary channel is an articulation cue.
             nasal = float(self.state[8])
-            results.append(FrameResult(timestamp, LABELS[idx], min(idx, 14) if idx != 15 else 0,
+            if self.model.has_breath_head:
+                breath_target = self.model.last_breath if diag["rms_db"] >= self.silence_db else 0.0
+                self.breath_state += alpha * (breath_target - self.breath_state)
+                breath = self.breath_state
+            else:
+                breath = float(self.state[15])
+            results.append(FrameResult(timestamp, self.labels[idx], min(idx, 14) if idx != 15 else 0,
                                        float(probability.max()), self.state[:15].tolist(), vrm.tolist(),
-                                       float(self.state[15]), nasal, diag["rms_db"], diag["formants_hz"],
+                                       breath, nasal, diag["rms_db"], diag["formants_hz"],
                                        (time.perf_counter()-started)*1000, self.sequence))
             self.sequence += 1
         return results

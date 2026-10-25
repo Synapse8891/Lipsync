@@ -24,7 +24,7 @@ def main():
         s.add_argument("--host",default="127.0.0.1")
         s.add_argument("--port",type=int)
         s.add_argument("--silence-db",type=float,default=-55)
-        s.add_argument("--smoothing-ms",type=float,default=25)
+        s.add_argument("--smoothing-ms",type=float,default=None,help="Smoothing time; default comes from model metadata")
         s.add_argument("--vrm1",action="store_true")
         if name=="file":
             s.add_argument("input",type=Path)
@@ -45,7 +45,7 @@ def main():
         return
     if not args.model.exists():
         p.error(f"学習済みモデルがありません: {args.model}")
-    engine=LipSyncEngine(args.model,getattr(args,"silence_db",-55),getattr(args,"smoothing_ms",25))
+    engine=LipSyncEngine(args.model,getattr(args,"silence_db",-55),getattr(args,"smoothing_ms",None))
     if args.command=="benchmark":
         audio=read_audio(args.input)
         # Warm up outside the timed region.
@@ -58,7 +58,7 @@ def main():
             engine.push(audio[i:i+160])
             times.append((time.perf_counter()-start)*1000)
         elapsed=time.perf_counter()-begin
-        result={"audio_seconds":len(audio)/16000,"elapsed_seconds":elapsed,"real_time_factor":elapsed/(len(audio)/16000),"frame_ms_p50":float(np.percentile(times,50)),"frame_ms_p95":float(np.percentile(times,95)),"frame_ms_p99":float(np.percentile(times,99)),"parameters":engine.model.parameters,"model_bytes":args.model.stat().st_size,"model_float_weights_bytes":sum(w.nbytes+b.nbytes for w,b in zip(engine.model.weights,engine.model.biases)),"analysis_window_ms":25,"lookahead_ms":engine.model.config.lookahead_frames*10,"resampler_buffer_ms_at_48khz":10,"smoothing_ms":25,"scope":"CPU feature extraction + inference; excludes audio driver, network, rendering and application startup"}
+        result={"audio_seconds":len(audio)/16000,"elapsed_seconds":elapsed,"real_time_factor":elapsed/(len(audio)/16000),"frame_ms_p50":float(np.percentile(times,50)),"frame_ms_p95":float(np.percentile(times,95)),"frame_ms_p99":float(np.percentile(times,99)),"parameters":engine.model.parameters,"model_bytes":args.model.stat().st_size,"model_float_weights_bytes":engine.model.float_weights_bytes,"analysis_window_ms":25,"lookahead_ms":engine.model.config.lookahead_frames*10,"resampler_buffer_ms_at_48khz":10,"smoothing_ms":engine.smoothing_ms,"scope":"CPU feature extraction + inference; excludes audio driver, network, rendering and application startup"}
         if sys.platform=="win32":
             import ctypes
             from ctypes import wintypes
