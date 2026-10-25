@@ -11,11 +11,12 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument("--active-run",default=None)
+    parser.add_argument("--phase",choices=("training","calibration","development"),default="development")
     args=parser.parse_args()
     config=json.loads((ROOT/"configs/accuracy85.json").read_text(encoding="utf8"))
     actual=hashlib.sha256((ROOT/"models/kotoba_int8.npz").read_bytes()).hexdigest()
     if actual!=config["baseline_sha256"]:raise ValueError("Production changed; review the status writer before updating")
-    result={"updated_at_jst":datetime.now(timezone(timedelta(hours=9))).isoformat(timespec="seconds"),"status":"training and development; 85 percent not verified","target_japanese_agreement":config["target_exact_agreement"],"production_unchanged_sha256":actual,"final_test_scored":False,"candidate_runs":{},"active_run":args.active_run}
+    result={"updated_at_jst":datetime.now(timezone(timedelta(hours=9))).isoformat(timespec="seconds"),"status":args.phase+"; 85 percent not verified","target_japanese_agreement":config["target_exact_agreement"],"production_unchanged_sha256":actual,"final_test_scored":False,"candidate_runs":{},"active_run":args.active_run}
     for run in config["candidate_runs"]:
         path=ROOT/"cache/tcn_experiments"/run/"history.json"
         if not path.exists():continue

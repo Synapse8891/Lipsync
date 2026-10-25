@@ -1,6 +1,6 @@
 {
-  "updated_at_jst": "2026-10-25T22:48:28+09:00",
-  "status": "training and development; 85 percent not verified",
+  "updated_at_jst": "2026-10-26T07:47:40+09:00",
+  "status": "calibration; 85 percent not verified",
   "target_japanese_agreement": 0.85,
   "production_unchanged_sha256": "b3328c5b0749cd57cd67587b9b764bc7739b8dea5b5c9fbda48b79d29cba17a3",
   "final_test_scored": false,
@@ -70,7 +70,7 @@
       "final_test_scored": false
     },
     "ja85_attention256_cv22_stage5": {
-      "completed_epochs": 5,
+      "completed_epochs": 20,
       "selected_epoch": 2,
       "development_japanese_agreement": 0.7940248742146451,
       "development_speech_accuracy": 0.7237298424662063,
@@ -78,21 +78,37 @@
       "final_test_scored": false
     },
     "ja85_attention512_cv22_stage5": {
-      "completed_epochs": 4,
-      "selected_epoch": 4,
-      "development_japanese_agreement": 0.7911577395493156,
-      "development_speech_accuracy": 0.7239161662970243,
-      "development_breath_f1": 0.8533333333333334,
+      "completed_epochs": 51,
+      "selected_epoch": 33,
+      "development_japanese_agreement": 0.794462015822812,
+      "development_speech_accuracy": 0.7258635508513797,
+      "development_breath_f1": 0.88,
+      "final_test_scored": false
+    },
+    "ja85_attention256_cv22_stage6": {
+      "completed_epochs": 43,
+      "selected_epoch": 23,
+      "development_japanese_agreement": 0.7988077176922351,
+      "development_speech_accuracy": 0.7319220805760411,
+      "development_breath_f1": 0.8831168831168831,
+      "final_test_scored": false
+    },
+    "ja85_attention512_c64_cv22_stage6": {
+      "completed_epochs": 55,
+      "selected_epoch": 35,
+      "development_japanese_agreement": 0.8033719903657418,
+      "development_speech_accuracy": 0.7385696340239336,
+      "development_breath_f1": 0.8857142857142857,
       "final_test_scored": false
     }
   },
-  "active_run": "ja85_attention256_cv22_stage5,ja85_attention512_cv22_stage5",
+  "active_run": "latest512_decoder",
   "training_data": {
-    "index": "cache/features_v2/index_ja85_cv22_stage5_20261025.json",
-    "sha256": "822457086e8dd0d2867e3d02d484214015aae2ff3808657ba0bc7a1f87f3213f",
+    "index": "cache/features_v2/index_ja85_cv22_stage6_20261025.json",
+    "sha256": "1344f653bf9f01fa5ed1f7d075bb6c1c84ae780aa204cac0bb386581023489c9",
     "counts": {
       "ja": {
-        "train": 26954,
+        "train": 32897,
         "validation": 500,
         "test": 298
       },
@@ -114,8 +130,8 @@
     },
     "v2": {
       "selected": 6000,
-      "added": 1125,
-      "elapsed_seconds": 481.5940000000119,
+      "added": 5943,
+      "elapsed_seconds": 2320.0,
       "source_revision": "ae911de250fe9375d08e2daa2105b671d659d446"
     }
   },
