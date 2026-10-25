@@ -108,7 +108,8 @@ def test_padded_future_has_no_training_target():
         mean=np.zeros(118,dtype=np.float32)
         scale=np.ones(118,dtype=np.float32)
         def arrays(self,row):return np.zeros((3,78),dtype=np.float32),np.array([10,11,12]),np.zeros(3)
-    _,target,_,valid=SequenceDataset(ShortCorpus(),lookahead=1,context=2,frames=4)[0]
+    ShortCorpus.rows[0]["language"]="ja"
+    _,target,_,valid,_=SequenceDataset(ShortCorpus(),lookahead=1,context=2,frames=4)[0]
     assert target.tolist()==[-100,-100,-100,10,11,-100]
     assert not valid[-1]
 
@@ -129,6 +130,7 @@ def test_decoder_stream_matches_batch_and_has_no_future_input(tmp_path,architect
     metadata["decoder"]={"offsets":[-1,0,1],"base_lookahead_frames":3,"classes":list(range(16))}
     rng=np.random.default_rng(12)
     arrays.update(metadata=np.array(json.dumps(metadata)),decoder_weight=rng.normal(0,.1,(16,49)).astype(np.float32),decoder_bias=np.zeros(16,dtype=np.float32),decoder_mean=np.zeros(49,dtype=np.float32),decoder_scale=np.ones(49,dtype=np.float32))
+    arrays.update(decoder_residual_w0=rng.normal(0,.1,(8,49)).astype(np.float32),decoder_residual_b0=np.zeros(8,dtype=np.float32),decoder_residual_w1=rng.normal(0,.1,(16,8)).astype(np.float32),decoder_residual_b1=np.zeros(16,dtype=np.float32))
     np.savez_compressed(path,**arrays)
     model=load_model(path)
     base=rng.normal(size=(100,78)).astype(np.float32)

@@ -1,0 +1,51 @@
+{
+  "dataset": "Mozilla Common Voice 17.0 individual recordings CC0-1.0",
+  "revision": "34f78a43893414e7b6e271ba94c1d5e05f18b239",
+  "speech_index_sha256": "0e195da6d7be395c567a0c1cd573fd1c0891b1504911e4c13c9eb6114b74afa0",
+  "speech_summary": {
+    "ja/train": {
+      "recordings": 7997,
+      "seconds": 39202.548000000155
+    },
+    "ja/validation": {
+      "recordings": 500,
+      "seconds": 2435.532
+    },
+    "ja/test": {
+      "recordings": 298,
+      "seconds": 1515.9240000000016
+    },
+    "en/train": {
+      "recordings": 2800,
+      "seconds": 15985.38456249999
+    },
+    "en/validation": {
+      "recordings": 160,
+      "seconds": 918.1440000000002
+    },
+    "en/test": {
+      "recordings": 100,
+      "seconds": 569.5199999999998
+    }
+  },
+  "event_summary": {
+    "breath/train": 69,
+    "breath/validation": 37,
+    "breath/test": 10,
+    "noise/train": 29,
+    "noise/validation": 19,
+    "noise/test": 8
+  },
+  "event_selection": "configs/cc0_events_v2.json",
+  "event_audio_license": "CC0-1.0 per recording; mixed-license catalog used as credited lookup only",
+  "fresh_holdout_sha256": "920e716182c7b9b78dfa0890c08d20a2e6bc63744fbf520df3f134f52c1ad7ce",
+  "fresh_holdout_recordings": 260,
+  "fresh_holdout_model_inference_done": true,
+  "retired_attempt_1": "Development only; results preserved in 2026-10-25_fresh_attempt_1.json",
+  "extra_en_shards_sha256": {
+    "train-00000-of-00090.parquet": "37b3ad827ff47bc992e0f16a202619b062bb17e3afbbc19ce9d135149c182ff9",
+    "train-00001-of-00090.parquet": "5fe66192ee487e28e2fa5e808bf9b0581ce4d572f1f839be8edc314bcbc16016"
+  },
+  "fresh_holdout_evaluation": "2026-10-25_fresh_attempt_2.json",
+  "completion_criterion": "Japanese >=75% agreement; English auxiliary, as explicitly clarified by user"
+}

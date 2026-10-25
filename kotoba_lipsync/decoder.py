@@ -15,9 +15,13 @@ class CalibratedModel:
         with np.load(path,allow_pickle=False) as data:
             self.weight=data["decoder_weight"].copy();self.bias=data["decoder_bias"].copy()
             self.mean=data["decoder_mean"].copy();self.scale=data["decoder_scale"].copy()
+            self.residual=[data[key].copy() for key in ("decoder_residual_w0","decoder_residual_b0","decoder_residual_w1","decoder_residual_b1")] if "decoder_residual_w0" in data else None
         self.classes=np.asarray(config["classes"],dtype=np.int32)
         self.parameters=base.parameters+self.weight.size+self.bias.size
         self.float_weights_bytes=base.float_weights_bytes+self.weight.nbytes+self.bias.nbytes
+        if self.residual:
+            self.parameters+=sum(array.size for array in self.residual)
+            self.float_weights_bytes+=sum(array.nbytes for array in self.residual)
         self.has_breath_head=base.has_breath_head
         self.reset()
 
@@ -27,7 +31,11 @@ class CalibratedModel:
         self.last_breath=0.
 
     def _classify(self,features):
-        logits=(features-self.mean)/self.scale@self.weight.T+self.bias
+        scaled=(features-self.mean)/self.scale
+        logits=scaled@self.weight.T+self.bias
+        if self.residual:
+            w0,b0,w1,b1=self.residual
+            logits+=np.maximum(scaled@w0.T+b0,0)@w1.T+b1
         logits-=logits.max(axis=-1,keepdims=True)
         p=np.exp(logits);p/=p.sum(axis=-1,keepdims=True)
         full=np.zeros((*p.shape[:-1],16),dtype=np.float32);full[...,self.classes]=p

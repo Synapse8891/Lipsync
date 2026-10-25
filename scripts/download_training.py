@@ -44,16 +44,19 @@ def download(url, path, deadline=None):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--ja-shards", type=int, default=3)
+    p.add_argument("--en-shards", type=int, default=1)
     p.add_argument("--deadline",type=float)
     args = p.parse_args()
     if not 1 <= args.ja_shards <= 8:
         p.error("--ja-shards must be between 1 and 8")
+    if not 1 <= args.en_shards <= 90:
+        p.error("--en-shards must be between 1 and 90")
     pinned=json.loads((ROOT/"configs/training_sources.json").read_text(encoding="utf-8"))
     revision = pinned["dataset"]["revision"]
     jobs = []
     for lang in ("ja", "en"):
         for split in ("train", "validation", "test"):
-            for shard in range(args.ja_shards if lang == "ja" and split == "train" else 1):
+            for shard in range((args.ja_shards if lang == "ja" else args.en_shards) if split == "train" else 1):
                 count = {"ja": 8, "en": {"train": 90, "validation": 19, "test": 19}[split]}[lang]
                 file = f"{lang}/{split}-{shard:05d}-of-{count:05d}.parquet"
                 jobs.append((f"https://huggingface.co/datasets/{DATA_REPO}/resolve/{revision}/{file}", ROOT / "data" / "common_voice_17" / file))

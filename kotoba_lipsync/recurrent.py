@@ -5,6 +5,7 @@ import numpy as np
 from collections import deque
 from .features import FeatureConfig
 from .temporal import expand_features
+from .normalization import CausalSpectralMean
 
 FORMAT="kotoba-gru-int8-v1"
 
@@ -36,20 +37,22 @@ class RecurrentModel:
         self.parameters=sum(a.size for a in self.state.values());self.float_weights_bytes=sum(a.nbytes for a in self.state.values())
         self.has_breath_head=self.metadata.get("has_breath_head",False)
         self.skip_lags=tuple(self.metadata.get("skip_lags",()))
+        self.feature_mode=self.metadata.get("feature_mode","cmn-v1" if len(self.mean)==158 else "base")
         self.reset()
 
     def reset(self):
         self.hidden=np.zeros((self.metadata["gru_layers"],self.metadata["channels"]),dtype=np.float32);self.last_breath=0.
         self.feature_history=self._new_history()
+        self.spectral_mean=CausalSpectralMean()
 
     def _new_history(self):
-        return deque([np.zeros(118,dtype=np.float32) for _ in range(max(self.skip_lags,default=0)+1)],maxlen=max(self.skip_lags,default=0)+1)
+        return deque([np.zeros(len(self.mean),dtype=np.float32) for _ in range(max(self.skip_lags,default=0)+1)],maxlen=max(self.skip_lags,default=0)+1)
 
     @staticmethod
     def _sigmoid(x):return 1/(1+np.exp(-np.clip(x,-40,40)))
 
     def _step(self,features,hidden,history):
-        state=self.state;x=(expand_features(np.asarray(features)[:78])-self.mean)/self.scale
+        state=self.state;x=(np.asarray(features,dtype=np.float32)-self.mean)/self.scale
         history.append(x)
         x=np.maximum(state["project.weight"]@x+state["project.bias"],0)
         for layer in range(len(hidden)):
@@ -66,15 +69,27 @@ class RecurrentModel:
             direct=np.maximum(state["skip_project.weight"]@aligned+state["skip_project.bias"],0)
             logits+=state["skip_head.weight"]@direct+state["skip_head.bias"]
             breath_logit+=(state["skip_breath.weight"]@direct+state["skip_breath.bias"])[0]
-        p=np.exp(logits-logits.max());p/=p.sum()
+        if "language.weight" in state:
+            language=state["language.weight"]@x+state["language.bias"];language=np.exp(language-language.max());language/=language.sum()
+            mixed=np.zeros(16,dtype=np.float32)
+            for index,key in enumerate(("delta_ja","delta_en")):
+                values=logits+state[key+".weight"]@x+state[key+".bias"]
+                values=np.exp(values-values.max());mixed+=language[index]*values/values.sum()
+            p=mixed
+        else:
+            p=np.exp(logits-logits.max());p/=p.sum()
         breath=float(self._sigmoid(breath_logit+self.metadata.get("breath_logit_bias",0.)))
         return p.astype(np.float32),breath
 
     def predict_proba(self,features):
-        p,self.last_breath=self._step(features,self.hidden,self.feature_history);return p
+        base=np.asarray(features)[:78];expanded=expand_features(base)
+        if self.feature_mode=="cmn-v1":expanded=np.r_[expanded,self.spectral_mean.push(base)]
+        p,self.last_breath=self._step(expanded,self.hidden,self.feature_history);return p
 
     def predict_sequence(self,base):
-        hidden=np.zeros_like(self.hidden);probabilities=[];breaths=[];history=self._new_history()
+        hidden=np.zeros_like(self.hidden);probabilities=[];breaths=[];history=self._new_history();normalizer=CausalSpectralMean()
         for frame in base:
-            p,b=self._step(frame,hidden,history);probabilities.append(p);breaths.append(b)
+            expanded=expand_features(frame)
+            if self.feature_mode=="cmn-v1":expanded=np.r_[expanded,normalizer.push(frame)]
+            p,b=self._step(expanded,hidden,history);probabilities.append(p);breaths.append(b)
         return np.asarray(probabilities,dtype=np.float32),np.asarray(breaths,dtype=np.float32)

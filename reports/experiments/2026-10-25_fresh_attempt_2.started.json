@@ -1,0 +1,6 @@
+{
+  "model": "models\\candidates\\kotoba_gru_candidate_v3.npz",
+  "sha256": "b3328c5b0749cd57cd67587b9b764bc7739b8dea5b5c9fbda48b79d29cba17a3",
+  "time": 1792895787.883249,
+  "note": "Candidate frozen before fresh test inference"
+}

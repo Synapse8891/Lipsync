@@ -7,6 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from scipy.fft import dct
 from kotoba_lipsync.features import FeatureConfig,FeatureExtractor,read_audio
 from kotoba_lipsync.temporal import expand_features
+from kotoba_lipsync.normalization import spectral_residuals
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -55,11 +56,11 @@ def breath_features(record):
     np.savez_compressed(path,base=base,y=labels,breath=breath,signature=signature)
     return base,labels,breath
 
-def pack_corpus(index_path,folder,breath_manifest=None):
+def pack_corpus(index_path,folder,breath_manifest=None,feature_mode="base"):
     index=json.loads(Path(index_path).read_text(encoding="utf-8"))
     digest=hashlib.sha256(Path(index_path).read_bytes())
     if breath_manifest:digest.update(Path(breath_manifest).read_bytes())
-    signature=digest.hexdigest()+"/tcn-corpus-v1"
+    signature=digest.hexdigest()+"/tcn-corpus-v1"+("/cmn-v1" if feature_mode=="cmn-v1" else "")
     folder=Path(folder);folder.mkdir(parents=True,exist_ok=True)
     metadata=folder/"corpus.json"
     if metadata.exists():
@@ -82,13 +83,18 @@ def pack_corpus(index_path,folder,breath_manifest=None):
     base_map=np.memmap(folder/"features.f16",mode="w+",dtype=np.float16,shape=(count,78))
     y_map=np.memmap(folder/"labels.i16",mode="w+",dtype=np.int16,shape=(count,))
     br_map=np.memmap(folder/"breath.f16",mode="w+",dtype=np.float16,shape=(count,))
+    cmn_map=np.memmap(folder/"cmn.f16",mode="w+",dtype=np.float16,shape=(count,40)) if feature_mode=="cmn-v1" else None
     scaler=StandardScaler();counts=np.zeros(16,dtype=np.int64);output=[];offset=0
     def write(row,base,y,breath):
         nonlocal offset
         end=offset+len(base)
         base_map[offset:end]=base;y_map[offset:end]=y;br_map[offset:end]=breath
+        normalized=spectral_residuals(base) if cmn_map is not None else None
+        if cmn_map is not None:cmn_map[offset:end]=normalized
         if row["split"]=="train":
-            scaler.partial_fit(expand_features(base[::2]))
+            expanded=expand_features(base[::2])
+            if normalized is not None:expanded=np.c_[expanded,normalized[::2]]
+            scaler.partial_fit(expanded)
             counts[:]+=np.bincount(y,minlength=16)
         output.append({**row,"offset":offset,"frames":len(base)})
         offset=end
@@ -101,7 +107,9 @@ def pack_corpus(index_path,folder,breath_manifest=None):
         if (n+1)%1000==0:print(f"Packed {n+1}/{len(rows)} recordings",flush=True)
     for row,base,y,br in extras:write(row,base,y,br)
     base_map.flush();y_map.flush();br_map.flush()
+    if cmn_map is not None:cmn_map.flush()
     record={"signature":signature,"frames":count,"records":output,"mean":scaler.mean_.tolist(),"scale":scaler.scale_.tolist(),"counts":counts.tolist(),"source_index":str(index_path),"breath_manifest":str(breath_manifest) if breath_manifest else None}
+    record["feature_mode"]=feature_mode
     metadata.write_text(json.dumps(record,ensure_ascii=False,indent=2),encoding="utf-8")
     return Corpus(folder)
 
@@ -113,6 +121,7 @@ class Corpus:
         self.base=np.memmap(self.folder/"features.f16",mode="r",dtype=np.float16,shape=(n,78))
         self.labels=np.memmap(self.folder/"labels.i16",mode="r",dtype=np.int16,shape=(n,))
         self.breath=np.memmap(self.folder/"breath.f16",mode="r",dtype=np.float16,shape=(n,))
+        self.cmn=np.memmap(self.folder/"cmn.f16",mode="r",dtype=np.float16,shape=(n,40)) if self.metadata.get("feature_mode")=="cmn-v1" else None
         self.rows=self.metadata["records"]
         self.mean=np.asarray(self.metadata["mean"],dtype=np.float32)
         self.scale=np.asarray(self.metadata["scale"],dtype=np.float32)

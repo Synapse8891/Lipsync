@@ -56,3 +56,17 @@ def test_widening_preserves_learned_gru_function():
     x=torch.randn(2,80,118)
     with torch.inference_mode():a=small(x);b=wide(x)
     for expected,actual in zip(a,b):torch.testing.assert_close(actual,expected,atol=2e-6,rtol=1e-5)
+
+
+def test_language_mixture_numpy_matches_pytorch(tmp_path):
+    torch=pytest.importorskip("torch")
+    from scripts.gru_network import RecurrentNetwork
+    torch.manual_seed(8);network=RecurrentNetwork(8,2,language_head=True).eval()
+    with torch.no_grad():
+        network.delta_ja.weight.uniform_(-.2,.2);network.delta_en.weight.uniform_(-.2,.2)
+    path=tmp_path/"language.npz"
+    export_recurrent(path,{k:v.detach().numpy() for k,v in network.state_dict().items()},np.zeros(118),np.ones(118),FeatureConfig(lookahead_frames=10),{"channels":8,"gru_layers":2,"has_breath_head":True,"language_head":True},quantized=False)
+    base=np.random.default_rng(9).normal(size=(100,78)).astype(np.float32)
+    with torch.inference_mode():expected=network(torch.from_numpy(expand_features(base))[None])[0][0].softmax(-1).numpy()
+    actual,_=RecurrentModel(path).predict_sequence(base)
+    np.testing.assert_allclose(actual,expected,atol=2e-6)

@@ -31,7 +31,10 @@ def widen_state(old,channels,skip_hidden,layers=2,skip_lags=()):
         if skip_lags:
             previous_skip=old["skip_project.weight"].shape[0]
             if skip_hidden<previous_skip:raise ValueError("Cannot shrink the aligned feature branch")
-            state["skip_project.weight"][:previous_skip].copy_(old["skip_project.weight"])
+            previous_width=old["skip_project.weight"].shape[1]
+            if state["skip_project.weight"].shape[1]<previous_width:raise ValueError("Cannot remove existing context inputs")
+            state["skip_project.weight"][:previous_skip].zero_()
+            state["skip_project.weight"][:previous_skip,:previous_width].copy_(old["skip_project.weight"])
             state["skip_project.bias"][:previous_skip].copy_(old["skip_project.bias"])
             for name in ("skip_head","skip_breath"):
                 state[name+".weight"].zero_();state[name+".weight"][:,:previous_skip].copy_(old[name+".weight"])
@@ -41,9 +44,10 @@ def widen_state(old,channels,skip_hidden,layers=2,skip_lags=()):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument("source",type=Path);p.add_argument("output",type=Path);p.add_argument("--channels",type=int,default=192);p.add_argument("--skip-hidden",type=int,default=64)
+    p.add_argument("--skip-lags",default="0,2,4,6,8,10,12,14")
     args=p.parse_args();torch.manual_seed(42)
     checkpoint=torch.load(args.source,map_location="cpu",weights_only=True)
-    checkpoint["model"]=widen_state(checkpoint["model"],args.channels,args.skip_hidden,skip_lags=(0,2,4,6,8,10,12,14))
+    checkpoint["model"]=widen_state(checkpoint["model"],args.channels,args.skip_hidden,skip_lags=tuple(int(v) for v in args.skip_lags.split(",")))
     torch.save(checkpoint,args.output)
 
 if __name__=="__main__":main()
