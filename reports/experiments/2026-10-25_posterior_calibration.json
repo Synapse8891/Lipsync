@@ -1,0 +1,201 @@
+{
+  "status": "exploratory validation split only; not deployed; no fresh test evaluation",
+  "baseline_model": "models/baseline/kotoba_20261025.npz",
+  "baseline_tuning_accuracy": 0.6813458571558217,
+  "baseline_tuning_speech_accuracy": 0.5272473059609876,
+  "candidate_results": [
+    {
+      "offsets": [
+        -8,
+        -4,
+        -2,
+        -1,
+        0
+      ],
+      "C": 0.0001,
+      "fit": {
+        "accuracy": 0.6163117846409617,
+        "speech": 0.45176008012166624,
+        "macro_f1": 0.3617162728118907,
+        "selection": 0.40673817646677846
+      },
+      "tune": {
+        "accuracy": 0.6424584808058807,
+        "speech": 0.4698540444686946,
+        "macro_f1": 0.3706882535242897,
+        "selection": 0.42027114899649215
+      },
+      "seconds": 3.139999999999418,
+      "iterations": 74
+    },
+    {
+      "offsets": [
+        -8,
+        -4,
+        -2,
+        -1,
+        0
+      ],
+      "C": 0.001,
+      "fit": {
+        "accuracy": 0.6537438455144191,
+        "speech": 0.5054990912125821,
+        "macro_f1": 0.44518456642777193,
+        "selection": 0.475341828820177
+      },
+      "tune": {
+        "accuracy": 0.6833197204828024,
+        "speech": 0.5306233801664166,
+        "macro_f1": 0.45520245595457387,
+        "selection": 0.49291291806049525
+      },
+      "seconds": 4.0939999999973224,
+      "iterations": 101
+    },
+    {
+      "offsets": [
+        -8,
+        -4,
+        -2,
+        -1,
+        0
+      ],
+      "C": 0.01,
+      "fit": {
+        "accuracy": 0.6613402391457255,
+        "speech": 0.5157832263808004,
+        "macro_f1": 0.4723858569278713,
+        "selection": 0.49408454165433585
+      },
+      "tune": {
+        "accuracy": 0.6909202286958889,
+        "speech": 0.5410585186195608,
+        "macro_f1": 0.4767533308957973,
+        "selection": 0.508905924757679
+      },
+      "seconds": 5.5310000000026776,
+      "iterations": 136
+    },
+    {
+      "offsets": [
+        -8,
+        -4,
+        -2,
+        -1,
+        0
+      ],
+      "C": 0.1,
+      "fit": {
+        "accuracy": 0.6623057740264723,
+        "speech": 0.5170351274157053,
+        "macro_f1": 0.47864499526907756,
+        "selection": 0.49784006134239145
+      },
+      "tune": {
+        "accuracy": 0.6912832380433797,
+        "speech": 0.5415700450143227,
+        "macro_f1": 0.47798443644754446,
+        "selection": 0.5097772407309336
+      },
+      "seconds": 6.3439999999973224,
+      "iterations": 159
+    },
+    {
+      "offsets": [
+        -4,
+        -2,
+        0,
+        1,
+        2
+      ],
+      "C": 0.0001,
+      "fit": {
+        "accuracy": 0.6360125327706375,
+        "speech": 0.47968210987054416,
+        "macro_f1": 0.39038392897684926,
+        "selection": 0.4350330194236967
+      },
+      "tune": {
+        "accuracy": 0.6672338687721209,
+        "speech": 0.5063088255353976,
+        "macro_f1": 0.40694027853857206,
+        "selection": 0.4566245520369848
+      },
+      "seconds": 3.1560000000026776,
+      "iterations": 79
+    },
+    {
+      "offsets": [
+        -4,
+        -2,
+        0,
+        1,
+        2
+      ],
+      "C": 0.001,
+      "fit": {
+        "accuracy": 0.6655156979346506,
+        "speech": 0.5220705515783226,
+        "macro_f1": 0.46851484091045104,
+        "selection": 0.4952926962443868
+      },
+      "tune": {
+        "accuracy": 0.697794718213994,
+        "speech": 0.5517323693902605,
+        "macro_f1": 0.47738874422146427,
+        "selection": 0.5145605568058624
+      },
+      "seconds": 4.202999999994063,
+      "iterations": 105
+    },
+    {
+      "offsets": [
+        -4,
+        -2,
+        0,
+        1,
+        2
+      ],
+      "C": 0.01,
+      "fit": {
+        "accuracy": 0.6705352004603875,
+        "speech": 0.5287937238028116,
+        "macro_f1": 0.48809446054857597,
+        "selection": 0.5084440921756939
+      },
+      "tune": {
+        "accuracy": 0.7012659950993738,
+        "speech": 0.5561655981448643,
+        "macro_f1": 0.49148260513254166,
+        "selection": 0.523824101638703
+      },
+      "seconds": 5.76600000000326,
+      "iterations": 144
+    },
+    {
+      "offsets": [
+        -4,
+        -2,
+        0,
+        1,
+        2
+      ],
+      "C": 0.1,
+      "fit": {
+        "accuracy": 0.671526312424068,
+        "speech": 0.5301383582477095,
+        "macro_f1": 0.49485066254440274,
+        "selection": 0.5124945103960561
+      },
+      "tune": {
+        "accuracy": 0.7007441691623559,
+        "speech": 0.5555858682308007,
+        "macro_f1": 0.4935594664129692,
+        "selection": 0.5245726673218849
+      },
+      "seconds": 6.389999999999418,
+      "iterations": 160
+    }
+  ],
+  "conclusion": "Posterior calibration improves this validation subset to approximately 70%, below the new 75% target. Proceed to a small temporal network and independently validated natural-breath head."
+}
