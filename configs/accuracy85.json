@@ -1,0 +1,17 @@
+{
+  "target_language": "ja",
+  "target_exact_agreement": 0.85,
+  "agreement_scope": "Automatic CTC labels including silence; speech-only metrics also required",
+  "english": "auxiliary",
+  "natural_breath": "independent head retained; report precision, recall and false activations",
+  "baseline_model": "models/baseline/kotoba_ja75_20261025.npz",
+  "baseline_sha256": "b3328c5b0749cd57cd67587b9b764bc7739b8dea5b5c9fbda48b79d29cba17a3",
+  "protected_final_speech": "cache/features_fresh_v4/index.json",
+  "development_index": "cache/features_v2/index_extended_complete_v3.json",
+  "candidate_runs": [
+    "ja85_cmn96_v1",
+    "ja85_cnn96_v1"
+  ],
+  "new_data_policy": "Pinned Common Voice 17.0 CC0 audio only; no raw audio pushed; protect global speaker, recording and transcript IDs",
+  "status": "training and development comparison; 85 percent not established"
+}

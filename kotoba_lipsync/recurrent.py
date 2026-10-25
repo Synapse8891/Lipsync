@@ -38,23 +38,46 @@ class RecurrentModel:
         self.has_breath_head=self.metadata.get("has_breath_head",False)
         self.skip_lags=tuple(self.metadata.get("skip_lags",()))
         self.feature_mode=self.metadata.get("feature_mode","cmn-v1" if len(self.mean)==158 else "base")
+        self.spectral_frontend=self.metadata.get("spectral_frontend",False)
         self.reset()
 
     def reset(self):
         self.hidden=np.zeros((self.metadata["gru_layers"],self.metadata["channels"]),dtype=np.float32);self.last_breath=0.
         self.feature_history=self._new_history()
         self.spectral_mean=CausalSpectralMean()
+        self.frontend_history=self._new_frontend_history()
 
     def _new_history(self):
         return deque([np.zeros(len(self.mean),dtype=np.float32) for _ in range(max(self.skip_lags,default=0)+1)],maxlen=max(self.skip_lags,default=0)+1)
 
     @staticmethod
+    def _new_frontend_history():
+        return (deque([np.zeros((2,40),dtype=np.float32) for _ in range(5)],maxlen=5),
+                deque([np.zeros((8,20),dtype=np.float32) for _ in range(3)],maxlen=3))
+
+    def _spectral_projection(self,x,history):
+        raw,convolved=history;state=self.state
+        raw.append(np.stack((x[:40],x[-40:])))
+        values=np.pad(np.stack(raw),((0,0),(0,0),(2,2)))
+        patches=np.lib.stride_tricks.sliding_window_view(values,5,axis=-1)[:,:,::2,:][:,:,:20,:]
+        patches=patches.transpose(2,1,0,3).reshape(20,-1)
+        first=np.maximum(patches@state["conv1.weight"].reshape(8,-1).T+state["conv1.bias"],0).T
+        convolved.append(first)
+        values=np.pad(np.stack(convolved),((0,0),(0,0),(1,1)))
+        patches=np.lib.stride_tricks.sliding_window_view(values,3,axis=-1)[:,:,::2,:][:,:,:10,:]
+        patches=patches.transpose(2,1,0,3).reshape(10,-1)
+        second=np.maximum(patches@state["conv2.weight"].reshape(16,-1).T+state["conv2.bias"],0).T
+        return state["spectral_project.weight"]@second.reshape(-1)+state["spectral_project.bias"]
+
+    @staticmethod
     def _sigmoid(x):return 1/(1+np.exp(-np.clip(x,-40,40)))
 
-    def _step(self,features,hidden,history):
+    def _step(self,features,hidden,history,frontend_history=None):
         state=self.state;x=(np.asarray(features,dtype=np.float32)-self.mean)/self.scale
         history.append(x)
-        x=np.maximum(state["project.weight"]@x+state["project.bias"],0)
+        projected=state["project.weight"]@x+state["project.bias"]
+        if self.spectral_frontend:projected+=self._spectral_projection(x,frontend_history)
+        x=np.maximum(projected,0)
         for layer in range(len(hidden)):
             gi=state[f"rnn.weight_ih_l{layer}"]@x+state[f"rnn.bias_ih_l{layer}"]
             gh=state[f"rnn.weight_hh_l{layer}"]@hidden[layer]+state[f"rnn.bias_hh_l{layer}"]
@@ -84,12 +107,12 @@ class RecurrentModel:
     def predict_proba(self,features):
         base=np.asarray(features)[:78];expanded=expand_features(base)
         if self.feature_mode=="cmn-v1":expanded=np.r_[expanded,self.spectral_mean.push(base)]
-        p,self.last_breath=self._step(expanded,self.hidden,self.feature_history);return p
+        p,self.last_breath=self._step(expanded,self.hidden,self.feature_history,self.frontend_history);return p
 
     def predict_sequence(self,base):
-        hidden=np.zeros_like(self.hidden);probabilities=[];breaths=[];history=self._new_history();normalizer=CausalSpectralMean()
+        hidden=np.zeros_like(self.hidden);probabilities=[];breaths=[];history=self._new_history();normalizer=CausalSpectralMean();frontend_history=self._new_frontend_history()
         for frame in base:
             expanded=expand_features(frame)
             if self.feature_mode=="cmn-v1":expanded=np.r_[expanded,normalizer.push(frame)]
-            p,b=self._step(expanded,hidden,history);probabilities.append(p);breaths.append(b)
+            p,b=self._step(expanded,hidden,history,frontend_history);probabilities.append(p);breaths.append(b)
         return np.asarray(probabilities,dtype=np.float32),np.asarray(breaths,dtype=np.float32)

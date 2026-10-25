@@ -30,7 +30,7 @@ def main():
     if "decoder" in metadata or metadata.get("breath_logit_bias",0):raise ValueError("Calibrate the unmodified base model before the posterior decoder")
     if not model.has_breath_head:raise ValueError("No independently trained breath head")
     corpus=Corpus(ROOT/args.corpus);lookahead=model.config.lookahead_frames
-    if metadata.get("architecture")=="gru":network=RecurrentNetwork(metadata["channels"],metadata["gru_layers"],features=len(model.mean),skip_lags=metadata.get("skip_lags",()),skip_hidden=metadata.get("skip_hidden",32),language_head=metadata.get("language_head",False))
+    if metadata.get("architecture")=="gru":network=RecurrentNetwork(metadata["channels"],metadata["gru_layers"],features=len(model.mean),skip_lags=metadata.get("skip_lags",()),skip_hidden=metadata.get("skip_hidden",32),language_head=metadata.get("language_head",False),spectral_frontend=metadata.get("spectral_frontend",False))
     else:network=TemporalNetwork(metadata["channels"],metadata["dilations"],skip_lags=metadata.get("skip_lags",()),skip_hidden=metadata.get("skip_hidden",64))
     network.load_state_dict({key:torch.from_numpy(value) for key,value in model.state.items()});network.to(args.device).eval()
     clips=[]

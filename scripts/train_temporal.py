@@ -95,6 +95,7 @@ def main():
     parser.add_argument("--architecture",choices=["tcn","gru"],default="tcn")
     parser.add_argument("--language-head",action="store_true")
     parser.add_argument("--feature-mode",choices=["base","cmn-v1"],default="base")
+    parser.add_argument("--spectral-frontend",action="store_true")
     parser.add_argument("--gru-layers",type=int,default=2)
     parser.add_argument("--english-weight",type=float,default=1.)
     parser.add_argument("--breath-selection-weight",type=float,default=.05)
@@ -102,9 +103,12 @@ def main():
     parser.add_argument("--patience",type=int,default=18)
     parser.add_argument("--resume")
     parser.add_argument("--seed",type=int,default=42)
+    parser.add_argument("--selection-language",choices=["all","ja","en"],default="all")
+    parser.add_argument("--selection-metric",choices=["balanced","accuracy"],default="balanced")
     args=parser.parse_args()
     if args.language_head and args.architecture!="gru":parser.error("--language-head currently requires --architecture gru")
     if args.feature_mode!="base" and args.architecture!="gru":parser.error("--feature-mode cmn-v1 currently requires --architecture gru")
+    if args.spectral_frontend and args.architecture!="gru":parser.error("--spectral-frontend currently requires --architecture gru")
     torch.set_num_threads(args.threads);threadpool_limits(limits=args.threads)
     torch.manual_seed(args.seed);np.random.seed(args.seed)
     device=torch.device("cuda" if args.device=="auto" and torch.cuda.is_available() else "cpu" if args.device=="auto" else args.device)
@@ -113,12 +117,13 @@ def main():
     corpus=pack_corpus(ROOT/args.index,ROOT/args.corpus,ROOT/args.breath_manifest if args.breath_manifest else None,args.feature_mode)
     audit({"records":corpus.rows})
     skip_lags=tuple(int(d) for d in args.skip_lags.split(",") if d)
-    network=RecurrentNetwork(args.channels,args.gru_layers,features=len(corpus.mean),skip_lags=skip_lags,skip_hidden=args.skip_hidden,language_head=args.language_head) if args.architecture=="gru" else TemporalNetwork(args.channels,tuple(int(d) for d in args.dilations.split(",")),features=len(corpus.mean),skip_lags=skip_lags,skip_hidden=args.skip_hidden)
+    network=RecurrentNetwork(args.channels,args.gru_layers,features=len(corpus.mean),skip_lags=skip_lags,skip_hidden=args.skip_hidden,language_head=args.language_head,spectral_frontend=args.spectral_frontend) if args.architecture=="gru" else TemporalNetwork(args.channels,tuple(int(d) for d in args.dilations.split(",")),features=len(corpus.mean),skip_lags=skip_lags,skip_hidden=args.skip_hidden)
     if args.resume:
         checkpoint=torch.load(ROOT/args.resume,map_location="cpu",weights_only=True)
         missing=network.load_state_dict(checkpoint["model"],strict=False)
-        if missing.unexpected_keys or any(not key.startswith(("skip_","language.","delta_")) for key in missing.missing_keys):raise ValueError("Checkpoint architecture mismatch")
+        if missing.unexpected_keys or any(not key.startswith(("skip_","language.","delta_","conv1.","conv2.","spectral_project.")) for key in missing.missing_keys):raise ValueError("Checkpoint architecture mismatch")
         corpus.mean=checkpoint["mean"].numpy();corpus.scale=checkpoint["scale"].numpy()
+        if args.architecture=="gru" and len(corpus.mean)!=network.project.in_features:raise ValueError("Checkpoint acoustic feature dimensions do not match")
     network.to(device)
     (folder/"run_config.json").write_text(json.dumps({**vars(args),"actual_device":str(device),"torch_version":str(torch.__version__),"corpus_signature":corpus.metadata["signature"],"resume_kind":"weights and feature normalization; optimizer starts fresh"},indent=2),encoding="utf-8")
     dataset=SequenceDataset(corpus,args.lookahead,network.receptive_frames-1,gain_db=args.gain_augment_db,events_only=args.gain_augment_events_only)
@@ -158,7 +163,8 @@ def main():
             losses.append(float(loss.detach()))
             if step%200==0:print(f"epoch={epoch} step={step}/{args.steps_per_epoch} loss={np.mean(losses):.4f} elapsed={time.monotonic()-started:.0f}s",flush=True)
         validation=evaluate(network,corpus,args.lookahead)
-        s=validation["all"];metric=.5*s["speech_accuracy"]+.5*s["macro_f1"]
+        s=validation[args.selection_language]
+        metric=s["accuracy"] if args.selection_metric=="accuracy" else .5*s["speech_accuracy"]+.5*s["macro_f1"]
         if "natural_breath" in validation:metric=(1-args.breath_selection_weight)*metric+args.breath_selection_weight*validation["natural_breath"]["f1"]
         scheduler.step(metric)
         record={"epoch":epoch,"loss":float(np.mean(losses)),"validation":validation,"selection_metric":metric,"elapsed_seconds":time.monotonic()-started}
@@ -169,7 +175,7 @@ def main():
             best,best_epoch=metric,epoch;torch.save(state,folder/"best.pt")
             from kotoba_lipsync.recurrent import export_recurrent
             exporter=export_recurrent if args.architecture=="gru" else export_temporal
-            exporter(folder/"best_int8.npz",{k:v.detach().cpu().numpy() for k,v in network.state_dict().items()},corpus.mean,corpus.scale,FeatureConfig(lookahead_frames=args.lookahead),{"channels":args.channels,"gru_layers":args.gru_layers,"architecture":args.architecture,"language_head":args.language_head,"feature_mode":args.feature_mode,"dilations":list(network.dilations),"skip_lags":list(skip_lags),"skip_hidden":args.skip_hidden,"gain_augmentation_db":args.gain_augment_db,"has_breath_head":bool(args.breath_manifest),"best_epoch":epoch,"seed":args.seed,"pipeline_version":"ctc-midpoint-v2","receptive_frames":network.receptive_frames if args.architecture=="tcn" else None,"training_warmup_frames":network.receptive_frames-1,"labels":["sil","PP","FF","TH","DD","kk","CH","SS","nn","RR","aa","E","ih","oh","ou","HH"],"recommended_smoothing_ms":10,"training_device":str(device),"torch_version":str(torch.__version__)})
+            exporter(folder/"best_int8.npz",{k:v.detach().cpu().numpy() for k,v in network.state_dict().items()},corpus.mean,corpus.scale,FeatureConfig(lookahead_frames=args.lookahead),{"channels":args.channels,"gru_layers":args.gru_layers,"architecture":args.architecture,"language_head":args.language_head,"feature_mode":args.feature_mode,"spectral_frontend":args.spectral_frontend,"selection_language":args.selection_language,"selection_metric":args.selection_metric,"english_sampling_weight":args.english_weight,"dilations":list(network.dilations),"skip_lags":list(skip_lags),"skip_hidden":args.skip_hidden,"gain_augmentation_db":args.gain_augment_db,"has_breath_head":bool(args.breath_manifest),"best_epoch":epoch,"seed":args.seed,"pipeline_version":"ctc-midpoint-v2","receptive_frames":network.receptive_frames if args.architecture=="tcn" else None,"training_warmup_frames":network.receptive_frames-1,"labels":["sil","PP","FF","TH","DD","kk","CH","SS","nn","RR","aa","E","ih","oh","ou","HH"],"recommended_smoothing_ms":10,"training_device":str(device),"torch_version":str(torch.__version__)})
         (folder/"history.json").write_text(json.dumps(history,indent=2),encoding="utf-8")
         print(f"EPOCH {epoch}: validation={s['accuracy']:.4f} speech={s['speech_accuracy']:.4f} macroF1={s['macro_f1']:.4f} breath={validation.get('natural_breath',{}).get('f1')} best={best_epoch}",flush=True)
         if epoch-best_epoch>=args.patience:break

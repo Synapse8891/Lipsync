@@ -5,9 +5,15 @@ from torch.nn import functional as F
 
 
 class RecurrentNetwork(nn.Module):
-    def __init__(self,channels=96,layers=2,features=118,skip_lags=(),skip_hidden=32,language_head=False):
+    def __init__(self,channels=96,layers=2,features=118,skip_lags=(),skip_hidden=32,language_head=False,spectral_frontend=False):
         super().__init__();self.channels=channels;self.layers=layers;self.dilations=()
         self.project=nn.Linear(features,channels)
+        self.spectral_frontend=spectral_frontend
+        if spectral_frontend:
+            self.conv1=nn.Conv2d(2,8,(5,5),stride=(1,2))
+            self.conv2=nn.Conv2d(8,16,(3,3),stride=(1,2))
+            self.spectral_project=nn.Linear(160,channels)
+            nn.init.zeros_(self.spectral_project.weight);nn.init.zeros_(self.spectral_project.bias)
         self.rnn=nn.GRU(channels,channels,layers,batch_first=True,dropout=.1 if layers>1 else 0)
         self.head=nn.Linear(channels,16);self.breath=nn.Linear(channels,1)
         self.skip_lags=tuple(skip_lags)
@@ -24,7 +30,15 @@ class RecurrentNetwork(nn.Module):
             nn.init.zeros_(self.skip_breath.weight);nn.init.zeros_(self.skip_breath.bias)
 
     def forward(self,x,valid=None):
-        z=F.relu(self.project(x))
+        projected=self.project(x)
+        if self.spectral_frontend:
+            mel=torch.stack((x[:,:,:40],x[:,:,-40:]),dim=1)
+            spectral=F.relu(self.conv1(F.pad(mel,(2,2,4,0))))
+            if valid is not None:spectral=spectral*valid[:,None,:,None]
+            spectral=F.relu(self.conv2(F.pad(spectral,(1,1,2,0))))
+            spectral=spectral.permute(0,2,1,3).flatten(2)
+            projected=projected+self.spectral_project(spectral)
+        z=F.relu(projected)
         if valid is None:h,_=self.rnn(z)
         else:
             starts=(~valid).to(torch.int64).cumprod(1).sum(1)

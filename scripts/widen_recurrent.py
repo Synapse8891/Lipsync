@@ -10,7 +10,7 @@ else:
 
 def widen_state(old,channels,skip_hidden,layers=2,skip_lags=()):
     previous=old["project.weight"].shape[0]
-    network=RecurrentNetwork(channels,layers,skip_lags=skip_lags,skip_hidden=skip_hidden)
+    network=RecurrentNetwork(channels,layers,features=old["project.weight"].shape[1],skip_lags=skip_lags,skip_hidden=skip_hidden)
     state=network.state_dict()
     if channels<previous:raise ValueError("Widening cannot remove hidden units")
     with torch.no_grad():
