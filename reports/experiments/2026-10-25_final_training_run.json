@@ -1,0 +1,1000 @@
+{
+  "run_config": {
+    "index": "cache/features_v2/index_extended_complete_v3.json",
+    "corpus": "cache/temporal_corpus/joint_complete_v3",
+    "breath_manifest": "data/breath_cc0/manifest_v2.json",
+    "run": "gru96_complete_v3",
+    "epochs": 30,
+    "steps_per_epoch": 300,
+    "batch_size": 64,
+    "channels": 96,
+    "dilations": "1,2,4,8",
+    "lookahead": 10,
+    "threads": 2,
+    "device": "cuda",
+    "gain_augment_db": 8.0,
+    "gain_augment_events_only": true,
+    "skip_lags": "0,2,4,6,8,10,12,14",
+    "skip_hidden": 32,
+    "architecture": "gru",
+    "gru_layers": 2,
+    "english_weight": 1.5,
+    "breath_selection_weight": 0.05,
+    "breath_viseme_loss_weight": 0.25,
+    "patience": 18,
+    "resume": "cache/tcn_experiments/gru96_extended_partial_v3/complete_resume.pt",
+    "seed": 42,
+    "actual_device": "cuda",
+    "torch_version": "2.14.1+cu130",
+    "corpus_signature": "5880e35bd2c6c6d2ab7dd12cb33532b225cf30bbc951116024ba1dafce45b3eb/tcn-corpus-v1",
+    "resume_kind": "weights and feature normalization; optimizer starts fresh"
+  },
+  "selected_epoch": 23,
+  "completed_epochs": 30,
+  "lineage": "Resumed from gru96_extended_partial_v3/complete_resume.pt, itself trained on the preceding speech/breath corpus; optimizer reinitialized at each continuation. This is not a single fresh 30 epoch run.",
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 0.7834093618392944,
+      "validation": {
+        "all": {
+          "accuracy": 0.7160392723951594,
+          "speech_accuracy": 0.6025505108030911,
+          "macro_f1": 0.5620895863612887
+        },
+        "ja": {
+          "accuracy": 0.7459153960408502,
+          "speech_accuracy": 0.6502057859347706,
+          "macro_f1": 0.5758572736139121
+        },
+        "en": {
+          "accuracy": 0.6370464050764912,
+          "speech_accuracy": 0.472178580780309,
+          "macro_f1": 0.4548797242195248
+        }
+      },
+      "natural_breath": {
+        "precision": 0.8235294117647058,
+        "recall": 0.7567567567567568,
+        "f1": 0.7887323943661971,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.008836524300441826,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.5926406658713903,
+      "elapsed_seconds": 13.60999999998603
+    },
+    {
+      "epoch": 2,
+      "loss": 0.7840635794401168,
+      "validation": {
+        "all": {
+          "accuracy": 0.7170713144074892,
+          "speech_accuracy": 0.608228047733366,
+          "macro_f1": 0.5699142270642024
+        },
+        "ja": {
+          "accuracy": 0.7477783278927891,
+          "speech_accuracy": 0.6567083821875523,
+          "macro_f1": 0.5817041295349568
+        },
+        "en": {
+          "accuracy": 0.635881563328563,
+          "speech_accuracy": 0.47559897879025925,
+          "macro_f1": 0.4652396983053191
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7560975609756098,
+        "recall": 0.8378378378378378,
+        "f1": 0.7948717948717948,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.014727540500736377,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.5993611702724347,
+      "elapsed_seconds": 24.280999999988126
+    },
+    {
+      "epoch": 3,
+      "loss": 0.7846090161800384,
+      "validation": {
+        "all": {
+          "accuracy": 0.7146967044676155,
+          "speech_accuracy": 0.6026425079292761,
+          "macro_f1": 0.5666846076720321
+        },
+        "ja": {
+          "accuracy": 0.7424286925071538,
+          "speech_accuracy": 0.6470591754205451,
+          "macro_f1": 0.5735975809420993
+        },
+        "en": {
+          "accuracy": 0.6413729601402247,
+          "speech_accuracy": 0.48113053155276253,
+          "macro_f1": 0.4707732975643727
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7,
+        "recall": 0.7567567567567568,
+        "f1": 0.7272727272727273,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.017673048600883652,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.5917940162742577,
+      "elapsed_seconds": 37.062999999994645
+    },
+    {
+      "epoch": 4,
+      "loss": 0.7806707427899042,
+      "validation": {
+        "all": {
+          "accuracy": 0.7152781794657128,
+          "speech_accuracy": 0.6030061156184835,
+          "macro_f1": 0.5652577132694419
+        },
+        "ja": {
+          "accuracy": 0.7428818380927605,
+          "speech_accuracy": 0.6473463185853413,
+          "macro_f1": 0.573358576596142
+        },
+        "en": {
+          "accuracy": 0.6422937398076347,
+          "speech_accuracy": 0.4817033254778738,
+          "macro_f1": 0.46684147758273353
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7380952380952381,
+        "recall": 0.8378378378378378,
+        "f1": 0.7848101265822784,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.016200294550810016,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.5941658250508784,
+      "elapsed_seconds": 47.530999999988126
+    },
+    {
+      "epoch": 5,
+      "loss": 0.7744612463315328,
+      "validation": {
+        "all": {
+          "accuracy": 0.7135581094451633,
+          "speech_accuracy": 0.5990940473478543,
+          "macro_f1": 0.566091567337051
+        },
+        "ja": {
+          "accuracy": 0.7395000293705473,
+          "speech_accuracy": 0.6407958651384269,
+          "macro_f1": 0.5698656395658491
+        },
+        "en": {
+          "accuracy": 0.6449673289624034,
+          "speech_accuracy": 0.48500916470280175,
+          "macro_f1": 0.4782808067844407
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7631578947368421,
+        "recall": 0.7837837837837838,
+        "f1": 0.7733333333333333,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.013254786450662739,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.5921298336419967,
+      "elapsed_seconds": 59.0
+    },
+    {
+      "epoch": 6,
+      "loss": 0.7827733087539673,
+      "validation": {
+        "all": {
+          "accuracy": 0.7149554760636274,
+          "speech_accuracy": 0.6014158795801426,
+          "macro_f1": 0.567292737755886
+        },
+        "ja": {
+          "accuracy": 0.7467839250799299,
+          "speech_accuracy": 0.6518448948338159,
+          "macro_f1": 0.5798816902868669
+        },
+        "en": {
+          "accuracy": 0.6308006345614093,
+          "speech_accuracy": 0.4634557475779,
+          "macro_f1": 0.4609066331344458
+        }
+      },
+      "natural_breath": {
+        "precision": 0.8666666666666667,
+        "recall": 0.7027027027027027,
+        "f1": 0.7761194029850746,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.005891016200294551,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.5939425633838672,
+      "elapsed_seconds": 69.15599999998813
+    },
+    {
+      "epoch": 7,
+      "loss": 0.7649366331100463,
+      "validation": {
+        "all": {
+          "accuracy": 0.7220945277418372,
+          "speech_accuracy": 0.611430423887711,
+          "macro_f1": 0.5738603916765315
+        },
+        "ja": {
+          "accuracy": 0.7529936979197261,
+          "speech_accuracy": 0.6603933861357708,
+          "macro_f1": 0.5870278111774072
+        },
+        "en": {
+          "accuracy": 0.6403967118181516,
+          "speech_accuracy": 0.47748101597276776,
+          "macro_f1": 0.4696603965697775
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7692307692307693,
+        "recall": 0.8108108108108109,
+        "f1": 0.7894736842105263,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.013254786450662739,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6024868216035415,
+      "elapsed_seconds": 80.29699999999139
+    },
+    {
+      "epoch": 8,
+      "loss": 0.7534206974506378,
+      "validation": {
+        "all": {
+          "accuracy": 0.7186269883552782,
+          "speech_accuracy": 0.6073913119666358,
+          "macro_f1": 0.5719219361989265
+        },
+        "ja": {
+          "accuracy": 0.7475391677226078,
+          "speech_accuracy": 0.6535079323299275,
+          "macro_f1": 0.5799599197795402
+        },
+        "en": {
+          "accuracy": 0.6421828024983082,
+          "speech_accuracy": 0.4812287247970673,
+          "macro_f1": 0.4724449359413869
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7631578947368421,
+        "recall": 0.7837837837837838,
+        "f1": 0.7733333333333333,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.013254786450662739,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.5988404595453087,
+      "elapsed_seconds": 90.375
+    },
+    {
+      "epoch": 9,
+      "loss": 0.7482016917069753,
+      "validation": {
+        "all": {
+          "accuracy": 0.7208767790547226,
+          "speech_accuracy": 0.6104841677326651,
+          "macro_f1": 0.5722383234537585
+        },
+        "ja": {
+          "accuracy": 0.7511685281999211,
+          "speech_accuracy": 0.6582457945490656,
+          "macro_f1": 0.5841177926264943
+        },
+        "en": {
+          "accuracy": 0.6407849924007943,
+          "speech_accuracy": 0.4798212882953653,
+          "macro_f1": 0.47114253980159737
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7692307692307693,
+        "recall": 0.8108108108108109,
+        "f1": 0.7894736842105263,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.013254786450662739,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6012668675240775,
+      "elapsed_seconds": 101.53099999998813
+    },
+    {
+      "epoch": 10,
+      "loss": 0.7450126816829046,
+      "validation": {
+        "all": {
+          "accuracy": 0.7201278636121471,
+          "speech_accuracy": 0.608044053480996,
+          "macro_f1": 0.5716399548556819
+        },
+        "ja": {
+          "accuracy": 0.7495069943860296,
+          "speech_accuracy": 0.654518915555981,
+          "macro_f1": 0.5811565562530797
+        },
+        "en": {
+          "accuracy": 0.6424490520406918,
+          "speech_accuracy": 0.48090141398271796,
+          "macro_f1": 0.4729262803306517
+        }
+      },
+      "natural_breath": {
+        "precision": 0.75,
+        "recall": 0.8108108108108109,
+        "f1": 0.7792207792207793,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.014727540500736377,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.599310942920961,
+      "elapsed_seconds": 111.70299999997951
+    },
+    {
+      "epoch": 11,
+      "loss": 0.7466994472344717,
+      "validation": {
+        "all": {
+          "accuracy": 0.7227429789177259,
+          "speech_accuracy": 0.6135463577899661,
+          "macro_f1": 0.5765054766145429
+        },
+        "ja": {
+          "accuracy": 0.7542188693178481,
+          "speech_accuracy": 0.663169103395468,
+          "macro_f1": 0.5894731182377246
+        },
+        "en": {
+          "accuracy": 0.6395203070744722,
+          "speech_accuracy": 0.47779196124639955,
+          "macro_f1": 0.46960011077777947
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7317073170731707,
+        "recall": 0.8108108108108109,
+        "f1": 0.7692307692307693,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.016200294550810016,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6037361598036802,
+      "elapsed_seconds": 122.82799999997951
+    },
+    {
+      "epoch": 12,
+      "loss": 0.7519071485598882,
+      "validation": {
+        "all": {
+          "accuracy": 0.7212147043153969,
+          "speech_accuracy": 0.6111938598489495,
+          "macro_f1": 0.57708164004422
+        },
+        "ja": {
+          "accuracy": 0.751936358219977,
+          "speech_accuracy": 0.6594422244023833,
+          "macro_f1": 0.5872766428375971
+        },
+        "en": {
+          "accuracy": 0.6399862437736435,
+          "speech_accuracy": 0.4791993977481016,
+          "macro_f1": 0.47332447628220586
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7692307692307693,
+        "recall": 0.8108108108108109,
+        "f1": 0.7894736842105263,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.013254786450662739,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6039045466597818,
+      "elapsed_seconds": 132.96899999998277
+    },
+    {
+      "epoch": 13,
+      "loss": 0.7440938202540079,
+      "validation": {
+        "all": {
+          "accuracy": 0.720557120024355,
+          "speech_accuracy": 0.6095072458688909,
+          "macro_f1": 0.5720910601468004
+        },
+        "ja": {
+          "accuracy": 0.75012377587755,
+          "speech_accuracy": 0.6565947213514871,
+          "macro_f1": 0.5845674153878002
+        },
+        "en": {
+          "accuracy": 0.6423824896550959,
+          "speech_accuracy": 0.48068866195339094,
+          "macro_f1": 0.47281509440251673
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7631578947368421,
+        "recall": 0.7837837837837838,
+        "f1": 0.7733333333333333,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.013254786450662739,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.59992586202412,
+      "elapsed_seconds": 144.26599999997416
+    },
+    {
+      "epoch": 14,
+      "loss": 0.7527753812074661,
+      "validation": {
+        "all": {
+          "accuracy": 0.7226729583682168,
+          "speech_accuracy": 0.6122364939457129,
+          "macro_f1": 0.5757822067896758
+        },
+        "ja": {
+          "accuracy": 0.7548062802621531,
+          "speech_accuracy": 0.662702495752674,
+          "macro_f1": 0.5915257094492157
+        },
+        "en": {
+          "accuracy": 0.6377120289324503,
+          "speech_accuracy": 0.47417517674783977,
+          "macro_f1": 0.46624517805712085
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7837837837837838,
+        "recall": 0.7837837837837838,
+        "f1": 0.7837837837837838,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.011782032400589101,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6034980720384989,
+      "elapsed_seconds": 154.43799999999464
+    },
+    {
+      "epoch": 15,
+      "loss": 0.7434278202056884,
+      "validation": {
+        "all": {
+          "accuracy": 0.719129309688713,
+          "speech_accuracy": 0.6074964515394186,
+          "macro_f1": 0.5698756447393706
+        },
+        "ja": {
+          "accuracy": 0.7480762291574009,
+          "speech_accuracy": 0.65357373597186,
+          "macro_f1": 0.5792758802008722
+        },
+        "en": {
+          "accuracy": 0.6425932705428162,
+          "speech_accuracy": 0.4814414768263943,
+          "macro_f1": 0.470404030434623
+        }
+      },
+      "natural_breath": {
+        "precision": 0.8235294117647058,
+        "recall": 0.7567567567567568,
+        "f1": 0.7887323943661971,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.008836524300441826,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.5986883654507347,
+      "elapsed_seconds": 165.84399999998277
+    },
+    {
+      "epoch": 16,
+      "loss": 0.7402258767684301,
+      "validation": {
+        "all": {
+          "accuracy": 0.7207671816728822,
+          "speech_accuracy": 0.6088588851700633,
+          "macro_f1": 0.5718860513226358
+        },
+        "ja": {
+          "accuracy": 0.7522132805222922,
+          "speech_accuracy": 0.658514991266062,
+          "macro_f1": 0.5855265308912588
+        },
+        "en": {
+          "accuracy": 0.6376232790849891,
+          "speech_accuracy": 0.4730132233568997,
+          "macro_f1": 0.46357744261314576
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7435897435897436,
+        "recall": 0.7837837837837838,
+        "f1": 0.7631578947368421,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.014727540500736377,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.5990117395708743,
+      "elapsed_seconds": 176.23499999998603
+    },
+    {
+      "epoch": 17,
+      "loss": 0.7376834863424301,
+      "validation": {
+        "all": {
+          "accuracy": 0.7221797701499353,
+          "speech_accuracy": 0.6121839241593215,
+          "macro_f1": 0.5742593307218731
+        },
+        "ja": {
+          "accuracy": 0.7517055896347143,
+          "speech_accuracy": 0.6590474025507884,
+          "macro_f1": 0.5824835059191358
+        },
+        "en": {
+          "accuracy": 0.6441131116805893,
+          "speech_accuracy": 0.48397813563760145,
+          "macro_f1": 0.47517636389757406
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7073170731707317,
+        "recall": 0.7837837837837838,
+        "f1": 0.7435897435897436,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.017673048600883652,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6007400332480545,
+      "elapsed_seconds": 187.71899999998277
+    },
+    {
+      "epoch": 18,
+      "loss": 0.7297955999771754,
+      "validation": {
+        "all": {
+          "accuracy": 0.7187396301088362,
+          "speech_accuracy": 0.6074482625685598,
+          "macro_f1": 0.5714420439186725
+        },
+        "ja": {
+          "accuracy": 0.7455251873421334,
+          "speech_accuracy": 0.6503912325620349,
+          "macro_f1": 0.5746008700106002
+        },
+        "en": {
+          "accuracy": 0.6479182613904882,
+          "speech_accuracy": 0.48996792354019375,
+          "macro_f1": 0.478234769443484
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7692307692307693,
+        "recall": 0.8108108108108109,
+        "f1": 0.7894736842105263,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.013254786450662739,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.5994465797919616,
+      "elapsed_seconds": 198.03099999998813
+    },
+    {
+      "epoch": 19,
+      "loss": 0.7307334403196971,
+      "validation": {
+        "all": {
+          "accuracy": 0.7238602633381536,
+          "speech_accuracy": 0.6143787127411638,
+          "macro_f1": 0.5787175140451214
+        },
+        "ja": {
+          "accuracy": 0.7552720132251378,
+          "speech_accuracy": 0.6638391041133258,
+          "macro_f1": 0.5910223089027689
+        },
+        "en": {
+          "accuracy": 0.6408071798626596,
+          "speech_accuracy": 0.47906847342236186,
+          "macro_f1": 0.4729737045482516
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7837837837837838,
+        "recall": 0.7837837837837838,
+        "f1": 0.7837837837837838,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.011782032400589101,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6059098969126747,
+      "elapsed_seconds": 209.51599999997416
+    },
+    {
+      "epoch": 20,
+      "loss": 0.7270932165781657,
+      "validation": {
+        "all": {
+          "accuracy": 0.7226059821904255,
+          "speech_accuracy": 0.612293444547637,
+          "macro_f1": 0.5773549595948024
+        },
+        "ja": {
+          "accuracy": 0.7516132822006092,
+          "speech_accuracy": 0.658239812399799,
+          "macro_f1": 0.5866085329139643
+        },
+        "en": {
+          "accuracy": 0.6459102960916786,
+          "speech_accuracy": 0.4865966221523959,
+          "macro_f1": 0.47765433914635
+        }
+      },
+      "natural_breath": {
+        "precision": 0.8055555555555556,
+        "recall": 0.7837837837837838,
+        "f1": 0.7945205479452054,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.010309278350515464,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.604809019364919,
+      "elapsed_seconds": 219.71899999998277
+    },
+    {
+      "epoch": 21,
+      "loss": 0.7259365558624268,
+      "validation": {
+        "all": {
+          "accuracy": 0.7238389527361291,
+          "speech_accuracy": 0.614146529517935,
+          "macro_f1": 0.5768803321363887
+        },
+        "ja": {
+          "accuracy": 0.7555992850369649,
+          "speech_accuracy": 0.6641322294273887,
+          "macro_f1": 0.5918537223003854
+        },
+        "en": {
+          "accuracy": 0.6398642127333843,
+          "speech_accuracy": 0.47739918826918043,
+          "macro_f1": 0.4706056056441237
+        }
+      },
+      "natural_breath": {
+        "precision": 0.8055555555555556,
+        "recall": 0.7837837837837838,
+        "f1": 0.7945205479452054,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.010309278350515464,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6054637866830641,
+      "elapsed_seconds": 231.17199999999139
+    },
+    {
+      "epoch": 22,
+      "loss": 0.7280077236890793,
+      "validation": {
+        "all": {
+          "accuracy": 0.7243290965826927,
+          "speech_accuracy": 0.6146809890129147,
+          "macro_f1": 0.5790892022645306
+        },
+        "ja": {
+          "accuracy": 0.75544404071597,
+          "speech_accuracy": 0.6637673183221268,
+          "macro_f1": 0.5896733674705167
+        },
+        "en": {
+          "accuracy": 0.6420607714580491,
+          "speech_accuracy": 0.4803940822204766,
+          "macro_f1": 0.4744837386528429
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7692307692307693,
+        "recall": 0.8108108108108109,
+        "f1": 0.7894736842105263,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.013254786450662739,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6065145250673127,
+      "elapsed_seconds": 241.39099999997416
+    },
+    {
+      "epoch": 23,
+      "loss": 0.727500263651212,
+      "validation": {
+        "all": {
+          "accuracy": 0.7245026257706066,
+          "speech_accuracy": 0.6169414898277463,
+          "macro_f1": 0.5802645074735076
+        },
+        "ja": {
+          "accuracy": 0.7551419436588989,
+          "speech_accuracy": 0.6655141059079707,
+          "macro_f1": 0.5922514448582336
+        },
+        "en": {
+          "accuracy": 0.6434918627483609,
+          "speech_accuracy": 0.4840599633411888,
+          "macro_f1": 0.4760675778526411
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7837837837837838,
+        "recall": 0.7837837837837838,
+        "f1": 0.7837837837837838,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.011782032400589101,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6078620379072848,
+      "elapsed_seconds": 252.9529999999795
+    },
+    {
+      "epoch": 24,
+      "loss": 0.7211737477779389,
+      "validation": {
+        "all": {
+          "accuracy": 0.7232696552249029,
+          "speech_accuracy": 0.6135770234986945,
+          "macro_f1": 0.5775530491917644
+        },
+        "ja": {
+          "accuracy": 0.7530902011462905,
+          "speech_accuracy": 0.6607582972410327,
+          "macro_f1": 0.585740920037326
+        },
+        "en": {
+          "accuracy": 0.6444237361467035,
+          "speech_accuracy": 0.4845018329405604,
+          "macro_f1": 0.47529571674761995
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7837837837837838,
+        "recall": 0.7837837837837838,
+        "f1": 0.7837837837837838,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.011782032400589101,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6049759737171572,
+      "elapsed_seconds": 263.31299999999464
+    },
+    {
+      "epoch": 25,
+      "loss": 0.7202897010246913,
+      "validation": {
+        "all": {
+          "accuracy": 0.7251602100616485,
+          "speech_accuracy": 0.616507789090017,
+          "macro_f1": 0.5785090342402646
+        },
+        "ja": {
+          "accuracy": 0.7554985860179412,
+          "speech_accuracy": 0.6644791940848508,
+          "macro_f1": 0.5896423676051147
+        },
+        "en": {
+          "accuracy": 0.644945141500538,
+          "speech_accuracy": 0.48527101335428124,
+          "macro_f1": 0.4755892810374509
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7777777777777778,
+        "recall": 0.7567567567567568,
+        "f1": 0.7671232876712328,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.011782032400589101,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6059891554654453,
+      "elapsed_seconds": 274.89099999997416
+    },
+    {
+      "epoch": 26,
+      "loss": 0.7218763532241186,
+      "validation": {
+        "all": {
+          "accuracy": 0.7249044828373544,
+          "speech_accuracy": 0.6155702945660364,
+          "macro_f1": 0.5781581667644122
+        },
+        "ja": {
+          "accuracy": 0.755183901583492,
+          "speech_accuracy": 0.6635340145007298,
+          "macro_f1": 0.5882003917695655
+        },
+        "en": {
+          "accuracy": 0.6448452979221442,
+          "speech_accuracy": 0.4843545430741032,
+          "macro_f1": 0.4759862046660088
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7435897435897436,
+        "recall": 0.7837837837837838,
+        "f1": 0.7631578947368421,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.014727540500736377,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6051789138688053,
+      "elapsed_seconds": 285.0779999999795
+    },
+    {
+      "epoch": 27,
+      "loss": 0.7234697733322779,
+      "validation": {
+        "all": {
+          "accuracy": 0.7214582540528198,
+          "speech_accuracy": 0.6111150051693623,
+          "macro_f1": 0.5767369808779395
+        },
+        "ja": {
+          "accuracy": 0.7506020962179126,
+          "speech_accuracy": 0.657629633174607,
+          "macro_f1": 0.5829720963994136
+        },
+        "en": {
+          "accuracy": 0.6444015486848382,
+          "speech_accuracy": 0.4838635768525792,
+          "macro_f1": 0.4764933722576381
+        }
+      },
+      "natural_breath": {
+        "precision": 0.8108108108108109,
+        "recall": 0.8108108108108109,
+        "f1": 0.8108108108108109,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.010309278350515464,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6047702339130089,
+      "elapsed_seconds": 296.5309999999881
+    },
+    {
+      "epoch": 28,
+      "loss": 0.7177445046106974,
+      "validation": {
+        "all": {
+          "accuracy": 0.7248649060050232,
+          "speech_accuracy": 0.615482678255384,
+          "macro_f1": 0.5791879625427999
+        },
+        "ja": {
+          "accuracy": 0.7552006847533294,
+          "speech_accuracy": 0.6634502644109976,
+          "macro_f1": 0.5899588337974273
+        },
+        "en": {
+          "accuracy": 0.6446567044962892,
+          "speech_accuracy": 0.48425634982979837,
+          "macro_f1": 0.4753878591451367
+        }
+      },
+      "natural_breath": {
+        "precision": 0.75,
+        "recall": 0.8108108108108109,
+        "f1": 0.7792207792207793,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.014727540500736377,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6064295933401763,
+      "elapsed_seconds": 306.7969999999914
+    },
+    {
+      "epoch": 29,
+      "loss": 0.7158999458948772,
+      "validation": {
+        "all": {
+          "accuracy": 0.7238450414795646,
+          "speech_accuracy": 0.6146065151488601,
+          "macro_f1": 0.5777145551617213
+        },
+        "ja": {
+          "accuracy": 0.7532034875426922,
+          "speech_accuracy": 0.6612368691823598,
+          "macro_f1": 0.5851040569338659
+        },
+        "en": {
+          "accuracy": 0.6462209205577928,
+          "speech_accuracy": 0.4870384917517675,
+          "macro_f1": 0.4792561056348223
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7894736842105263,
+        "recall": 0.8108108108108109,
+        "f1": 0.8,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.011782032400589101,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6063525083975262,
+      "elapsed_seconds": 318.25
+    },
+    {
+      "epoch": 30,
+      "loss": 0.7161664805809657,
+      "validation": {
+        "all": {
+          "accuracy": 0.7236562904330619,
+          "speech_accuracy": 0.6147948902167627,
+          "macro_f1": 0.5778780294146968
+        },
+        "ja": {
+          "accuracy": 0.7533881024109024,
+          "speech_accuracy": 0.6620803522289488,
+          "macro_f1": 0.5885268997179671
+        },
+        "en": {
+          "accuracy": 0.6450449850789319,
+          "speech_accuracy": 0.48543466876145586,
+          "macro_f1": 0.4760284009819098
+        }
+      },
+      "natural_breath": {
+        "precision": 0.7777777777777778,
+        "recall": 0.7567567567567568,
+        "f1": 0.7671232876712328,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.011782032400589101,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "selection_metric": 0.6048758012085048,
+      "elapsed_seconds": 328.5
+    }
+  ],
+  "split_manifest_sha256": "0e195da6d7be395c567a0c1cd573fd1c0891b1504911e4c13c9eb6114b74afa0",
+  "source_model_sha256": "b3328c5b0749cd57cd67587b9b764bc7739b8dea5b5c9fbda48b79d29cba17a3",
+  "inference_feature_mode": "base (118 features); CMN experiment not trained or adopted"
+}

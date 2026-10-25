@@ -1,15 +1,12 @@
 {
-  "model_sha256": "208f761d7ad7b107e2059c9a2eed700040353c3c47abc8dd195624ba69551d77",
-  "matches_selected_trial": true,
-  "pipeline_version": "ctc-midpoint-v2",
-  "frames_verified": 585,
-  "finite_normalized_weights": true,
-  "silence_returns_neutral": true,
-  "desktop_selftest": {
-    "status": "ok",
-    "model_loaded": "C:\\Users\\harus\\Downloads\\Lipsync\\models\\kotoba_int8.npz",
-    "frames": 97,
-    "gui_created": true,
-    "parameters": 155024
-  }
+  "status": "ok",
+  "model_sha256": "b3328c5b0749cd57cd67587b9b764bc7739b8dea5b5c9fbda48b79d29cba17a3",
+  "audio_seconds": 27.38825,
+  "output_frames": 2726,
+  "batch_stream_max_error": 5.364418029785156e-07,
+  "different_audio_block_sizes_max_error": 0.0,
+  "finite_outputs": true,
+  "silence_recovery": true,
+  "natural_breath_is_independent": true,
+  "scope": "CPU inference and stream state only; no real avatar, microphone driver or rendered response measurement"
 }

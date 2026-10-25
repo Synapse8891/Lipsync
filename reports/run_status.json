@@ -1,8 +1,25 @@
 {
-  "profile": "five-hour",
-  "started_unix": 1792853802.5301998,
-  "deadline_unix": 1792871802.5301998,
-  "state": "complete",
-  "stage": "benchmark/report",
-  "elapsed_seconds": 17885.49231529236
+  "status": "complete",
+  "profile": "japanese75-natural-breath-gru",
+  "completed_at_jst": "2026-10-25T18:15:49+09:00",
+  "model": "models/kotoba_int8.npz",
+  "model_sha256": "b3328c5b0749cd57cd67587b9b764bc7739b8dea5b5c9fbda48b79d29cba17a3",
+  "japanese_agreement": 0.7506009310628112,
+  "speech_only_japanese_agreement": 0.6580731144580904,
+  "natural_breath": {
+    "precision": 0.6153846153846154,
+    "recall": 0.8888888888888888,
+    "f1": 0.7272727272727273,
+    "true_positive_clips": 8,
+    "false_negative_clips": 1,
+    "false_positive_clips": 5,
+    "positive_clips": 9,
+    "negative_clips": 268,
+    "speech_false_positive_clips": 4,
+    "noise_false_positive_clips": 1
+  },
+  "criterion": "User explicitly accepted Japanese >=75 percent, English auxiliary; agreement is with automatic labels including silence. Natural breathing uses weak clip labels.",
+  "active_training_processes": 0,
+  "previous_five_hour_status": "baseline/run_status.json",
+  "details": "RESULTS.md"
 }
