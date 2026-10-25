@@ -35,6 +35,7 @@ class AttentionModel:
     def reset(self):
         self.cache=self._new_cache();self.frontend_history=RecurrentModel._new_frontend_history()
         self.spectral_mean=CausalSpectralMean(mode=self.feature_mode);self.last_breath=0.
+        self.last_embedding=np.zeros(self.metadata["channels"],dtype=np.float32)
 
     def _linear(self,x,name):return self.state[name+".weight"]@x+self.state[name+".bias"]
 
@@ -56,7 +57,7 @@ class AttentionModel:
             x=x+self._linear(np.maximum(self._linear(self._norm(x,prefix+"norm2"),prefix+"ff1"),0),prefix+"ff2")
         x=self._norm(x,"norm");logits=self._linear(x,"head");p=np.exp(logits-logits.max());p/=p.sum()
         breath=float(RecurrentModel._sigmoid(self._linear(x,"breath")[0]+self.metadata.get("breath_logit_bias",0.)))
-        return p.astype(np.float32),breath
+        return p.astype(np.float32),breath,x
 
     def _features(self,base,normalizer):
         x=expand_features(base)
@@ -64,9 +65,14 @@ class AttentionModel:
 
     def predict_proba(self,features):
         x=self._features(np.asarray(features)[:78],self.spectral_mean)
-        p,self.last_breath=self._step(x,self.cache,self.frontend_history);return p
+        p,self.last_breath,self.last_embedding=self._step(x,self.cache,self.frontend_history);return p
 
-    def predict_sequence(self,base):
+    def predict_sequence(self,base,*,capture_embedding=False):
         cache=self._new_cache();frontend=RecurrentModel._new_frontend_history();normalizer=CausalSpectralMean(mode=self.feature_mode)
-        pairs=[self._step(self._features(frame,normalizer),cache,frontend) for frame in base]
-        return np.asarray([p for p,b in pairs],dtype=np.float32),np.asarray([b for p,b in pairs],dtype=np.float32)
+        outputs=[];breaths=[];embeddings=[]
+        for frame in base:
+            p,b,h=self._step(self._features(frame,normalizer),cache,frontend)
+            outputs.append(p);breaths.append(b)
+            if capture_embedding:embeddings.append(h)
+        result=(np.asarray(outputs,dtype=np.float32),np.asarray(breaths,dtype=np.float32))
+        return (*result,np.asarray(embeddings,dtype=np.float32)) if capture_embedding else result

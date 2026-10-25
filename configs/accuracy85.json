@@ -12,9 +12,11 @@
     "ja85_cmn96_v1",
     "ja85_cnn96_v1",
     "ja85_attention192_v1",
-    "ja85_attention256_l20_stage2"
+    "ja85_attention256_l20_stage2",
+    "ja85_attention256_l20_stage3"
   ],
   "new_data_policy": "Pinned Common Voice 17.0 CC0 audio only; no raw audio pushed; protect global speaker, recording and transcript IDs",
   "status": "training and development comparison; 85 percent not established",
-  "latency_comparison": "100 ms and 200 ms base lookahead; add 20 ms if posterior decoder selected"
+  "latency_comparison": "100 ms and 200 ms base lookahead; add 20 ms if posterior decoder selected",
+  "complete_training_index": "cache/features_v2/index_ja85_stage3_20261025.json"
 }

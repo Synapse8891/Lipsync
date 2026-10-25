@@ -47,6 +47,7 @@ class AttentionNetwork(nn.Module):
         if valid is not None:mask=mask.masked_fill(~valid[:,None,None,:],float("-inf"))
         for block in self.blocks:hidden=block(hidden,mask)
         hidden=self.norm(hidden)
+        if not self.training:self.last_embedding=hidden
         return self.head(hidden),self.breath(hidden).squeeze(-1)
 
     @property

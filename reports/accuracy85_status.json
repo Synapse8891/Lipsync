@@ -1,6 +1,6 @@
 {
-  "updated_at_jst": "2026-10-25T21:16:05+09:00",
-  "status": "training",
+  "updated_at_jst": "2026-10-25T21:37:32+09:00",
+  "status": "training and development; 85 percent not verified",
   "target_japanese_agreement": 0.85,
   "production_unchanged_sha256": "b3328c5b0749cd57cd67587b9b764bc7739b8dea5b5c9fbda48b79d29cba17a3",
   "final_test_scored": false,
@@ -10,6 +10,7 @@
       "selected_epoch": 14,
       "development_japanese_agreement": 0.7665293243934982,
       "development_speech_accuracy": 0.6790696561460602,
+      "development_breath_f1": 0.8533333333333334,
       "final_test_scored": false
     },
     "ja85_cnn96_v1": {
@@ -17,39 +18,54 @@
       "selected_epoch": 28,
       "development_japanese_agreement": 0.7672258259417456,
       "development_speech_accuracy": 0.6799849249838482,
+      "development_breath_f1": 0.8493150684931506,
       "final_test_scored": false
     },
     "ja85_attention192_v1": {
       "completed_epochs": 40,
       "selected_epoch": 39,
       "development_japanese_agreement": 0.7729362994788825,
+      "development_speech_accuracy": 0.6920090450096911,
+      "development_breath_f1": 0.8051948051948052,
       "final_test_scored": false
     },
     "ja85_attention256_l20_stage2": {
-      "completed_epochs": 9,
-      "selected_epoch": 8,
-      "development_japanese_agreement": 0.7678778060634113,
+      "completed_epochs": 38,
+      "selected_epoch": 34,
+      "development_japanese_agreement": 0.7835977611492538,
+      "development_speech_accuracy": 0.7121777649554927,
+      "development_breath_f1": 0.88,
+      "final_test_scored": false
+    },
+    "ja85_attention256_l20_stage3": {
+      "completed_epochs": 7,
+      "selected_epoch": 7,
+      "development_japanese_agreement": 0.7833320476227211,
+      "development_speech_accuracy": 0.7102904848626913,
+      "development_breath_f1": 0.9113924050632911,
       "final_test_scored": false
     }
   },
-  "data_preparation": {
-    "index_ja85_extended_v1.json": {
-      "added": 1608,
-      "selected": 3527,
-      "elapsed_seconds": 942.9539999999979
+  "active_run": "ja85_attention256_l20_stage3",
+  "training_data": {
+    "index": "cache/features_v2/index_ja85_stage3_20261025.json",
+    "sha256": "7cca4e27362104efeabd6826d2201f29c8e0db121113c963666e53260e552fed",
+    "counts": {
+      "ja": {
+        "train": 24033,
+        "validation": 500,
+        "test": 298
+      },
+      "en": {
+        "train": 2800,
+        "validation": 160,
+        "test": 100
+      }
     },
-    "index_ja85_extended_v2.json": {
-      "added": 6428,
-      "selected": 6484,
-      "elapsed_seconds": 3812.155999999988
-    },
-    "index_ja85_speed_v1.json": {
-      "added": 7050,
-      "selected": 8000,
-      "elapsed_seconds": 3428.4070000000065
-    }
+    "derived_training_examples": 8000,
+    "note": "Derived examples are not independent recordings; protected final speech index is separate"
   },
-  "active_run": "ja85_attention256_l20_stage2",
+  "protected_final_index_sha256": "bfba0cd8b39df9c047074d3250252b8ad7ddde0fc6fa9dee3bf2e3f635c5cda5",
   "active_lookahead_ms": 200,
   "rejected_for_cpu_cost": "384 channels: real time factor 1.48"
 }
