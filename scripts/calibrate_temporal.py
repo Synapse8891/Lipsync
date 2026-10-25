@@ -41,7 +41,7 @@ def main():
     if cache.exists():
         with np.load(cache) as data:x=data["x"];y=data["y"];fit=data["fit"];language=data["language"]
     else:
-        network=RecurrentNetwork(metadata["channels"],metadata["gru_layers"]) if metadata.get("architecture")=="gru" else TemporalNetwork(metadata["channels"],metadata["dilations"],skip_lags=metadata.get("skip_lags",()),skip_hidden=metadata.get("skip_hidden",64))
+        network=RecurrentNetwork(metadata["channels"],metadata["gru_layers"],skip_lags=metadata.get("skip_lags",()),skip_hidden=metadata.get("skip_hidden",32)) if metadata.get("architecture")=="gru" else TemporalNetwork(metadata["channels"],metadata["dilations"],skip_lags=metadata.get("skip_lags",()),skip_hidden=metadata.get("skip_hidden",64))
         network.load_state_dict({key:torch.from_numpy(value) for key,value in model.state.items()});network.to(args.device).eval()
         torch.backends.cudnn.allow_tf32=False;torch.backends.cuda.matmul.allow_tf32=False
         index=json.loads((ROOT/args.index).read_text())

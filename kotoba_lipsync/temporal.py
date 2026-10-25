@@ -89,7 +89,7 @@ class TemporalModel:
             direct=np.maximum(self._conv_step("skip_project",np.concatenate([history[-1-lag] for lag in self.skip_lags])),0)
             logits+=self._conv_step("skip_head",direct)
             logit+=float(self._conv_step("skip_breath",direct)[0])
-        self.last_breath=float(1/(1+np.exp(-np.clip(logit,-40,40))))
+        self.last_breath=float(1/(1+np.exp(-np.clip(logit+self.metadata.get("breath_logit_bias",0.),-40,40))))
         return self._softmax(logits).astype(np.float32)
 
     def _conv_sequence(self,key,x,dilation=1):
@@ -118,4 +118,4 @@ class TemporalModel:
             direct=np.maximum(self._conv_sequence("skip_project",np.concatenate(shifted,axis=-1)),0)
             logits+=self._conv_sequence("skip_head",direct)
             breath+=self._conv_sequence("skip_breath",direct)[:,0]
-        return self._softmax(logits).astype(np.float32),(1/(1+np.exp(-np.clip(breath,-40,40)))).astype(np.float32)
+        return self._softmax(logits).astype(np.float32),(1/(1+np.exp(-np.clip(breath+self.metadata.get("breath_logit_bias",0.),-40,40)))).astype(np.float32)

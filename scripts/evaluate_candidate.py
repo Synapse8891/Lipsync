@@ -29,6 +29,14 @@ def main():
     previous=json.loads((ROOT/args.development_index).read_text())
     for field in ("id","speaker_hash","transcript_hash"):
         if {r[field] for r in fresh["records"]}&{r[field] for r in previous["records"]}:raise ValueError("Fresh holdout overlap: "+field)
+    if all("global_speaker_hash" in row for row in fresh["records"]):
+        import pyarrow.parquet as pq
+        reserved={row["global_speaker_hash"] for row in fresh["records"]}
+        previous_ids={row["id"] for row in previous["records"]}
+        for path in (ROOT/"data/common_voice_17").glob("*/*.parquet"):
+            for batch in pq.ParquetFile(path).iter_batches(batch_size=1024,columns=["client_id","path"]):
+                for row in batch.to_pylist():
+                    if Path(row["path"]).stem in previous_ids and hashlib.sha256(str(row["client_id"]).encode()).hexdigest() in reserved:raise ValueError("Cross-language anonymous speaker overlap")
     if fresh["annotation_signatures"]!=previous["annotation_signatures"]:raise ValueError("Teacher signature mismatch")
     output=ROOT/args.output;output.parent.mkdir(parents=True,exist_ok=True)
     if output.exists():raise RuntimeError("Use a new report path; never overwrite an evaluation attempt")
@@ -50,7 +58,7 @@ def main():
             tau=smoothing*(.6 if target[1]>state[1] else 1.)
             alpha=1. if tau<=0 else 1-np.exp(-10/tau)
             state+=alpha*(target-state);state=np.clip(state,0,1);state/=max(float(state.sum()),1e-9)
-            breath_state+=alpha*((float(b) if level>=-55 else 0.)-breath_state)
+            breath_state+=alpha*((float(b) if level>=-55+model.metadata.get("breath_gate_offset_db",0.) else 0.)-breath_state)
             online.append(int(state.argmax()));online_breath.append(breath_state)
         if language in ("ja","en"):
             truths.append(y);preds.append(probability.argmax(-1));languages.extend([language]*len(y));runtime_preds.extend(online)

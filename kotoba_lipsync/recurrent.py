@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import numpy as np
+from collections import deque
 from .features import FeatureConfig
 from .temporal import expand_features
 
@@ -34,16 +35,22 @@ class RecurrentModel:
             self.state={name:(data[name+".q"].astype(np.float32)*data[name+".scale"][:,None] if name+".q" in data else data[name].copy()) for name in self.metadata["state_names"]}
         self.parameters=sum(a.size for a in self.state.values());self.float_weights_bytes=sum(a.nbytes for a in self.state.values())
         self.has_breath_head=self.metadata.get("has_breath_head",False)
+        self.skip_lags=tuple(self.metadata.get("skip_lags",()))
         self.reset()
 
     def reset(self):
         self.hidden=np.zeros((self.metadata["gru_layers"],self.metadata["channels"]),dtype=np.float32);self.last_breath=0.
+        self.feature_history=self._new_history()
+
+    def _new_history(self):
+        return deque([np.zeros(118,dtype=np.float32) for _ in range(max(self.skip_lags,default=0)+1)],maxlen=max(self.skip_lags,default=0)+1)
 
     @staticmethod
     def _sigmoid(x):return 1/(1+np.exp(-np.clip(x,-40,40)))
 
-    def _step(self,features,hidden):
+    def _step(self,features,hidden,history):
         state=self.state;x=(expand_features(np.asarray(features)[:78])-self.mean)/self.scale
+        history.append(x)
         x=np.maximum(state["project.weight"]@x+state["project.bias"],0)
         for layer in range(len(hidden)):
             gi=state[f"rnn.weight_ih_l{layer}"]@x+state[f"rnn.bias_ih_l{layer}"]
@@ -52,15 +59,22 @@ class RecurrentModel:
             reset=self._sigmoid(ir+hr);update=self._sigmoid(iz+hz)
             candidate=np.tanh(inn+reset*hn)
             hidden[layer]=(1-update)*candidate+update*hidden[layer];x=hidden[layer]
-        logits=state["head.weight"]@x+state["head.bias"];p=np.exp(logits-logits.max());p/=p.sum()
-        breath=float(self._sigmoid((state["breath.weight"]@x+state["breath.bias"])[0]))
+        logits=state["head.weight"]@x+state["head.bias"]
+        breath_logit=(state["breath.weight"]@x+state["breath.bias"])[0]
+        if self.skip_lags:
+            aligned=np.concatenate([history[-1-lag] for lag in self.skip_lags])
+            direct=np.maximum(state["skip_project.weight"]@aligned+state["skip_project.bias"],0)
+            logits+=state["skip_head.weight"]@direct+state["skip_head.bias"]
+            breath_logit+=(state["skip_breath.weight"]@direct+state["skip_breath.bias"])[0]
+        p=np.exp(logits-logits.max());p/=p.sum()
+        breath=float(self._sigmoid(breath_logit+self.metadata.get("breath_logit_bias",0.)))
         return p.astype(np.float32),breath
 
     def predict_proba(self,features):
-        p,self.last_breath=self._step(features,self.hidden);return p
+        p,self.last_breath=self._step(features,self.hidden,self.feature_history);return p
 
     def predict_sequence(self,base):
-        hidden=np.zeros_like(self.hidden);probabilities=[];breaths=[]
+        hidden=np.zeros_like(self.hidden);probabilities=[];breaths=[];history=self._new_history()
         for frame in base:
-            p,b=self._step(frame,hidden);probabilities.append(p);breaths.append(b)
+            p,b=self._step(frame,hidden,history);probabilities.append(p);breaths.append(b)
         return np.asarray(probabilities,dtype=np.float32),np.asarray(breaths,dtype=np.float32)

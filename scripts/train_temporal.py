@@ -24,9 +24,10 @@ else:
 ROOT=Path(__file__).resolve().parents[1]
 
 class SequenceDataset(Dataset):
-    def __init__(self,corpus,lookahead,context,frames=128,gain_db=0):
+    def __init__(self,corpus,lookahead,context,frames=128,gain_db=0,events_only=False):
         self.corpus=corpus;self.lookahead=lookahead;self.context=context;self.frames=frames
         self.gain_db=gain_db
+        self.events_only=events_only
         self.segments=[(r,s) for r in corpus.rows if r["split"]=="train" for s in range(0,r["frames"],frames)]
     def __len__(self):return len(self.segments)
     def __getitem__(self,number):
@@ -35,7 +36,7 @@ class SequenceDataset(Dataset):
         t=np.arange(start-self.context,start+self.frames)
         valid=(t>=0)&(t<len(base))
         raw=base[np.clip(t,0,len(base)-1)]
-        if self.gain_db:raw=apply_gain(raw,np.random.uniform(-self.gain_db,self.gain_db))
+        if self.gain_db and (not self.events_only or row["language"] not in ("ja","en")):raw=apply_gain(raw,np.random.uniform(-self.gain_db,self.gain_db))
         x=(expand_features(raw)-self.corpus.mean)/self.corpus.scale
         x[~valid]=0
         target=t-self.lookahead
@@ -85,12 +86,14 @@ def main():
     parser.add_argument("--threads",type=int,default=4)
     parser.add_argument("--device",choices=["auto","cpu","cuda"],default="auto")
     parser.add_argument("--gain-augment-db",type=float,default=0)
+    parser.add_argument("--gain-augment-events-only",action="store_true")
     parser.add_argument("--skip-lags",default="")
     parser.add_argument("--skip-hidden",type=int,default=64)
     parser.add_argument("--architecture",choices=["tcn","gru"],default="tcn")
     parser.add_argument("--gru-layers",type=int,default=2)
     parser.add_argument("--english-weight",type=float,default=1.)
     parser.add_argument("--breath-selection-weight",type=float,default=.05)
+    parser.add_argument("--breath-viseme-loss-weight",type=float,default=.25,help="Keep nonlexical breathing from dominating phonetic /h/ supervision")
     parser.add_argument("--patience",type=int,default=18)
     parser.add_argument("--resume")
     parser.add_argument("--seed",type=int,default=42)
@@ -103,7 +106,7 @@ def main():
     corpus=pack_corpus(ROOT/args.index,ROOT/args.corpus,ROOT/args.breath_manifest if args.breath_manifest else None)
     audit({"records":corpus.rows})
     skip_lags=tuple(int(d) for d in args.skip_lags.split(",") if d)
-    network=RecurrentNetwork(args.channels,args.gru_layers) if args.architecture=="gru" else TemporalNetwork(args.channels,tuple(int(d) for d in args.dilations.split(",")),skip_lags=skip_lags,skip_hidden=args.skip_hidden)
+    network=RecurrentNetwork(args.channels,args.gru_layers,skip_lags=skip_lags,skip_hidden=args.skip_hidden) if args.architecture=="gru" else TemporalNetwork(args.channels,tuple(int(d) for d in args.dilations.split(",")),skip_lags=skip_lags,skip_hidden=args.skip_hidden)
     if args.resume:
         checkpoint=torch.load(ROOT/args.resume,map_location="cpu",weights_only=True)
         missing=network.load_state_dict(checkpoint["model"],strict=False)
@@ -111,7 +114,7 @@ def main():
         corpus.mean=checkpoint["mean"].numpy();corpus.scale=checkpoint["scale"].numpy()
     network.to(device)
     (folder/"run_config.json").write_text(json.dumps({**vars(args),"actual_device":str(device),"torch_version":str(torch.__version__),"corpus_signature":corpus.metadata["signature"],"resume_kind":"weights and feature normalization; optimizer starts fresh"},indent=2),encoding="utf-8")
-    dataset=SequenceDataset(corpus,args.lookahead,network.receptive_frames-1,gain_db=args.gain_augment_db)
+    dataset=SequenceDataset(corpus,args.lookahead,network.receptive_frames-1,gain_db=args.gain_augment_db,events_only=args.gain_augment_events_only)
     weights=np.ones(len(dataset))
     weights[np.array([r[0]["language"]=="en" for r in dataset.segments])]*=args.english_weight
     is_breath=np.array([r[0]["language"]=="breath" for r in dataset.segments])
@@ -135,7 +138,10 @@ def main():
             x,y,b,valid=(v.to(device) for v in (x,y,b,valid))
             optimizer.zero_grad(set_to_none=True)
             logits,breath=network(x,valid)
-            loss=F.cross_entropy(logits.transpose(1,2),y,weight=class_weight,ignore_index=-100,label_smoothing=.03)
+            frame_loss=F.cross_entropy(logits.transpose(1,2),y,weight=class_weight,ignore_index=-100,label_smoothing=.03,reduction="none")
+            importance=torch.where(b>0,args.breath_viseme_loss_weight,1.)*(y!=-100)
+            normalizer=(importance*class_weight[y.clamp(min=0)]).sum().clamp(min=1)
+            loss=(frame_loss*importance).sum()/normalizer
             mask=b>=0
             if args.breath_manifest and mask.any():loss=loss+.3*F.binary_cross_entropy_with_logits(breath[mask],b[mask],pos_weight=torch.tensor(3.,device=device))
             loss.backward();torch.nn.utils.clip_grad_norm_(network.parameters(),5);optimizer.step()

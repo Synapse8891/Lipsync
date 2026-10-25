@@ -85,6 +85,21 @@ def test_breath_head_is_independent_of_h_phoneme(tmp_path):
     assert result.breath<1e-6
 
 
+def test_quiet_breath_uses_its_own_gate(tmp_path):
+    _,network,_=make_network(tmp_path)
+    state={k:v.detach().numpy().copy() for k,v in network.state_dict().items()}
+    state["head.weight"][:]=0;state["head.bias"][:]=0;state["head.bias"][10]=20
+    state["breath.weight"][:]=0;state["breath.bias"][:]=20
+    path=tmp_path/"quiet_breath.npz"
+    export_temporal(path,state,np.zeros(118),np.ones(118),FeatureConfig(lookahead_frames=3),{"channels":8,"dilations":[1,2],"has_breath_head":True,"breath_gate_offset_db":-10})
+    t=np.arange(3200)/16000
+    audio=(np.sin(2*np.pi*200*t)*.001414).astype(np.float32)
+    result=LipSyncEngine(path,smoothing_ms=0).push(audio)[-1]
+    assert -65<result.rms_db<-55
+    assert result.viseme=="sil"
+    assert result.breath>.99
+
+
 def test_padded_future_has_no_training_target():
     pytest.importorskip("torch")
     from scripts.train_temporal import SequenceDataset

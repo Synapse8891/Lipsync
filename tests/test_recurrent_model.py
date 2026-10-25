@@ -7,13 +7,17 @@ from kotoba_lipsync.temporal import expand_features
 
 
 @pytest.mark.parametrize("quantized",[False,True])
-def test_recurrent_numpy_matches_pytorch_and_stream(tmp_path,quantized):
+@pytest.mark.parametrize("skip_lags",[(),(0,2,5)])
+def test_recurrent_numpy_matches_pytorch_and_stream(tmp_path,quantized,skip_lags):
     torch=pytest.importorskip("torch")
     from scripts.gru_network import RecurrentNetwork
     torch.manual_seed(11)
-    network=RecurrentNetwork(8,2).eval()
+    network=RecurrentNetwork(8,2,skip_lags=skip_lags,skip_hidden=8).eval()
+    if skip_lags:
+        with torch.no_grad():
+            network.skip_head.weight.uniform_(-.2,.2);network.skip_breath.weight.uniform_(-.2,.2)
     path=tmp_path/"gru.npz"
-    export_recurrent(path,{k:v.detach().numpy() for k,v in network.state_dict().items()},np.zeros(118),np.ones(118),FeatureConfig(lookahead_frames=10),{"channels":8,"gru_layers":2,"has_breath_head":True},quantized=quantized)
+    export_recurrent(path,{k:v.detach().numpy() for k,v in network.state_dict().items()},np.zeros(118),np.ones(118),FeatureConfig(lookahead_frames=10),{"channels":8,"gru_layers":2,"skip_lags":list(skip_lags),"has_breath_head":True},quantized=quantized)
     model=RecurrentModel(path);base=np.random.default_rng(3).normal(size=(200,78)).astype(np.float32)
     with torch.inference_mode():
         logits,breath=network(torch.from_numpy(expand_features(base))[None])
@@ -38,3 +42,17 @@ def test_recurrent_padding_does_not_change_initial_state():
             expected,expected_breath=network(x[row:row+1,start:end])
             torch.testing.assert_close(actual[row,start:end],expected[0],atol=2e-6,rtol=1e-5)
             torch.testing.assert_close(breath[row,start:end],expected_breath[0],atol=2e-6,rtol=1e-5)
+
+
+def test_widening_preserves_learned_gru_function():
+    torch=pytest.importorskip("torch")
+    from scripts.gru_network import RecurrentNetwork
+    from scripts.widen_recurrent import widen_state
+    torch.manual_seed(2);small=RecurrentNetwork(8,2,skip_lags=(0,2,5),skip_hidden=8).eval()
+    with torch.no_grad():
+        small.skip_head.weight.uniform_(-.2,.2);small.skip_breath.weight.uniform_(-.2,.2)
+    wide=RecurrentNetwork(16,2,skip_lags=(0,2,5),skip_hidden=16).eval()
+    wide.load_state_dict(widen_state(small.state_dict(),16,16,skip_lags=(0,2,5)))
+    x=torch.randn(2,80,118)
+    with torch.inference_mode():a=small(x);b=wide(x)
+    for expected,actual in zip(a,b):torch.testing.assert_close(actual,expected,atol=2e-6,rtol=1e-5)

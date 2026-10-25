@@ -1,0 +1,4856 @@
+{
+  "status": "development candidate only; not promoted and not final-tested",
+  "model": "models/candidates/gru96_partial_20261025.npz",
+  "sha256": "affab9be547022b914628f7327c7094d143c9ce5fa6764f32f00c73a46f2adf3",
+  "model_bytes": 158086,
+  "parameters": 155618,
+  "development": {
+    "all": {
+      "accuracy": 0.7229225968490752,
+      "majority_class_baseline": 0.30506735672425606,
+      "speech_accuracy": 0.6134236949550528,
+      "macro_f1": 0.5746841101286093,
+      "frames": 328475,
+      "per_class": {
+        "sil": {
+          "precision": 0.9779885576633545,
+          "recall": 0.9723572205534543,
+          "f1-score": 0.9751647592788122,
+          "support": 100207.0
+        },
+        "PP": {
+          "precision": 0.4906087539828945,
+          "recall": 0.5187976591594254,
+          "f1-score": 0.5043096017927944,
+          "support": 11278.0
+        },
+        "FF": {
+          "precision": 0.33869670152855996,
+          "recall": 0.4067632850241546,
+          "f1-score": 0.36962247585601404,
+          "support": 2070.0
+        },
+        "TH": {
+          "precision": 0.17768595041322313,
+          "recall": 0.24635416666666668,
+          "f1-score": 0.20646006110868617,
+          "support": 1920.0
+        },
+        "DD": {
+          "precision": 0.6048464821699022,
+          "recall": 0.5519190903951253,
+          "f1-score": 0.5771719494169815,
+          "support": 15919.0
+        },
+        "kk": {
+          "precision": 0.5947926596758818,
+          "recall": 0.6191775724120822,
+          "f1-score": 0.606740207250737,
+          "support": 16123.0
+        },
+        "CH": {
+          "precision": 0.6495387255953659,
+          "recall": 0.6514955885517538,
+          "f1-score": 0.6505156854318865,
+          "support": 9294.0
+        },
+        "SS": {
+          "precision": 0.639812610398587,
+          "recall": 0.6466159577770879,
+          "f1-score": 0.6431962941517082,
+          "support": 12884.0
+        },
+        "nn": {
+          "precision": 0.6140901170027384,
+          "recall": 0.6440058479532164,
+          "f1-score": 0.6286923057318348,
+          "support": 19152.0
+        },
+        "RR": {
+          "precision": 0.45672533505570806,
+          "recall": 0.49046297901855385,
+          "f1-score": 0.4729933110367893,
+          "support": 11534.0
+        },
+        "aa": {
+          "precision": 0.6961189964908605,
+          "recall": 0.6918432148248399,
+          "f1-score": 0.6939745196324144,
+          "support": 38422.0
+        },
+        "E": {
+          "precision": 0.6275889537971322,
+          "recall": 0.6066867740486428,
+          "f1-score": 0.6169608770842171,
+          "support": 15583.0
+        },
+        "ih": {
+          "precision": 0.618474870017331,
+          "recall": 0.6540928919681807,
+          "f1-score": 0.6357854228651856,
+          "support": 27279.0
+        },
+        "oh": {
+          "precision": 0.7003998516014674,
+          "recall": 0.6723517074907998,
+          "f1-score": 0.6860892388451444,
+          "support": 25271.0
+        },
+        "ou": {
+          "precision": 0.5969425343811395,
+          "recall": 0.5272490645843501,
+          "f1-score": 0.5599355005902847,
+          "support": 18441.0
+        },
+        "breath": {
+          "precision": 0.37333333333333335,
+          "recall": 0.3615235635894125,
+          "f1-score": 0.36733355198425716,
+          "support": 3098.0
+        },
+        "accuracy": 0.7229225968490752,
+        "macro avg": {
+          "precision": 0.5723527770692175,
+          "recall": 0.5788560365011092,
+          "f1-score": 0.5746841101286093,
+          "support": 328475.0
+        },
+        "weighted avg": {
+          "precision": 0.7256750351460484,
+          "recall": 0.7229225968490752,
+          "f1-score": 0.7239226695132688,
+          "support": 328475.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          97437,
+          133,
+          46,
+          44,
+          354,
+          454,
+          141,
+          157,
+          71,
+          46,
+          354,
+          81,
+          364,
+          254,
+          218,
+          53
+        ],
+        [
+          178,
+          5851,
+          190,
+          349,
+          349,
+          639,
+          90,
+          185,
+          1294,
+          331,
+          575,
+          90,
+          329,
+          363,
+          406,
+          59
+        ],
+        [
+          18,
+          286,
+          842,
+          44,
+          84,
+          113,
+          41,
+          134,
+          44,
+          150,
+          96,
+          13,
+          84,
+          43,
+          64,
+          14
+        ],
+        [
+          34,
+          172,
+          71,
+          473,
+          213,
+          99,
+          19,
+          80,
+          130,
+          97,
+          79,
+          13,
+          180,
+          32,
+          32,
+          196
+        ],
+        [
+          290,
+          662,
+          209,
+          404,
+          8786,
+          1004,
+          312,
+          582,
+          702,
+          576,
+          696,
+          338,
+          613,
+          354,
+          266,
+          125
+        ],
+        [
+          257,
+          557,
+          133,
+          311,
+          806,
+          9983,
+          263,
+          301,
+          439,
+          267,
+          757,
+          275,
+          655,
+          486,
+          440,
+          193
+        ],
+        [
+          113,
+          47,
+          41,
+          107,
+          296,
+          308,
+          6055,
+          915,
+          102,
+          35,
+          253,
+          93,
+          459,
+          123,
+          228,
+          119
+        ],
+        [
+          107,
+          327,
+          170,
+          145,
+          337,
+          503,
+          872,
+          8331,
+          216,
+          219,
+          412,
+          165,
+          415,
+          216,
+          414,
+          35
+        ],
+        [
+          101,
+          1091,
+          85,
+          59,
+          384,
+          502,
+          81,
+          231,
+          12334,
+          845,
+          998,
+          386,
+          1114,
+          531,
+          363,
+          47
+        ],
+        [
+          71,
+          570,
+          175,
+          45,
+          485,
+          226,
+          45,
+          216,
+          576,
+          5657,
+          1370,
+          381,
+          609,
+          570,
+          413,
+          125
+        ],
+        [
+          281,
+          468,
+          209,
+          198,
+          708,
+          751,
+          238,
+          429,
+          938,
+          1738,
+          26582,
+          1170,
+          1385,
+          2313,
+          770,
+          244
+        ],
+        [
+          61,
+          148,
+          25,
+          24,
+          332,
+          239,
+          103,
+          203,
+          575,
+          258,
+          1080,
+          9454,
+          2229,
+          226,
+          591,
+          35
+        ],
+        [
+          228,
+          479,
+          56,
+          86,
+          669,
+          658,
+          561,
+          495,
+          1183,
+          589,
+          1092,
+          1517,
+          17843,
+          512,
+          1084,
+          227
+        ],
+        [
+          118,
+          446,
+          66,
+          56,
+          434,
+          525,
+          130,
+          236,
+          854,
+          867,
+          2253,
+          371,
+          606,
+          16991,
+          1218,
+          100
+        ],
+        [
+          239,
+          585,
+          107,
+          164,
+          207,
+          563,
+          242,
+          466,
+          563,
+          663,
+          1291,
+          669,
+          1514,
+          1137,
+          9723,
+          308
+        ],
+        [
+          97,
+          104,
+          61,
+          153,
+          82,
+          217,
+          129,
+          60,
+          64,
+          48,
+          298,
+          48,
+          451,
+          108,
+          58,
+          1120
+        ]
+      ]
+    },
+    "ja": {
+      "accuracy": 0.7553769080366208,
+      "majority_class_baseline": 0.2986145493299319,
+      "speech_accuracy": 0.6644612476370511,
+      "macro_f1": 0.5893863985275205,
+      "frames": 238334,
+      "per_class": {
+        "sil": {
+          "precision": 0.9782386653804687,
+          "recall": 0.9689194885485457,
+          "f1-score": 0.9735567759879149,
+          "support": 71170.0
+        },
+        "PP": {
+          "precision": 0.5563455862624095,
+          "recall": 0.562076443480618,
+          "f1-score": 0.5591963322545846,
+          "support": 7378.0
+        },
+        "FF": {
+          "precision": 0.23440453686200377,
+          "recall": 0.3701492537313433,
+          "f1-score": 0.28703703703703703,
+          "support": 335.0
+        },
+        "TH": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "DD": {
+          "precision": 0.6779512940919515,
+          "recall": 0.6222311316026862,
+          "f1-score": 0.6488972509668652,
+          "support": 9977.0
+        },
+        "kk": {
+          "precision": 0.6217796964211113,
+          "recall": 0.6572942735168555,
+          "f1-score": 0.6390439387433806,
+          "support": 13586.0
+        },
+        "CH": {
+          "precision": 0.6761519383892443,
+          "recall": 0.6655531286136451,
+          "f1-score": 0.6708106708106708,
+          "support": 7783.0
+        },
+        "SS": {
+          "precision": 0.577980280848521,
+          "recall": 0.5697246355470476,
+          "f1-score": 0.5738227660363366,
+          "support": 6791.0
+        },
+        "nn": {
+          "precision": 0.6408344733242134,
+          "recall": 0.6834695068573096,
+          "f1-score": 0.6614656876588534,
+          "support": 13708.0
+        },
+        "RR": {
+          "precision": 0.5934507851397932,
+          "recall": 0.5963055609005196,
+          "f1-score": 0.5948747480564354,
+          "support": 5197.0
+        },
+        "aa": {
+          "precision": 0.7402661064425771,
+          "recall": 0.7583213773314204,
+          "f1-score": 0.7491849751948972,
+          "support": 27880.0
+        },
+        "E": {
+          "precision": 0.6615058157812009,
+          "recall": 0.6588134001252348,
+          "f1-score": 0.660156862745098,
+          "support": 12776.0
+        },
+        "ih": {
+          "precision": 0.661360080979111,
+          "recall": 0.6936254403319982,
+          "f1-score": 0.6771086039993405,
+          "support": 20723.0
+        },
+        "oh": {
+          "precision": 0.7401934201012292,
+          "recall": 0.7063262753891931,
+          "f1-score": 0.7228633846018051,
+          "support": 23189.0
+        },
+        "ou": {
+          "precision": 0.62998141647739,
+          "recall": 0.5692872247792014,
+          "f1-score": 0.5980984742052472,
+          "support": 16078.0
+        },
+        "breath": {
+          "precision": 0.4446614583333333,
+          "recall": 0.38740782756664777,
+          "f1-score": 0.41406486814186116,
+          "support": 1763.0
+        },
+        "accuracy": 0.7553769080366208,
+        "macro avg": {
+          "precision": 0.5896940971771599,
+          "recall": 0.5918440605201417,
+          "f1-score": 0.5893863985275205,
+          "support": 238334.0
+        },
+        "weighted avg": {
+          "precision": 0.7592063754799623,
+          "recall": 0.7553769080366208,
+          "f1-score": 0.7569402331582379,
+          "support": 238334.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          68958,
+          69,
+          20,
+          12,
+          275,
+          397,
+          131,
+          98,
+          45,
+          13,
+          322,
+          73,
+          308,
+          249,
+          185,
+          15
+        ],
+        [
+          84,
+          4147,
+          22,
+          171,
+          165,
+          521,
+          81,
+          107,
+          732,
+          66,
+          322,
+          65,
+          234,
+          316,
+          307,
+          38
+        ],
+        [
+          7,
+          10,
+          124,
+          2,
+          0,
+          40,
+          2,
+          25,
+          0,
+          11,
+          22,
+          5,
+          19,
+          31,
+          24,
+          13
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          209,
+          310,
+          20,
+          74,
+          6208,
+          738,
+          169,
+          225,
+          334,
+          228,
+          442,
+          227,
+          301,
+          305,
+          152,
+          35
+        ],
+        [
+          236,
+          430,
+          65,
+          239,
+          511,
+          8930,
+          197,
+          180,
+          355,
+          132,
+          616,
+          247,
+          498,
+          452,
+          373,
+          125
+        ],
+        [
+          103,
+          42,
+          28,
+          94,
+          111,
+          270,
+          5180,
+          784,
+          97,
+          7,
+          203,
+          82,
+          398,
+          110,
+          210,
+          64
+        ],
+        [
+          62,
+          260,
+          37,
+          68,
+          133,
+          446,
+          593,
+          3869,
+          148,
+          46,
+          228,
+          144,
+          255,
+          166,
+          313,
+          23
+        ],
+        [
+          52,
+          557,
+          8,
+          29,
+          161,
+          431,
+          66,
+          74,
+          9369,
+          269,
+          647,
+          323,
+          883,
+          469,
+          330,
+          40
+        ],
+        [
+          13,
+          134,
+          15,
+          0,
+          168,
+          110,
+          11,
+          37,
+          325,
+          3099,
+          393,
+          237,
+          313,
+          128,
+          181,
+          33
+        ],
+        [
+          203,
+          219,
+          29,
+          22,
+          401,
+          569,
+          171,
+          207,
+          671,
+          393,
+          21142,
+          727,
+          588,
+          1833,
+          601,
+          104
+        ],
+        [
+          56,
+          127,
+          10,
+          3,
+          251,
+          216,
+          90,
+          113,
+          404,
+          122,
+          449,
+          8417,
+          1719,
+          207,
+          574,
+          18
+        ],
+        [
+          202,
+          287,
+          6,
+          39,
+          287,
+          513,
+          499,
+          297,
+          829,
+          246,
+          536,
+          1172,
+          14374,
+          458,
+          881,
+          97
+        ],
+        [
+          105,
+          367,
+          45,
+          17,
+          346,
+          508,
+          128,
+          209,
+          799,
+          299,
+          1871,
+          311,
+          525,
+          16379,
+          1199,
+          81
+        ],
+        [
+          154,
+          416,
+          66,
+          133,
+          139,
+          492,
+          227,
+          434,
+          485,
+          274,
+          1197,
+          654,
+          1148,
+          939,
+          9153,
+          167
+        ],
+        [
+          48,
+          79,
+          34,
+          29,
+          1,
+          181,
+          116,
+          35,
+          27,
+          17,
+          170,
+          40,
+          171,
+          86,
+          46,
+          683
+        ]
+      ]
+    },
+    "en": {
+      "accuracy": 0.6371129674620871,
+      "majority_class_baseline": 0.32212866509135685,
+      "speech_accuracy": 0.473798769311338,
+      "macro_f1": 0.4647984273144127,
+      "frames": 90141,
+      "per_class": {
+        "sil": {
+          "precision": 0.9773834854828746,
+          "recall": 0.9807831387540035,
+          "f1-score": 0.9790803609798023,
+          "support": 29037.0
+        },
+        "PP": {
+          "precision": 0.3810375670840787,
+          "recall": 0.4369230769230769,
+          "f1-score": 0.4070711896798853,
+          "support": 3900.0
+        },
+        "FF": {
+          "precision": 0.36688809402146144,
+          "recall": 0.4138328530259366,
+          "f1-score": 0.38894907908992415,
+          "support": 1735.0
+        },
+        "TH": {
+          "precision": 0.27341040462427746,
+          "recall": 0.24635416666666668,
+          "f1-score": 0.25917808219178085,
+          "support": 1920.0
+        },
+        "DD": {
+          "precision": 0.48016390389271746,
+          "recall": 0.433860652978795,
+          "f1-score": 0.45583944832463974,
+          "support": 5942.0
+        },
+        "kk": {
+          "precision": 0.4347646573080099,
+          "recall": 0.4150571541190382,
+          "f1-score": 0.4246823956442831,
+          "support": 2537.0
+        },
+        "CH": {
+          "precision": 0.526791089704997,
+          "recall": 0.5790866975512905,
+          "f1-score": 0.5517023959646911,
+          "support": 1511.0
+        },
+        "SS": {
+          "precision": 0.7052315473368105,
+          "recall": 0.7323157721976038,
+          "f1-score": 0.7185185185185186,
+          "support": 6093.0
+        },
+        "nn": {
+          "precision": 0.5425434583714547,
+          "recall": 0.5446362968405584,
+          "f1-score": 0.5435878632321935,
+          "support": 5444.0
+        },
+        "RR": {
+          "precision": 0.35706309324399776,
+          "recall": 0.40366103834622064,
+          "f1-score": 0.3789348937115769,
+          "support": 6337.0
+        },
+        "aa": {
+          "precision": 0.5651360897569083,
+          "recall": 0.5160311136406754,
+          "f1-score": 0.539468464894883,
+          "support": 10542.0
+        },
+        "E": {
+          "precision": 0.44316239316239314,
+          "recall": 0.3694335589597435,
+          "f1-score": 0.40295317660773267,
+          "support": 2807.0
+        },
+        "ih": {
+          "precision": 0.4874929735806633,
+          "recall": 0.5291336180597925,
+          "f1-score": 0.5074605032182563,
+          "support": 6556.0
+        },
+        "oh": {
+          "precision": 0.2871891130924449,
+          "recall": 0.29394812680115273,
+          "f1-score": 0.2905293140280085,
+          "support": 2082.0
+        },
+        "ou": {
+          "precision": 0.32404775440591244,
+          "recall": 0.24121878967414304,
+          "f1-score": 0.2765647743813683,
+          "support": 2363.0
+        },
+        "breath": {
+          "precision": 0.29849726775956287,
+          "recall": 0.32734082397003744,
+          "f1-score": 0.3122543765630582,
+          "support": 1335.0
+        },
+        "accuracy": 0.6371129674620871,
+        "macro avg": {
+          "precision": 0.46567518080178527,
+          "recall": 0.46647605490679594,
+          "f1-score": 0.4647984273144127,
+          "support": 90141.0
+        },
+        "weighted avg": {
+          "precision": 0.6373681884608273,
+          "recall": 0.6371129674620871,
+          "f1-score": 0.6364262617777482,
+          "support": 90141.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          28479,
+          64,
+          26,
+          32,
+          79,
+          57,
+          10,
+          59,
+          26,
+          33,
+          32,
+          8,
+          56,
+          5,
+          33,
+          38
+        ],
+        [
+          94,
+          1704,
+          168,
+          178,
+          184,
+          118,
+          9,
+          78,
+          562,
+          265,
+          253,
+          25,
+          95,
+          47,
+          99,
+          21
+        ],
+        [
+          11,
+          276,
+          718,
+          42,
+          84,
+          73,
+          39,
+          109,
+          44,
+          139,
+          74,
+          8,
+          65,
+          12,
+          40,
+          1
+        ],
+        [
+          34,
+          172,
+          71,
+          473,
+          213,
+          99,
+          19,
+          80,
+          130,
+          97,
+          79,
+          13,
+          180,
+          32,
+          32,
+          196
+        ],
+        [
+          81,
+          352,
+          189,
+          330,
+          2578,
+          266,
+          143,
+          357,
+          368,
+          348,
+          254,
+          111,
+          312,
+          49,
+          114,
+          90
+        ],
+        [
+          21,
+          127,
+          68,
+          72,
+          295,
+          1053,
+          66,
+          121,
+          84,
+          135,
+          141,
+          28,
+          157,
+          34,
+          67,
+          68
+        ],
+        [
+          10,
+          5,
+          13,
+          13,
+          185,
+          38,
+          875,
+          131,
+          5,
+          28,
+          50,
+          11,
+          61,
+          13,
+          18,
+          55
+        ],
+        [
+          45,
+          67,
+          133,
+          77,
+          204,
+          57,
+          279,
+          4462,
+          68,
+          173,
+          184,
+          21,
+          160,
+          50,
+          101,
+          12
+        ],
+        [
+          49,
+          534,
+          77,
+          30,
+          223,
+          71,
+          15,
+          157,
+          2965,
+          576,
+          351,
+          63,
+          231,
+          62,
+          33,
+          7
+        ],
+        [
+          58,
+          436,
+          160,
+          45,
+          317,
+          116,
+          34,
+          179,
+          251,
+          2558,
+          977,
+          144,
+          296,
+          442,
+          232,
+          92
+        ],
+        [
+          78,
+          249,
+          180,
+          176,
+          307,
+          182,
+          67,
+          222,
+          267,
+          1345,
+          5440,
+          443,
+          797,
+          480,
+          169,
+          140
+        ],
+        [
+          5,
+          21,
+          15,
+          21,
+          81,
+          23,
+          13,
+          90,
+          171,
+          136,
+          631,
+          1037,
+          510,
+          19,
+          17,
+          17
+        ],
+        [
+          26,
+          192,
+          50,
+          47,
+          382,
+          145,
+          62,
+          198,
+          354,
+          343,
+          556,
+          345,
+          3469,
+          54,
+          203,
+          130
+        ],
+        [
+          13,
+          79,
+          21,
+          39,
+          88,
+          17,
+          2,
+          27,
+          55,
+          568,
+          382,
+          60,
+          81,
+          612,
+          19,
+          19
+        ],
+        [
+          85,
+          169,
+          41,
+          31,
+          68,
+          71,
+          15,
+          32,
+          78,
+          389,
+          94,
+          15,
+          366,
+          198,
+          570,
+          141
+        ],
+        [
+          49,
+          25,
+          27,
+          124,
+          81,
+          36,
+          13,
+          25,
+          37,
+          31,
+          128,
+          8,
+          280,
+          22,
+          12,
+          437
+        ]
+      ]
+    },
+    "natural_breath": {
+      "precision": 0.8108108108108109,
+      "recall": 0.8108108108108109,
+      "f1": 0.8108108108108109,
+      "positive_clips": 37,
+      "negative_clips": 679,
+      "false_positive_rate": 0.010309278350515464,
+      "clip_scores": [
+        {
+          "id": "common_voice_ja_38977020",
+          "positive": false,
+          "probability": 9.292116374126635e-06
+        },
+        {
+          "id": "common_voice_ja_36335931",
+          "positive": false,
+          "probability": 0.0004014373989775777
+        },
+        {
+          "id": "common_voice_ja_21461694",
+          "positive": false,
+          "probability": 4.1687135308166035e-06
+        },
+        {
+          "id": "common_voice_ja_38831308",
+          "positive": false,
+          "probability": 5.9344420151319355e-06
+        },
+        {
+          "id": "common_voice_ja_31183487",
+          "positive": false,
+          "probability": 2.7303836759529077e-05
+        },
+        {
+          "id": "common_voice_ja_36306634",
+          "positive": false,
+          "probability": 7.270796686498215e-06
+        },
+        {
+          "id": "common_voice_ja_38948584",
+          "positive": false,
+          "probability": 5.847684860782465e-06
+        },
+        {
+          "id": "common_voice_ja_36340460",
+          "positive": false,
+          "probability": 1.4846162230242044e-05
+        },
+        {
+          "id": "common_voice_ja_36362218",
+          "positive": false,
+          "probability": 1.688691190793179e-05
+        },
+        {
+          "id": "common_voice_ja_36356468",
+          "positive": false,
+          "probability": 1.568455991218798e-05
+        },
+        {
+          "id": "common_voice_ja_36340357",
+          "positive": false,
+          "probability": 1.9253080608905293e-05
+        },
+        {
+          "id": "common_voice_ja_36323920",
+          "positive": false,
+          "probability": 1.0060459317173809e-05
+        },
+        {
+          "id": "common_voice_ja_28361933",
+          "positive": false,
+          "probability": 2.0155999663984403e-05
+        },
+        {
+          "id": "common_voice_ja_36365611",
+          "positive": false,
+          "probability": 1.833675560192205e-05
+        },
+        {
+          "id": "common_voice_ja_36365998",
+          "positive": false,
+          "probability": 1.4120385458227247e-05
+        },
+        {
+          "id": "common_voice_ja_36341628",
+          "positive": false,
+          "probability": 7.456169987563044e-05
+        },
+        {
+          "id": "common_voice_ja_36354748",
+          "positive": false,
+          "probability": 1.0247719728795346e-05
+        },
+        {
+          "id": "common_voice_ja_36370607",
+          "positive": false,
+          "probability": 1.626380799280014e-05
+        },
+        {
+          "id": "common_voice_ja_28838666",
+          "positive": false,
+          "probability": 1.1340455785102677e-05
+        },
+        {
+          "id": "common_voice_ja_35991423",
+          "positive": false,
+          "probability": 1.8595250367070548e-05
+        },
+        {
+          "id": "common_voice_ja_36348100",
+          "positive": false,
+          "probability": 9.595989467925392e-06
+        },
+        {
+          "id": "common_voice_ja_25272898",
+          "positive": false,
+          "probability": 5.7063753047259524e-06
+        },
+        {
+          "id": "common_voice_ja_36332716",
+          "positive": false,
+          "probability": 1.1409555554564577e-05
+        },
+        {
+          "id": "common_voice_ja_39220738",
+          "positive": false,
+          "probability": 1.7012100215652026e-05
+        },
+        {
+          "id": "common_voice_ja_39084922",
+          "positive": false,
+          "probability": 6.461175871663727e-06
+        },
+        {
+          "id": "common_voice_ja_39089361",
+          "positive": false,
+          "probability": 1.4076094885240309e-05
+        },
+        {
+          "id": "common_voice_ja_27984083",
+          "positive": false,
+          "probability": 1.252115544048138e-05
+        },
+        {
+          "id": "common_voice_ja_38833983",
+          "positive": false,
+          "probability": 2.8086911697755568e-05
+        },
+        {
+          "id": "common_voice_ja_25658043",
+          "positive": false,
+          "probability": 1.326274923485471e-05
+        },
+        {
+          "id": "common_voice_ja_38971284",
+          "positive": false,
+          "probability": 3.4902236620837357e-06
+        },
+        {
+          "id": "common_voice_ja_39078689",
+          "positive": false,
+          "probability": 4.504591197473928e-05
+        },
+        {
+          "id": "common_voice_ja_36358718",
+          "positive": false,
+          "probability": 8.317576430272311e-06
+        },
+        {
+          "id": "common_voice_ja_39006219",
+          "positive": false,
+          "probability": 1.5424871889990754e-05
+        },
+        {
+          "id": "common_voice_ja_39070709",
+          "positive": false,
+          "probability": 5.062610398454126e-06
+        },
+        {
+          "id": "common_voice_ja_36334455",
+          "positive": false,
+          "probability": 0.00022045605874154717
+        },
+        {
+          "id": "common_voice_ja_36359028",
+          "positive": false,
+          "probability": 8.546931894670706e-06
+        },
+        {
+          "id": "common_voice_ja_36342912",
+          "positive": false,
+          "probability": 5.2255163609515876e-06
+        },
+        {
+          "id": "common_voice_ja_28359156",
+          "positive": false,
+          "probability": 3.8041282550693722e-06
+        },
+        {
+          "id": "common_voice_ja_32498557",
+          "positive": false,
+          "probability": 3.3919009183591697e-06
+        },
+        {
+          "id": "common_voice_ja_38825113",
+          "positive": false,
+          "probability": 9.735269486554898e-06
+        },
+        {
+          "id": "common_voice_ja_36369781",
+          "positive": false,
+          "probability": 8.138435987348203e-06
+        },
+        {
+          "id": "common_voice_ja_21413454",
+          "positive": false,
+          "probability": 5.434726062958362e-06
+        },
+        {
+          "id": "common_voice_ja_25110660",
+          "positive": false,
+          "probability": 1.3919716366217472e-05
+        },
+        {
+          "id": "common_voice_ja_36347502",
+          "positive": false,
+          "probability": 2.7755499104387127e-05
+        },
+        {
+          "id": "common_voice_ja_39050029",
+          "positive": false,
+          "probability": 4.176587754045613e-05
+        },
+        {
+          "id": "common_voice_ja_33362486",
+          "positive": false,
+          "probability": 6.952143394300947e-06
+        },
+        {
+          "id": "common_voice_ja_39001722",
+          "positive": false,
+          "probability": 1.5787123629706912e-05
+        },
+        {
+          "id": "common_voice_ja_27817835",
+          "positive": false,
+          "probability": 1.6026788216549903e-05
+        },
+        {
+          "id": "common_voice_ja_27713905",
+          "positive": false,
+          "probability": 4.813128543901257e-05
+        },
+        {
+          "id": "common_voice_ja_36344312",
+          "positive": false,
+          "probability": 6.455875336541794e-06
+        },
+        {
+          "id": "common_voice_ja_36335901",
+          "positive": false,
+          "probability": 0.00024184587527997792
+        },
+        {
+          "id": "common_voice_ja_38858220",
+          "positive": false,
+          "probability": 8.781846190686338e-06
+        },
+        {
+          "id": "common_voice_ja_36357254",
+          "positive": false,
+          "probability": 1.7733947970555164e-05
+        },
+        {
+          "id": "common_voice_ja_38891814",
+          "positive": false,
+          "probability": 1.9022878404939547e-05
+        },
+        {
+          "id": "common_voice_ja_36369918",
+          "positive": false,
+          "probability": 2.283896719745826e-05
+        },
+        {
+          "id": "common_voice_ja_37391000",
+          "positive": false,
+          "probability": 0.0006823549629189074
+        },
+        {
+          "id": "common_voice_ja_38990272",
+          "positive": false,
+          "probability": 8.106350833259057e-06
+        },
+        {
+          "id": "common_voice_ja_38919003",
+          "positive": false,
+          "probability": 4.254313807905419e-06
+        },
+        {
+          "id": "common_voice_ja_35948569",
+          "positive": false,
+          "probability": 9.00465420272667e-06
+        },
+        {
+          "id": "common_voice_ja_35248881",
+          "positive": false,
+          "probability": 7.804600500094239e-06
+        },
+        {
+          "id": "common_voice_ja_35328381",
+          "positive": false,
+          "probability": 3.670594378490932e-05
+        },
+        {
+          "id": "common_voice_ja_36259145",
+          "positive": false,
+          "probability": 4.0244114643428475e-05
+        },
+        {
+          "id": "common_voice_ja_36359381",
+          "positive": false,
+          "probability": 2.6331715616834117e-06
+        },
+        {
+          "id": "common_voice_ja_22314602",
+          "positive": false,
+          "probability": 1.7984128135140054e-05
+        },
+        {
+          "id": "common_voice_ja_38983648",
+          "positive": false,
+          "probability": 6.3377297010447364e-06
+        },
+        {
+          "id": "common_voice_ja_38863906",
+          "positive": false,
+          "probability": 9.923239304043818e-06
+        },
+        {
+          "id": "common_voice_ja_38956024",
+          "positive": false,
+          "probability": 1.1537882528500631e-05
+        },
+        {
+          "id": "common_voice_ja_27690729",
+          "positive": false,
+          "probability": 2.9943001209176145e-05
+        },
+        {
+          "id": "common_voice_ja_36294582",
+          "positive": false,
+          "probability": 1.3642126759805251e-05
+        },
+        {
+          "id": "common_voice_ja_25498572",
+          "positive": false,
+          "probability": 2.4844008294166997e-05
+        },
+        {
+          "id": "common_voice_ja_36485746",
+          "positive": false,
+          "probability": 9.425733878742903e-06
+        },
+        {
+          "id": "common_voice_ja_27697598",
+          "positive": false,
+          "probability": 1.0687660505936947e-05
+        },
+        {
+          "id": "common_voice_ja_25640615",
+          "positive": false,
+          "probability": 1.1690398423525039e-05
+        },
+        {
+          "id": "common_voice_ja_36367037",
+          "positive": false,
+          "probability": 4.617355443770066e-06
+        },
+        {
+          "id": "common_voice_ja_36359445",
+          "positive": false,
+          "probability": 5.7677766562846955e-06
+        },
+        {
+          "id": "common_voice_ja_36344139",
+          "positive": false,
+          "probability": 2.024717105086893e-05
+        },
+        {
+          "id": "common_voice_ja_36350013",
+          "positive": false,
+          "probability": 5.219123340793885e-05
+        },
+        {
+          "id": "common_voice_ja_36357270",
+          "positive": false,
+          "probability": 6.5661606640787795e-06
+        },
+        {
+          "id": "common_voice_ja_33218836",
+          "positive": false,
+          "probability": 2.077371027553454e-05
+        },
+        {
+          "id": "common_voice_ja_38978158",
+          "positive": false,
+          "probability": 9.235498509951867e-06
+        },
+        {
+          "id": "common_voice_ja_38901134",
+          "positive": false,
+          "probability": 5.000378678232664e-06
+        },
+        {
+          "id": "common_voice_ja_38872616",
+          "positive": false,
+          "probability": 8.251455255958717e-06
+        },
+        {
+          "id": "common_voice_ja_36370318",
+          "positive": false,
+          "probability": 5.36307607035269e-06
+        },
+        {
+          "id": "common_voice_ja_36354052",
+          "positive": false,
+          "probability": 6.7690862124436535e-06
+        },
+        {
+          "id": "common_voice_ja_38849594",
+          "positive": false,
+          "probability": 1.1053849448217079e-05
+        },
+        {
+          "id": "common_voice_ja_36370730",
+          "positive": false,
+          "probability": 6.2389940467255656e-06
+        },
+        {
+          "id": "common_voice_ja_36351325",
+          "positive": false,
+          "probability": 1.730849726300221e-05
+        },
+        {
+          "id": "common_voice_ja_36362802",
+          "positive": false,
+          "probability": 1.5096672541403677e-05
+        },
+        {
+          "id": "common_voice_ja_37441868",
+          "positive": false,
+          "probability": 5.647617399517912e-06
+        },
+        {
+          "id": "common_voice_ja_36326080",
+          "positive": false,
+          "probability": 8.500495823682286e-06
+        },
+        {
+          "id": "common_voice_ja_36357823",
+          "positive": false,
+          "probability": 0.00015097933646757156
+        },
+        {
+          "id": "common_voice_ja_36327694",
+          "positive": false,
+          "probability": 9.458283784624655e-06
+        },
+        {
+          "id": "common_voice_ja_26941724",
+          "positive": false,
+          "probability": 1.163321576314047e-05
+        },
+        {
+          "id": "common_voice_ja_25999082",
+          "positive": false,
+          "probability": 2.851948238458135e-06
+        },
+        {
+          "id": "common_voice_ja_38930443",
+          "positive": false,
+          "probability": 4.9736136134015396e-05
+        },
+        {
+          "id": "common_voice_ja_38941856",
+          "positive": false,
+          "probability": 7.724596798652783e-06
+        },
+        {
+          "id": "common_voice_ja_38970848",
+          "positive": false,
+          "probability": 1.1638409887382295e-05
+        },
+        {
+          "id": "common_voice_ja_36315428",
+          "positive": false,
+          "probability": 1.0642194865795318e-05
+        },
+        {
+          "id": "common_voice_ja_38874636",
+          "positive": false,
+          "probability": 9.174022125080228e-06
+        },
+        {
+          "id": "common_voice_ja_19763999",
+          "positive": false,
+          "probability": 9.427943950868212e-06
+        },
+        {
+          "id": "common_voice_ja_36366434",
+          "positive": false,
+          "probability": 1.0906505849561654e-05
+        },
+        {
+          "id": "common_voice_ja_38863014",
+          "positive": false,
+          "probability": 1.5473586245207116e-05
+        },
+        {
+          "id": "common_voice_ja_36369871",
+          "positive": false,
+          "probability": 0.00010543489042902365
+        },
+        {
+          "id": "common_voice_ja_38887795",
+          "positive": false,
+          "probability": 5.996001164021436e-06
+        },
+        {
+          "id": "common_voice_ja_36351704",
+          "positive": false,
+          "probability": 3.076587518080487e-06
+        },
+        {
+          "id": "common_voice_ja_27878252",
+          "positive": false,
+          "probability": 4.069672286277637e-06
+        },
+        {
+          "id": "common_voice_ja_36324089",
+          "positive": false,
+          "probability": 2.4098175344988704e-05
+        },
+        {
+          "id": "common_voice_ja_36345427",
+          "positive": false,
+          "probability": 7.4148038038401864e-06
+        },
+        {
+          "id": "common_voice_ja_38920267",
+          "positive": false,
+          "probability": 5.94965467826114e-06
+        },
+        {
+          "id": "common_voice_ja_36361080",
+          "positive": false,
+          "probability": 9.693352694739588e-06
+        },
+        {
+          "id": "common_voice_ja_36352368",
+          "positive": false,
+          "probability": 5.073892680229619e-05
+        },
+        {
+          "id": "common_voice_ja_26831672",
+          "positive": false,
+          "probability": 1.7046506400220096e-05
+        },
+        {
+          "id": "common_voice_ja_39045610",
+          "positive": false,
+          "probability": 2.867149669327773e-05
+        },
+        {
+          "id": "common_voice_ja_36348029",
+          "positive": false,
+          "probability": 1.8300170268048532e-05
+        },
+        {
+          "id": "common_voice_ja_38933408",
+          "positive": false,
+          "probability": 4.209647158859298e-06
+        },
+        {
+          "id": "common_voice_ja_36339226",
+          "positive": false,
+          "probability": 1.2541648175101727e-05
+        },
+        {
+          "id": "common_voice_ja_24027131",
+          "positive": false,
+          "probability": 1.0273026418872178e-05
+        },
+        {
+          "id": "common_voice_ja_38964538",
+          "positive": false,
+          "probability": 1.0842757546924986e-05
+        },
+        {
+          "id": "common_voice_ja_36352912",
+          "positive": false,
+          "probability": 1.6430760297225788e-05
+        },
+        {
+          "id": "common_voice_ja_36335983",
+          "positive": false,
+          "probability": 0.00010386806388851255
+        },
+        {
+          "id": "common_voice_ja_36470490",
+          "positive": false,
+          "probability": 5.615501868305728e-05
+        },
+        {
+          "id": "common_voice_ja_36370980",
+          "positive": false,
+          "probability": 5.2532254812831525e-06
+        },
+        {
+          "id": "common_voice_ja_33102572",
+          "positive": false,
+          "probability": 4.604650712281e-06
+        },
+        {
+          "id": "common_voice_ja_38969916",
+          "positive": false,
+          "probability": 9.113785381487105e-06
+        },
+        {
+          "id": "common_voice_ja_36354041",
+          "positive": false,
+          "probability": 1.9032413547392935e-05
+        },
+        {
+          "id": "common_voice_ja_38910055",
+          "positive": false,
+          "probability": 7.543524134234758e-06
+        },
+        {
+          "id": "common_voice_ja_36361463",
+          "positive": false,
+          "probability": 2.800825677695684e-05
+        },
+        {
+          "id": "common_voice_ja_38928952",
+          "positive": false,
+          "probability": 4.657831595977768e-06
+        },
+        {
+          "id": "common_voice_ja_38848804",
+          "positive": false,
+          "probability": 6.3759684962860774e-06
+        },
+        {
+          "id": "common_voice_ja_36348953",
+          "positive": false,
+          "probability": 1.0754264621937182e-05
+        },
+        {
+          "id": "common_voice_ja_38929812",
+          "positive": false,
+          "probability": 5.182311724638566e-06
+        },
+        {
+          "id": "common_voice_ja_36352700",
+          "positive": false,
+          "probability": 2.43925278482493e-05
+        },
+        {
+          "id": "common_voice_ja_36340986",
+          "positive": false,
+          "probability": 1.8411126347928075e-06
+        },
+        {
+          "id": "common_voice_ja_33005653",
+          "positive": false,
+          "probability": 6.314131951512536e-06
+        },
+        {
+          "id": "common_voice_ja_36388065",
+          "positive": false,
+          "probability": 2.061456507362891e-05
+        },
+        {
+          "id": "common_voice_ja_32326756",
+          "positive": false,
+          "probability": 1.0696917343011592e-05
+        },
+        {
+          "id": "common_voice_ja_39050316",
+          "positive": false,
+          "probability": 3.231163645978086e-05
+        },
+        {
+          "id": "common_voice_ja_36340231",
+          "positive": false,
+          "probability": 6.482228400273016e-06
+        },
+        {
+          "id": "common_voice_ja_38960570",
+          "positive": false,
+          "probability": 8.048510608205106e-06
+        },
+        {
+          "id": "common_voice_ja_36363008",
+          "positive": false,
+          "probability": 4.926660494675161e-06
+        },
+        {
+          "id": "common_voice_ja_36294433",
+          "positive": false,
+          "probability": 8.238193913712166e-06
+        },
+        {
+          "id": "common_voice_ja_36339524",
+          "positive": false,
+          "probability": 2.379664874752052e-05
+        },
+        {
+          "id": "common_voice_ja_36225298",
+          "positive": false,
+          "probability": 4.931298462906852e-06
+        },
+        {
+          "id": "common_voice_ja_38864493",
+          "positive": false,
+          "probability": 7.083529453666415e-06
+        },
+        {
+          "id": "common_voice_ja_39081090",
+          "positive": false,
+          "probability": 5.7573994126869366e-05
+        },
+        {
+          "id": "common_voice_ja_38996998",
+          "positive": false,
+          "probability": 0.00023705334751866758
+        },
+        {
+          "id": "common_voice_ja_36415966",
+          "positive": false,
+          "probability": 1.5974685084074736e-05
+        },
+        {
+          "id": "common_voice_ja_38997226",
+          "positive": false,
+          "probability": 4.545300544123165e-05
+        },
+        {
+          "id": "common_voice_ja_36372601",
+          "positive": false,
+          "probability": 5.7234660744143184e-06
+        },
+        {
+          "id": "common_voice_ja_38826954",
+          "positive": false,
+          "probability": 3.6839977838099e-05
+        },
+        {
+          "id": "common_voice_ja_38949176",
+          "positive": false,
+          "probability": 1.32935747387819e-05
+        },
+        {
+          "id": "common_voice_ja_37536297",
+          "positive": false,
+          "probability": 2.8026755899190903e-05
+        },
+        {
+          "id": "common_voice_ja_27755199",
+          "positive": false,
+          "probability": 1.992565557884518e-05
+        },
+        {
+          "id": "common_voice_ja_36355617",
+          "positive": false,
+          "probability": 7.934298082545865e-06
+        },
+        {
+          "id": "common_voice_ja_38864639",
+          "positive": false,
+          "probability": 8.397375495405868e-06
+        },
+        {
+          "id": "common_voice_ja_39002558",
+          "positive": false,
+          "probability": 8.996732503874227e-06
+        },
+        {
+          "id": "common_voice_ja_36456517",
+          "positive": false,
+          "probability": 1.8347547666053288e-05
+        },
+        {
+          "id": "common_voice_ja_36368686",
+          "positive": false,
+          "probability": 4.515037744567962e-06
+        },
+        {
+          "id": "common_voice_ja_36346444",
+          "positive": false,
+          "probability": 4.4831842387793586e-05
+        },
+        {
+          "id": "common_voice_ja_38832315",
+          "positive": false,
+          "probability": 4.202511263429187e-06
+        },
+        {
+          "id": "common_voice_ja_38841909",
+          "positive": false,
+          "probability": 8.016109859454446e-06
+        },
+        {
+          "id": "common_voice_ja_39096227",
+          "positive": false,
+          "probability": 2.3676460841670632e-05
+        },
+        {
+          "id": "common_voice_ja_36337121",
+          "positive": false,
+          "probability": 1.6905221855267882e-05
+        },
+        {
+          "id": "common_voice_ja_36335445",
+          "positive": false,
+          "probability": 6.17602199781686e-05
+        },
+        {
+          "id": "common_voice_ja_36324709",
+          "positive": false,
+          "probability": 2.8026124709867872e-06
+        },
+        {
+          "id": "common_voice_ja_20967452",
+          "positive": false,
+          "probability": 1.567138133395929e-05
+        },
+        {
+          "id": "common_voice_ja_36320674",
+          "positive": false,
+          "probability": 2.815894731611479e-05
+        },
+        {
+          "id": "common_voice_ja_20640572",
+          "positive": false,
+          "probability": 0.9993916749954224
+        },
+        {
+          "id": "common_voice_ja_38913965",
+          "positive": false,
+          "probability": 7.692059625696857e-06
+        },
+        {
+          "id": "common_voice_ja_36345385",
+          "positive": false,
+          "probability": 9.734879131428897e-05
+        },
+        {
+          "id": "common_voice_ja_38971998",
+          "positive": false,
+          "probability": 3.69480380868481e-06
+        },
+        {
+          "id": "common_voice_ja_38928176",
+          "positive": false,
+          "probability": 6.195814876264194e-06
+        },
+        {
+          "id": "common_voice_ja_38829588",
+          "positive": false,
+          "probability": 9.98938503471436e-06
+        },
+        {
+          "id": "common_voice_ja_38905031",
+          "positive": false,
+          "probability": 9.269680958823301e-06
+        },
+        {
+          "id": "common_voice_ja_36341979",
+          "positive": false,
+          "probability": 4.700134468293982e-06
+        },
+        {
+          "id": "common_voice_ja_36318444",
+          "positive": false,
+          "probability": 1.2686135960393585e-05
+        },
+        {
+          "id": "common_voice_ja_39066733",
+          "positive": false,
+          "probability": 6.869657227071002e-05
+        },
+        {
+          "id": "common_voice_ja_30688360",
+          "positive": false,
+          "probability": 2.9116250516381115e-05
+        },
+        {
+          "id": "common_voice_ja_36321483",
+          "positive": false,
+          "probability": 0.00030742003582417965
+        },
+        {
+          "id": "common_voice_ja_36369338",
+          "positive": false,
+          "probability": 5.553048322326504e-05
+        },
+        {
+          "id": "common_voice_ja_38997773",
+          "positive": false,
+          "probability": 3.718017615028657e-05
+        },
+        {
+          "id": "common_voice_ja_36340449",
+          "positive": false,
+          "probability": 3.047940117539838e-05
+        },
+        {
+          "id": "common_voice_ja_38984280",
+          "positive": false,
+          "probability": 4.51145069746417e-06
+        },
+        {
+          "id": "common_voice_ja_39002500",
+          "positive": false,
+          "probability": 8.915931175579317e-06
+        },
+        {
+          "id": "common_voice_ja_36339212",
+          "positive": false,
+          "probability": 2.544049493735656e-05
+        },
+        {
+          "id": "common_voice_ja_36341769",
+          "positive": false,
+          "probability": 5.3180407121544704e-05
+        },
+        {
+          "id": "common_voice_ja_39082952",
+          "positive": false,
+          "probability": 5.149252319824882e-05
+        },
+        {
+          "id": "common_voice_ja_32858728",
+          "positive": false,
+          "probability": 1.1948811334150378e-05
+        },
+        {
+          "id": "common_voice_ja_39004539",
+          "positive": false,
+          "probability": 1.3445236618281342e-05
+        },
+        {
+          "id": "common_voice_ja_38875604",
+          "positive": false,
+          "probability": 1.2705684639513493e-05
+        },
+        {
+          "id": "common_voice_ja_36369529",
+          "positive": false,
+          "probability": 1.0825057870533783e-05
+        },
+        {
+          "id": "common_voice_ja_36362396",
+          "positive": false,
+          "probability": 1.2389842595439404e-05
+        },
+        {
+          "id": "common_voice_ja_36378078",
+          "positive": false,
+          "probability": 1.7480651877122e-05
+        },
+        {
+          "id": "common_voice_ja_36370685",
+          "positive": false,
+          "probability": 0.00042478187242522836
+        },
+        {
+          "id": "common_voice_ja_36368015",
+          "positive": false,
+          "probability": 1.0709574780776165e-05
+        },
+        {
+          "id": "common_voice_ja_39007676",
+          "positive": false,
+          "probability": 9.883265192911495e-06
+        },
+        {
+          "id": "common_voice_ja_28370118",
+          "positive": false,
+          "probability": 9.171611054625828e-06
+        },
+        {
+          "id": "common_voice_ja_28551227",
+          "positive": false,
+          "probability": 1.0070471944345627e-05
+        },
+        {
+          "id": "common_voice_ja_36329146",
+          "positive": false,
+          "probability": 4.054368764627725e-05
+        },
+        {
+          "id": "common_voice_ja_38834536",
+          "positive": false,
+          "probability": 2.3905688067316078e-05
+        },
+        {
+          "id": "common_voice_ja_38955218",
+          "positive": false,
+          "probability": 1.0128852409252431e-05
+        },
+        {
+          "id": "common_voice_ja_36358901",
+          "positive": false,
+          "probability": 1.630788938200567e-05
+        },
+        {
+          "id": "common_voice_ja_39006081",
+          "positive": false,
+          "probability": 0.0006296500214375556
+        },
+        {
+          "id": "common_voice_ja_36316574",
+          "positive": false,
+          "probability": 4.826567601412535e-05
+        },
+        {
+          "id": "common_voice_ja_36360971",
+          "positive": false,
+          "probability": 1.4792211004532874e-05
+        },
+        {
+          "id": "common_voice_ja_36334012",
+          "positive": false,
+          "probability": 5.563432296185056e-06
+        },
+        {
+          "id": "common_voice_ja_38940008",
+          "positive": false,
+          "probability": 6.252721505006775e-06
+        },
+        {
+          "id": "common_voice_ja_36352950",
+          "positive": false,
+          "probability": 5.823521860293113e-06
+        },
+        {
+          "id": "common_voice_ja_36481568",
+          "positive": false,
+          "probability": 4.655378688767087e-06
+        },
+        {
+          "id": "common_voice_ja_36331092",
+          "positive": false,
+          "probability": 6.338188541121781e-06
+        },
+        {
+          "id": "common_voice_ja_36358073",
+          "positive": false,
+          "probability": 6.112834671512246e-05
+        },
+        {
+          "id": "common_voice_ja_22273053",
+          "positive": false,
+          "probability": 0.0003440978762228042
+        },
+        {
+          "id": "common_voice_ja_36346634",
+          "positive": false,
+          "probability": 1.2432867151801474e-05
+        },
+        {
+          "id": "common_voice_ja_38965124",
+          "positive": false,
+          "probability": 7.768774594296701e-06
+        },
+        {
+          "id": "common_voice_ja_36343157",
+          "positive": false,
+          "probability": 0.00015271431766450405
+        },
+        {
+          "id": "common_voice_ja_25128229",
+          "positive": false,
+          "probability": 1.0585308700683527e-05
+        },
+        {
+          "id": "common_voice_ja_36359143",
+          "positive": false,
+          "probability": 1.8844863006961532e-05
+        },
+        {
+          "id": "common_voice_ja_36372125",
+          "positive": false,
+          "probability": 7.943614036776125e-06
+        },
+        {
+          "id": "common_voice_ja_36354986",
+          "positive": false,
+          "probability": 2.593583303678315e-05
+        },
+        {
+          "id": "common_voice_ja_36364863",
+          "positive": false,
+          "probability": 5.119562956679147e-06
+        },
+        {
+          "id": "common_voice_ja_36335567",
+          "positive": false,
+          "probability": 4.3461168388603255e-06
+        },
+        {
+          "id": "common_voice_ja_39300983",
+          "positive": false,
+          "probability": 1.5099779375304934e-05
+        },
+        {
+          "id": "common_voice_ja_36341251",
+          "positive": false,
+          "probability": 1.0225582627754193e-05
+        },
+        {
+          "id": "common_voice_ja_22116605",
+          "positive": false,
+          "probability": 1.0039280823548324e-05
+        },
+        {
+          "id": "common_voice_ja_38874265",
+          "positive": false,
+          "probability": 1.1106015335826669e-05
+        },
+        {
+          "id": "common_voice_ja_36328894",
+          "positive": false,
+          "probability": 6.690112968499307e-06
+        },
+        {
+          "id": "common_voice_ja_38914374",
+          "positive": false,
+          "probability": 6.410881724150386e-06
+        },
+        {
+          "id": "common_voice_ja_38848135",
+          "positive": false,
+          "probability": 1.3178559129300993e-05
+        },
+        {
+          "id": "common_voice_ja_36351542",
+          "positive": false,
+          "probability": 4.730637010652572e-05
+        },
+        {
+          "id": "common_voice_ja_36329796",
+          "positive": false,
+          "probability": 5.786691417597467e-06
+        },
+        {
+          "id": "common_voice_ja_36343770",
+          "positive": false,
+          "probability": 5.0275077228434384e-05
+        },
+        {
+          "id": "common_voice_ja_36343053",
+          "positive": false,
+          "probability": 1.2678767234319821e-05
+        },
+        {
+          "id": "common_voice_ja_36370483",
+          "positive": false,
+          "probability": 5.005458297091536e-05
+        },
+        {
+          "id": "common_voice_ja_31833571",
+          "positive": false,
+          "probability": 1.546190833323635e-05
+        },
+        {
+          "id": "common_voice_ja_27749873",
+          "positive": false,
+          "probability": 1.601241274329368e-05
+        },
+        {
+          "id": "common_voice_ja_36356140",
+          "positive": false,
+          "probability": 0.00020530280016828328
+        },
+        {
+          "id": "common_voice_ja_36369615",
+          "positive": false,
+          "probability": 2.166717968066223e-05
+        },
+        {
+          "id": "common_voice_ja_36020024",
+          "positive": false,
+          "probability": 7.375116183538921e-06
+        },
+        {
+          "id": "common_voice_ja_30686266",
+          "positive": false,
+          "probability": 6.908329851285089e-06
+        },
+        {
+          "id": "common_voice_ja_36348473",
+          "positive": false,
+          "probability": 2.8419835871318355e-06
+        },
+        {
+          "id": "common_voice_ja_29034527",
+          "positive": false,
+          "probability": 4.61697800346883e-06
+        },
+        {
+          "id": "common_voice_ja_36327370",
+          "positive": false,
+          "probability": 2.3976042939466424e-05
+        },
+        {
+          "id": "common_voice_ja_36341837",
+          "positive": false,
+          "probability": 4.207872279948788e-06
+        },
+        {
+          "id": "common_voice_ja_36355504",
+          "positive": false,
+          "probability": 3.4432167012710124e-05
+        },
+        {
+          "id": "common_voice_ja_26273108",
+          "positive": false,
+          "probability": 1.221027378051076e-05
+        },
+        {
+          "id": "common_voice_ja_39043915",
+          "positive": false,
+          "probability": 1.7095177099690773e-05
+        },
+        {
+          "id": "common_voice_ja_38950209",
+          "positive": false,
+          "probability": 1.1070917935285252e-05
+        },
+        {
+          "id": "common_voice_ja_29148283",
+          "positive": false,
+          "probability": 8.138550583680626e-06
+        },
+        {
+          "id": "common_voice_ja_36337216",
+          "positive": false,
+          "probability": 6.310667959041893e-05
+        },
+        {
+          "id": "common_voice_ja_38878777",
+          "positive": false,
+          "probability": 1.1174759492860176e-05
+        },
+        {
+          "id": "common_voice_ja_36371025",
+          "positive": false,
+          "probability": 2.0348457837826572e-05
+        },
+        {
+          "id": "common_voice_ja_28327426",
+          "positive": false,
+          "probability": 1.0078565537696704e-05
+        },
+        {
+          "id": "common_voice_ja_27397904",
+          "positive": false,
+          "probability": 2.8835959255957277e-06
+        },
+        {
+          "id": "common_voice_ja_36336938",
+          "positive": false,
+          "probability": 1.4011327039042953e-05
+        },
+        {
+          "id": "common_voice_ja_39059911",
+          "positive": false,
+          "probability": 1.3084219972370192e-05
+        },
+        {
+          "id": "common_voice_ja_27816494",
+          "positive": false,
+          "probability": 6.631193627981702e-06
+        },
+        {
+          "id": "common_voice_ja_38960361",
+          "positive": false,
+          "probability": 9.228057024301961e-06
+        },
+        {
+          "id": "common_voice_ja_36333373",
+          "positive": false,
+          "probability": 9.997547749662772e-06
+        },
+        {
+          "id": "common_voice_ja_36336327",
+          "positive": false,
+          "probability": 6.79555960232392e-05
+        },
+        {
+          "id": "common_voice_ja_36346035",
+          "positive": false,
+          "probability": 4.833511411561631e-05
+        },
+        {
+          "id": "common_voice_ja_39113530",
+          "positive": false,
+          "probability": 1.2914296348753851e-05
+        },
+        {
+          "id": "common_voice_ja_36354036",
+          "positive": false,
+          "probability": 9.032916750584263e-06
+        },
+        {
+          "id": "common_voice_ja_36359159",
+          "positive": false,
+          "probability": 1.75953045982169e-05
+        },
+        {
+          "id": "common_voice_ja_36463154",
+          "positive": false,
+          "probability": 8.436529242317192e-06
+        },
+        {
+          "id": "common_voice_ja_38863346",
+          "positive": false,
+          "probability": 1.6057785614975728e-05
+        },
+        {
+          "id": "common_voice_ja_38844031",
+          "positive": false,
+          "probability": 5.13638042320963e-06
+        },
+        {
+          "id": "common_voice_ja_36361765",
+          "positive": false,
+          "probability": 0.00012008320481982082
+        },
+        {
+          "id": "common_voice_ja_36473160",
+          "positive": false,
+          "probability": 1.3666925951838493e-05
+        },
+        {
+          "id": "common_voice_ja_36435601",
+          "positive": false,
+          "probability": 1.685939969320316e-05
+        },
+        {
+          "id": "common_voice_ja_36326876",
+          "positive": false,
+          "probability": 2.194604712713044e-05
+        },
+        {
+          "id": "common_voice_ja_36360552",
+          "positive": false,
+          "probability": 1.611687730473932e-05
+        },
+        {
+          "id": "common_voice_ja_36345719",
+          "positive": false,
+          "probability": 4.809381607628893e-06
+        },
+        {
+          "id": "common_voice_ja_38892480",
+          "positive": false,
+          "probability": 8.493394489050843e-06
+        },
+        {
+          "id": "common_voice_ja_36361754",
+          "positive": false,
+          "probability": 4.03713511332171e-06
+        },
+        {
+          "id": "common_voice_ja_38986936",
+          "positive": false,
+          "probability": 1.5862504369579256e-05
+        },
+        {
+          "id": "common_voice_ja_36327951",
+          "positive": false,
+          "probability": 6.483093329734402e-06
+        },
+        {
+          "id": "common_voice_ja_36354501",
+          "positive": false,
+          "probability": 7.442171408911236e-06
+        },
+        {
+          "id": "common_voice_ja_36367854",
+          "positive": false,
+          "probability": 1.7079859389923513e-05
+        },
+        {
+          "id": "common_voice_ja_36339131",
+          "positive": false,
+          "probability": 1.849021100497339e-05
+        },
+        {
+          "id": "common_voice_ja_36365820",
+          "positive": false,
+          "probability": 0.0002080300182569772
+        },
+        {
+          "id": "common_voice_ja_36347068",
+          "positive": false,
+          "probability": 1.7274000128963962e-05
+        },
+        {
+          "id": "common_voice_ja_39019791",
+          "positive": false,
+          "probability": 6.718553322571097e-06
+        },
+        {
+          "id": "common_voice_ja_38940423",
+          "positive": false,
+          "probability": 1.4448205547523685e-05
+        },
+        {
+          "id": "common_voice_ja_36360500",
+          "positive": false,
+          "probability": 1.6333409803337418e-05
+        },
+        {
+          "id": "common_voice_ja_36353121",
+          "positive": false,
+          "probability": 5.362308002077043e-06
+        },
+        {
+          "id": "common_voice_ja_24976189",
+          "positive": false,
+          "probability": 2.17062024603365e-05
+        },
+        {
+          "id": "common_voice_ja_36337422",
+          "positive": false,
+          "probability": 1.4636139894719236e-05
+        },
+        {
+          "id": "common_voice_ja_36360521",
+          "positive": false,
+          "probability": 1.8520388039178215e-05
+        },
+        {
+          "id": "common_voice_ja_36337838",
+          "positive": false,
+          "probability": 6.5695453486114275e-06
+        },
+        {
+          "id": "common_voice_ja_38877202",
+          "positive": false,
+          "probability": 1.629394682822749e-05
+        },
+        {
+          "id": "common_voice_ja_36369293",
+          "positive": false,
+          "probability": 5.943139967712341e-06
+        },
+        {
+          "id": "common_voice_ja_36369412",
+          "positive": false,
+          "probability": 1.0814255801960826e-05
+        },
+        {
+          "id": "common_voice_ja_38994820",
+          "positive": false,
+          "probability": 3.076879511354491e-05
+        },
+        {
+          "id": "common_voice_ja_36486142",
+          "positive": false,
+          "probability": 3.5004628443857655e-05
+        },
+        {
+          "id": "common_voice_ja_36371507",
+          "positive": false,
+          "probability": 3.75425429410825e-06
+        },
+        {
+          "id": "common_voice_ja_22191904",
+          "positive": false,
+          "probability": 5.0054815801559016e-05
+        },
+        {
+          "id": "common_voice_ja_39002954",
+          "positive": false,
+          "probability": 1.7701320757623762e-05
+        },
+        {
+          "id": "common_voice_ja_36358919",
+          "positive": false,
+          "probability": 8.142139267874882e-05
+        },
+        {
+          "id": "common_voice_ja_36342046",
+          "positive": false,
+          "probability": 3.583315628929995e-05
+        },
+        {
+          "id": "common_voice_ja_36347529",
+          "positive": false,
+          "probability": 3.3271844586124644e-06
+        },
+        {
+          "id": "common_voice_en_27101081",
+          "positive": false,
+          "probability": 2.4724455215618946e-05
+        },
+        {
+          "id": "common_voice_en_28274684",
+          "positive": false,
+          "probability": 2.7498568670125678e-05
+        },
+        {
+          "id": "common_voice_en_52725",
+          "positive": false,
+          "probability": 5.116704869578825e-06
+        },
+        {
+          "id": "common_voice_en_31960603",
+          "positive": false,
+          "probability": 9.217517799697816e-06
+        },
+        {
+          "id": "common_voice_en_28785157",
+          "positive": false,
+          "probability": 5.994872481096536e-06
+        },
+        {
+          "id": "common_voice_en_697712",
+          "positive": false,
+          "probability": 4.759478088089963e-06
+        },
+        {
+          "id": "common_voice_en_34956922",
+          "positive": false,
+          "probability": 2.5624352929298766e-05
+        },
+        {
+          "id": "common_voice_en_26954793",
+          "positive": false,
+          "probability": 0.00544282840564847
+        },
+        {
+          "id": "common_voice_en_21761955",
+          "positive": false,
+          "probability": 2.8538850529002957e-05
+        },
+        {
+          "id": "common_voice_en_19946407",
+          "positive": false,
+          "probability": 0.0003156269667670131
+        },
+        {
+          "id": "common_voice_en_593754",
+          "positive": false,
+          "probability": 1.992973375308793e-05
+        },
+        {
+          "id": "common_voice_en_19647742",
+          "positive": false,
+          "probability": 0.00012900478031951934
+        },
+        {
+          "id": "common_voice_en_69779",
+          "positive": false,
+          "probability": 4.4789310777559876e-05
+        },
+        {
+          "id": "common_voice_en_19737933",
+          "positive": false,
+          "probability": 0.00015333283226937056
+        },
+        {
+          "id": "common_voice_en_653568",
+          "positive": false,
+          "probability": 8.907175651984289e-05
+        },
+        {
+          "id": "common_voice_en_283685",
+          "positive": false,
+          "probability": 5.2336513363115955e-06
+        },
+        {
+          "id": "common_voice_en_26025849",
+          "positive": false,
+          "probability": 6.545298674609512e-05
+        },
+        {
+          "id": "common_voice_en_495880",
+          "positive": false,
+          "probability": 3.238976569264196e-05
+        },
+        {
+          "id": "common_voice_en_534623",
+          "positive": false,
+          "probability": 0.9692212343215942
+        },
+        {
+          "id": "common_voice_en_71541",
+          "positive": false,
+          "probability": 4.655702923628269e-06
+        },
+        {
+          "id": "common_voice_en_123810",
+          "positive": false,
+          "probability": 6.265653155423934e-06
+        },
+        {
+          "id": "common_voice_en_32690169",
+          "positive": false,
+          "probability": 1.5693254681536928e-05
+        },
+        {
+          "id": "common_voice_en_622046",
+          "positive": false,
+          "probability": 4.6354416554095224e-05
+        },
+        {
+          "id": "common_voice_en_660410",
+          "positive": false,
+          "probability": 1.4489665772998706e-05
+        },
+        {
+          "id": "common_voice_en_625827",
+          "positive": false,
+          "probability": 1.1979615919699427e-05
+        },
+        {
+          "id": "common_voice_en_11821956",
+          "positive": false,
+          "probability": 1.3992059393785894e-05
+        },
+        {
+          "id": "common_voice_en_2731682",
+          "positive": false,
+          "probability": 1.4670246855530422e-05
+        },
+        {
+          "id": "common_voice_en_28761004",
+          "positive": false,
+          "probability": 9.773085366759915e-06
+        },
+        {
+          "id": "common_voice_en_193528",
+          "positive": false,
+          "probability": 7.682229806960095e-06
+        },
+        {
+          "id": "common_voice_en_23352060",
+          "positive": false,
+          "probability": 6.866230705782073e-06
+        },
+        {
+          "id": "common_voice_en_878860",
+          "positive": false,
+          "probability": 7.031256245682016e-06
+        },
+        {
+          "id": "common_voice_en_28006358",
+          "positive": false,
+          "probability": 3.687052594614215e-05
+        },
+        {
+          "id": "common_voice_en_17288229",
+          "positive": false,
+          "probability": 5.587504347204231e-06
+        },
+        {
+          "id": "common_voice_en_542707",
+          "positive": false,
+          "probability": 1.9644030544441193e-05
+        },
+        {
+          "id": "common_voice_en_626113",
+          "positive": false,
+          "probability": 9.367377060698345e-06
+        },
+        {
+          "id": "common_voice_en_32241153",
+          "positive": false,
+          "probability": 2.0091902115382254e-05
+        },
+        {
+          "id": "common_voice_en_19346705",
+          "positive": false,
+          "probability": 0.0032226424664258957
+        },
+        {
+          "id": "common_voice_en_30457185",
+          "positive": false,
+          "probability": 5.236385186435655e-05
+        },
+        {
+          "id": "common_voice_en_23599308",
+          "positive": false,
+          "probability": 1.7900569218909368e-05
+        },
+        {
+          "id": "common_voice_en_99831",
+          "positive": false,
+          "probability": 6.654130629613064e-06
+        },
+        {
+          "id": "common_voice_en_26978051",
+          "positive": false,
+          "probability": 1.7211155864060856e-05
+        },
+        {
+          "id": "common_voice_en_21807105",
+          "positive": false,
+          "probability": 6.716752068314236e-06
+        },
+        {
+          "id": "common_voice_en_18838660",
+          "positive": false,
+          "probability": 8.770975910010748e-06
+        },
+        {
+          "id": "common_voice_en_684434",
+          "positive": false,
+          "probability": 4.442565841600299e-05
+        },
+        {
+          "id": "common_voice_en_19579607",
+          "positive": false,
+          "probability": 1.5958505173330195e-05
+        },
+        {
+          "id": "common_voice_en_560943",
+          "positive": false,
+          "probability": 8.19232445792295e-06
+        },
+        {
+          "id": "common_voice_en_19028316",
+          "positive": false,
+          "probability": 0.0005062618874944746
+        },
+        {
+          "id": "common_voice_en_17913519",
+          "positive": false,
+          "probability": 1.5726191122666933e-05
+        },
+        {
+          "id": "common_voice_en_32801856",
+          "positive": false,
+          "probability": 6.577996828127652e-06
+        },
+        {
+          "id": "common_voice_en_32711300",
+          "positive": false,
+          "probability": 3.649799737104331e-06
+        },
+        {
+          "id": "common_voice_en_78461",
+          "positive": false,
+          "probability": 1.567256185808219e-05
+        },
+        {
+          "id": "common_voice_en_36464774",
+          "positive": false,
+          "probability": 8.215972047764808e-05
+        },
+        {
+          "id": "common_voice_en_29179184",
+          "positive": false,
+          "probability": 7.732950325589627e-05
+        },
+        {
+          "id": "common_voice_en_34176",
+          "positive": false,
+          "probability": 1.526960295450408e-05
+        },
+        {
+          "id": "common_voice_en_31276664",
+          "positive": false,
+          "probability": 1.8292215827386826e-05
+        },
+        {
+          "id": "common_voice_en_18512462",
+          "positive": false,
+          "probability": 3.223471503588371e-05
+        },
+        {
+          "id": "common_voice_en_591789",
+          "positive": false,
+          "probability": 7.155586899898481e-06
+        },
+        {
+          "id": "common_voice_en_99416",
+          "positive": false,
+          "probability": 6.680623482679948e-05
+        },
+        {
+          "id": "common_voice_en_667102",
+          "positive": false,
+          "probability": 1.7847118215286173e-05
+        },
+        {
+          "id": "common_voice_en_19327992",
+          "positive": false,
+          "probability": 0.0026124808937311172
+        },
+        {
+          "id": "common_voice_en_123037",
+          "positive": false,
+          "probability": 7.695437489019241e-06
+        },
+        {
+          "id": "common_voice_en_19767998",
+          "positive": false,
+          "probability": 9.83491845545359e-05
+        },
+        {
+          "id": "common_voice_en_36376158",
+          "positive": false,
+          "probability": 1.777772013156209e-05
+        },
+        {
+          "id": "common_voice_en_79834",
+          "positive": false,
+          "probability": 1.3075678907625843e-05
+        },
+        {
+          "id": "common_voice_en_38247207",
+          "positive": false,
+          "probability": 1.7475300410296768e-05
+        },
+        {
+          "id": "common_voice_en_36543319",
+          "positive": false,
+          "probability": 1.2604124094650615e-05
+        },
+        {
+          "id": "common_voice_en_18311835",
+          "positive": false,
+          "probability": 8.922382221498992e-06
+        },
+        {
+          "id": "common_voice_en_22733972",
+          "positive": false,
+          "probability": 1.9804479961749166e-05
+        },
+        {
+          "id": "common_voice_en_18771642",
+          "positive": false,
+          "probability": 2.9753831768175587e-05
+        },
+        {
+          "id": "common_voice_en_19650387",
+          "positive": false,
+          "probability": 5.1613474170153495e-06
+        },
+        {
+          "id": "common_voice_en_612428",
+          "positive": false,
+          "probability": 1.6697504179319367e-05
+        },
+        {
+          "id": "common_voice_en_18522049",
+          "positive": false,
+          "probability": 1.4735689546796493e-05
+        },
+        {
+          "id": "common_voice_en_368765",
+          "positive": false,
+          "probability": 0.8616125583648682
+        },
+        {
+          "id": "common_voice_en_17911344",
+          "positive": false,
+          "probability": 5.849884473718703e-06
+        },
+        {
+          "id": "common_voice_en_38570594",
+          "positive": false,
+          "probability": 6.30903468845645e-06
+        },
+        {
+          "id": "common_voice_en_32693885",
+          "positive": false,
+          "probability": 2.3857512132963166e-05
+        },
+        {
+          "id": "common_voice_en_2462108",
+          "positive": false,
+          "probability": 1.6195805073948577e-05
+        },
+        {
+          "id": "common_voice_en_18506357",
+          "positive": false,
+          "probability": 4.0447730498271994e-06
+        },
+        {
+          "id": "common_voice_en_21024551",
+          "positive": false,
+          "probability": 7.504513632738963e-05
+        },
+        {
+          "id": "common_voice_en_35023770",
+          "positive": false,
+          "probability": 7.84204985393444e-06
+        },
+        {
+          "id": "common_voice_en_483208",
+          "positive": false,
+          "probability": 3.429408388910815e-05
+        },
+        {
+          "id": "common_voice_en_17271066",
+          "positive": false,
+          "probability": 6.651227522525005e-06
+        },
+        {
+          "id": "common_voice_en_478158",
+          "positive": false,
+          "probability": 1.3414370187092572e-05
+        },
+        {
+          "id": "common_voice_en_553584",
+          "positive": false,
+          "probability": 1.612762571312487e-05
+        },
+        {
+          "id": "common_voice_en_32166075",
+          "positive": false,
+          "probability": 4.516697572398698e-06
+        },
+        {
+          "id": "common_voice_en_27339711",
+          "positive": false,
+          "probability": 7.814163836883381e-06
+        },
+        {
+          "id": "common_voice_en_83440",
+          "positive": false,
+          "probability": 1.4604281204810832e-05
+        },
+        {
+          "id": "common_voice_en_531914",
+          "positive": false,
+          "probability": 2.0379264242365025e-05
+        },
+        {
+          "id": "common_voice_en_508964",
+          "positive": false,
+          "probability": 1.0481321623956319e-05
+        },
+        {
+          "id": "common_voice_en_18414410",
+          "positive": false,
+          "probability": 0.0004341938765719533
+        },
+        {
+          "id": "common_voice_en_27431415",
+          "positive": false,
+          "probability": 1.919115129567217e-05
+        },
+        {
+          "id": "common_voice_en_37211623",
+          "positive": false,
+          "probability": 1.5626737877028063e-05
+        },
+        {
+          "id": "common_voice_en_216076",
+          "positive": false,
+          "probability": 1.1586844266275875e-05
+        },
+        {
+          "id": "common_voice_en_38094133",
+          "positive": false,
+          "probability": 9.750206118042115e-06
+        },
+        {
+          "id": "common_voice_en_610027",
+          "positive": false,
+          "probability": 0.9982496500015259
+        },
+        {
+          "id": "common_voice_en_35359705",
+          "positive": false,
+          "probability": 5.988115844957065e-06
+        },
+        {
+          "id": "common_voice_en_18680321",
+          "positive": false,
+          "probability": 1.3613114788313396e-05
+        },
+        {
+          "id": "common_voice_en_19672064",
+          "positive": false,
+          "probability": 0.0007692269282415509
+        },
+        {
+          "id": "common_voice_en_508147",
+          "positive": false,
+          "probability": 1.567737854202278e-05
+        },
+        {
+          "id": "common_voice_en_539990",
+          "positive": false,
+          "probability": 1.6858957678778097e-05
+        },
+        {
+          "id": "common_voice_ja_38987937",
+          "positive": false,
+          "probability": 6.4142191149585415e-06
+        },
+        {
+          "id": "common_voice_ja_37763820",
+          "positive": false,
+          "probability": 1.1747297321562655e-05
+        },
+        {
+          "id": "common_voice_ja_25690286",
+          "positive": false,
+          "probability": 3.343501884955913e-05
+        },
+        {
+          "id": "common_voice_ja_25817064",
+          "positive": false,
+          "probability": 4.9694845074554905e-06
+        },
+        {
+          "id": "common_voice_ja_28688786",
+          "positive": false,
+          "probability": 2.624469925649464e-05
+        },
+        {
+          "id": "common_voice_ja_23677003",
+          "positive": false,
+          "probability": 1.807471562642604e-05
+        },
+        {
+          "id": "common_voice_ja_38951837",
+          "positive": false,
+          "probability": 9.517887519905344e-06
+        },
+        {
+          "id": "common_voice_ja_21333666",
+          "positive": false,
+          "probability": 2.6115669243154116e-05
+        },
+        {
+          "id": "common_voice_ja_39003219",
+          "positive": false,
+          "probability": 4.474109300645068e-05
+        },
+        {
+          "id": "common_voice_ja_39060710",
+          "positive": false,
+          "probability": 1.0353247489547357e-05
+        },
+        {
+          "id": "common_voice_ja_39065240",
+          "positive": false,
+          "probability": 8.744813385419548e-06
+        },
+        {
+          "id": "common_voice_ja_38866980",
+          "positive": false,
+          "probability": 5.025425252824789e-06
+        },
+        {
+          "id": "common_voice_ja_39064698",
+          "positive": false,
+          "probability": 6.386094173649326e-05
+        },
+        {
+          "id": "common_voice_ja_39026451",
+          "positive": false,
+          "probability": 4.713602720585186e-06
+        },
+        {
+          "id": "common_voice_ja_38040553",
+          "positive": false,
+          "probability": 5.937848527537426e-06
+        },
+        {
+          "id": "common_voice_ja_39099551",
+          "positive": false,
+          "probability": 0.00011832928430521861
+        },
+        {
+          "id": "common_voice_ja_39304323",
+          "positive": false,
+          "probability": 2.0494122509262525e-05
+        },
+        {
+          "id": "common_voice_ja_38968077",
+          "positive": false,
+          "probability": 1.4194474715623073e-05
+        },
+        {
+          "id": "common_voice_ja_39049840",
+          "positive": false,
+          "probability": 6.378470061463304e-06
+        },
+        {
+          "id": "common_voice_ja_19523283",
+          "positive": false,
+          "probability": 0.0001770648086676374
+        },
+        {
+          "id": "common_voice_ja_39018552",
+          "positive": false,
+          "probability": 5.755271558882669e-06
+        },
+        {
+          "id": "common_voice_ja_39067112",
+          "positive": false,
+          "probability": 1.861662713054102e-05
+        },
+        {
+          "id": "common_voice_ja_39006749",
+          "positive": false,
+          "probability": 1.4636412743129767e-05
+        },
+        {
+          "id": "common_voice_ja_39084598",
+          "positive": false,
+          "probability": 3.835712777799927e-05
+        },
+        {
+          "id": "common_voice_ja_36952065",
+          "positive": false,
+          "probability": 8.798896487860475e-06
+        },
+        {
+          "id": "common_voice_ja_39008393",
+          "positive": false,
+          "probability": 5.899760253669228e-06
+        },
+        {
+          "id": "common_voice_ja_38922593",
+          "positive": false,
+          "probability": 5.849772151123034e-06
+        },
+        {
+          "id": "common_voice_ja_39116906",
+          "positive": false,
+          "probability": 1.4506886145682074e-05
+        },
+        {
+          "id": "common_voice_ja_39843794",
+          "positive": false,
+          "probability": 5.259200861473801e-06
+        },
+        {
+          "id": "common_voice_ja_38991783",
+          "positive": false,
+          "probability": 1.6685042282915674e-05
+        },
+        {
+          "id": "common_voice_ja_39392120",
+          "positive": false,
+          "probability": 9.223381312040146e-06
+        },
+        {
+          "id": "common_voice_ja_39071410",
+          "positive": false,
+          "probability": 6.797495007049292e-05
+        },
+        {
+          "id": "common_voice_ja_24065750",
+          "positive": false,
+          "probability": 1.798390621843282e-05
+        },
+        {
+          "id": "common_voice_ja_31038796",
+          "positive": false,
+          "probability": 1.5735913621028885e-05
+        },
+        {
+          "id": "common_voice_ja_39316896",
+          "positive": false,
+          "probability": 3.220715734641999e-05
+        },
+        {
+          "id": "common_voice_ja_39102507",
+          "positive": false,
+          "probability": 1.1842655112559441e-05
+        },
+        {
+          "id": "common_voice_ja_39031731",
+          "positive": false,
+          "probability": 6.452099114540033e-06
+        },
+        {
+          "id": "common_voice_ja_27698189",
+          "positive": false,
+          "probability": 8.983824045571964e-06
+        },
+        {
+          "id": "common_voice_ja_39046607",
+          "positive": false,
+          "probability": 6.349354225676507e-05
+        },
+        {
+          "id": "common_voice_ja_38988943",
+          "positive": false,
+          "probability": 1.0811274478328414e-05
+        },
+        {
+          "id": "common_voice_ja_39051196",
+          "positive": false,
+          "probability": 1.5433926819241606e-05
+        },
+        {
+          "id": "common_voice_ja_34009853",
+          "positive": false,
+          "probability": 1.2364077520032879e-05
+        },
+        {
+          "id": "common_voice_ja_36309563",
+          "positive": false,
+          "probability": 4.823746166948695e-06
+        },
+        {
+          "id": "common_voice_ja_39013659",
+          "positive": false,
+          "probability": 1.8067670680466108e-05
+        },
+        {
+          "id": "common_voice_ja_36343313",
+          "positive": false,
+          "probability": 2.216344182670582e-05
+        },
+        {
+          "id": "common_voice_ja_39085995",
+          "positive": false,
+          "probability": 2.026205947913695e-05
+        },
+        {
+          "id": "common_voice_ja_38903636",
+          "positive": false,
+          "probability": 1.5346287909778766e-05
+        },
+        {
+          "id": "common_voice_ja_39023292",
+          "positive": false,
+          "probability": 1.2809972758986987e-05
+        },
+        {
+          "id": "common_voice_ja_39030653",
+          "positive": false,
+          "probability": 5.6784425396472216e-05
+        },
+        {
+          "id": "common_voice_ja_39024116",
+          "positive": false,
+          "probability": 6.537281024066033e-06
+        },
+        {
+          "id": "common_voice_ja_39182239",
+          "positive": false,
+          "probability": 3.123297938145697e-05
+        },
+        {
+          "id": "common_voice_ja_36334517",
+          "positive": false,
+          "probability": 7.254780484799994e-06
+        },
+        {
+          "id": "common_voice_ja_24862379",
+          "positive": false,
+          "probability": 2.8012265829602256e-05
+        },
+        {
+          "id": "common_voice_ja_25114398",
+          "positive": false,
+          "probability": 4.185971192782745e-05
+        },
+        {
+          "id": "common_voice_ja_38995460",
+          "positive": false,
+          "probability": 0.00020742780179716647
+        },
+        {
+          "id": "common_voice_ja_39028253",
+          "positive": false,
+          "probability": 6.358410610118881e-05
+        },
+        {
+          "id": "common_voice_ja_28093158",
+          "positive": false,
+          "probability": 1.6999119907268323e-05
+        },
+        {
+          "id": "common_voice_ja_39086516",
+          "positive": false,
+          "probability": 2.1103134713484906e-05
+        },
+        {
+          "id": "common_voice_ja_39080476",
+          "positive": false,
+          "probability": 3.695239865919575e-05
+        },
+        {
+          "id": "common_voice_ja_39049163",
+          "positive": false,
+          "probability": 2.4816448785713874e-05
+        },
+        {
+          "id": "common_voice_ja_39007129",
+          "positive": false,
+          "probability": 1.2425512068148237e-05
+        },
+        {
+          "id": "common_voice_ja_38898844",
+          "positive": false,
+          "probability": 1.0865964213735424e-05
+        },
+        {
+          "id": "common_voice_ja_26342845",
+          "positive": false,
+          "probability": 2.916976427513873e-06
+        },
+        {
+          "id": "common_voice_ja_38998276",
+          "positive": false,
+          "probability": 2.5483870558673516e-05
+        },
+        {
+          "id": "common_voice_ja_39074809",
+          "positive": false,
+          "probability": 1.1245987479924224e-05
+        },
+        {
+          "id": "common_voice_ja_38871572",
+          "positive": false,
+          "probability": 1.3300451428222004e-05
+        },
+        {
+          "id": "common_voice_ja_39015167",
+          "positive": false,
+          "probability": 1.824089304136578e-05
+        },
+        {
+          "id": "common_voice_ja_39025377",
+          "positive": false,
+          "probability": 4.339217866800027e-06
+        },
+        {
+          "id": "common_voice_ja_39052743",
+          "positive": false,
+          "probability": 1.0780910997709725e-05
+        },
+        {
+          "id": "common_voice_ja_39038255",
+          "positive": false,
+          "probability": 6.945789937162772e-05
+        },
+        {
+          "id": "common_voice_ja_27706775",
+          "positive": false,
+          "probability": 1.0785849553940352e-05
+        },
+        {
+          "id": "common_voice_ja_39026512",
+          "positive": false,
+          "probability": 5.66040489502484e-06
+        },
+        {
+          "id": "common_voice_ja_24987952",
+          "positive": false,
+          "probability": 2.6705981781560695e-06
+        },
+        {
+          "id": "common_voice_ja_38991757",
+          "positive": false,
+          "probability": 2.528300683479756e-05
+        },
+        {
+          "id": "common_voice_ja_39079562",
+          "positive": false,
+          "probability": 3.996169471065514e-05
+        },
+        {
+          "id": "common_voice_ja_39076558",
+          "positive": false,
+          "probability": 1.9242525013396516e-05
+        },
+        {
+          "id": "common_voice_ja_22544591",
+          "positive": false,
+          "probability": 1.55952584464103e-05
+        },
+        {
+          "id": "common_voice_ja_39015615",
+          "positive": false,
+          "probability": 2.9686034395126626e-05
+        },
+        {
+          "id": "common_voice_ja_39052345",
+          "positive": false,
+          "probability": 5.486221925821155e-05
+        },
+        {
+          "id": "common_voice_ja_39729492",
+          "positive": false,
+          "probability": 2.519120607757941e-05
+        },
+        {
+          "id": "common_voice_ja_38952784",
+          "positive": false,
+          "probability": 2.2668034944217652e-05
+        },
+        {
+          "id": "common_voice_ja_22979192",
+          "positive": false,
+          "probability": 7.477121016563615e-06
+        },
+        {
+          "id": "common_voice_ja_36324237",
+          "positive": false,
+          "probability": 0.0001039392373058945
+        },
+        {
+          "id": "common_voice_ja_24746794",
+          "positive": false,
+          "probability": 7.657637070224155e-06
+        },
+        {
+          "id": "common_voice_ja_39044138",
+          "positive": false,
+          "probability": 3.123670467175543e-05
+        },
+        {
+          "id": "common_voice_ja_39076388",
+          "positive": false,
+          "probability": 3.705458584590815e-05
+        },
+        {
+          "id": "common_voice_ja_38914447",
+          "positive": false,
+          "probability": 1.0729044333857019e-05
+        },
+        {
+          "id": "common_voice_ja_39067424",
+          "positive": false,
+          "probability": 2.6445661205798388e-05
+        },
+        {
+          "id": "common_voice_ja_38872100",
+          "positive": false,
+          "probability": 6.620326985284919e-06
+        },
+        {
+          "id": "common_voice_ja_39045028",
+          "positive": false,
+          "probability": 6.061962722014869e-06
+        },
+        {
+          "id": "common_voice_ja_36372043",
+          "positive": false,
+          "probability": 1.0005914191424381e-05
+        },
+        {
+          "id": "common_voice_ja_38887437",
+          "positive": false,
+          "probability": 9.612038411432877e-06
+        },
+        {
+          "id": "common_voice_ja_38991403",
+          "positive": false,
+          "probability": 4.478079517866718e-06
+        },
+        {
+          "id": "common_voice_ja_38847637",
+          "positive": false,
+          "probability": 6.889487849548459e-06
+        },
+        {
+          "id": "common_voice_ja_30480833",
+          "positive": false,
+          "probability": 1.1266750334470998e-05
+        },
+        {
+          "id": "common_voice_ja_39033727",
+          "positive": false,
+          "probability": 4.154415728407912e-05
+        },
+        {
+          "id": "common_voice_ja_37226706",
+          "positive": false,
+          "probability": 2.6456864361534826e-05
+        },
+        {
+          "id": "common_voice_ja_39018033",
+          "positive": false,
+          "probability": 0.021492838859558105
+        },
+        {
+          "id": "common_voice_ja_36372119",
+          "positive": false,
+          "probability": 3.5802424918074394e-06
+        },
+        {
+          "id": "common_voice_ja_38904774",
+          "positive": false,
+          "probability": 7.565985470137093e-06
+        },
+        {
+          "id": "common_voice_ja_20493568",
+          "positive": false,
+          "probability": 9.644540114095435e-05
+        },
+        {
+          "id": "common_voice_ja_36357992",
+          "positive": false,
+          "probability": 1.6215963114518672e-05
+        },
+        {
+          "id": "common_voice_ja_39114355",
+          "positive": false,
+          "probability": 2.1715492039220408e-05
+        },
+        {
+          "id": "common_voice_ja_37485946",
+          "positive": false,
+          "probability": 2.8549695343826897e-05
+        },
+        {
+          "id": "common_voice_ja_25810494",
+          "positive": false,
+          "probability": 3.533301060087979e-05
+        },
+        {
+          "id": "common_voice_ja_38864386",
+          "positive": false,
+          "probability": 8.475108188576996e-06
+        },
+        {
+          "id": "common_voice_ja_36357452",
+          "positive": false,
+          "probability": 0.00035334978019818664
+        },
+        {
+          "id": "common_voice_ja_30671008",
+          "positive": false,
+          "probability": 3.5317204947205028e-06
+        },
+        {
+          "id": "common_voice_ja_36343224",
+          "positive": false,
+          "probability": 1.0470558663655538e-05
+        },
+        {
+          "id": "common_voice_ja_38986376",
+          "positive": false,
+          "probability": 7.0146083999134135e-06
+        },
+        {
+          "id": "common_voice_ja_36324850",
+          "positive": false,
+          "probability": 6.665561159024946e-06
+        },
+        {
+          "id": "common_voice_ja_39077964",
+          "positive": false,
+          "probability": 7.282974365807604e-06
+        },
+        {
+          "id": "common_voice_ja_39078579",
+          "positive": false,
+          "probability": 5.121081630932167e-05
+        },
+        {
+          "id": "common_voice_ja_39019484",
+          "positive": false,
+          "probability": 2.3900500309537165e-05
+        },
+        {
+          "id": "common_voice_ja_38996218",
+          "positive": false,
+          "probability": 0.00011301749327685684
+        },
+        {
+          "id": "common_voice_ja_39677324",
+          "positive": false,
+          "probability": 2.9687653295695782e-05
+        },
+        {
+          "id": "common_voice_ja_39061246",
+          "positive": false,
+          "probability": 2.2598474970436655e-05
+        },
+        {
+          "id": "common_voice_ja_39079094",
+          "positive": false,
+          "probability": 5.137218522577314e-06
+        },
+        {
+          "id": "common_voice_ja_39835450",
+          "positive": false,
+          "probability": 1.2693154531007167e-05
+        },
+        {
+          "id": "common_voice_ja_39090144",
+          "positive": false,
+          "probability": 0.00014755783195141703
+        },
+        {
+          "id": "common_voice_ja_39085464",
+          "positive": false,
+          "probability": 1.5101342796697281e-05
+        },
+        {
+          "id": "common_voice_ja_39056268",
+          "positive": false,
+          "probability": 6.5974863900919445e-06
+        },
+        {
+          "id": "common_voice_ja_39008781",
+          "positive": false,
+          "probability": 1.2034911378577817e-05
+        },
+        {
+          "id": "common_voice_ja_27695238",
+          "positive": false,
+          "probability": 1.4145552995614707e-05
+        },
+        {
+          "id": "common_voice_ja_39005022",
+          "positive": false,
+          "probability": 1.773597796272952e-05
+        },
+        {
+          "id": "common_voice_ja_39035951",
+          "positive": false,
+          "probability": 1.9334753233124502e-05
+        },
+        {
+          "id": "common_voice_ja_39172813",
+          "positive": false,
+          "probability": 3.9756050682626665e-06
+        },
+        {
+          "id": "common_voice_ja_38947847",
+          "positive": false,
+          "probability": 7.315493803616846e-06
+        },
+        {
+          "id": "common_voice_ja_39340371",
+          "positive": false,
+          "probability": 5.152906305738725e-05
+        },
+        {
+          "id": "common_voice_ja_39120119",
+          "positive": false,
+          "probability": 7.846031621738803e-06
+        },
+        {
+          "id": "common_voice_ja_38954330",
+          "positive": false,
+          "probability": 1.3585293345386162e-05
+        },
+        {
+          "id": "common_voice_ja_39623971",
+          "positive": false,
+          "probability": 3.3248550607822835e-05
+        },
+        {
+          "id": "common_voice_ja_37870816",
+          "positive": false,
+          "probability": 1.2620394045370631e-05
+        },
+        {
+          "id": "common_voice_ja_39029894",
+          "positive": false,
+          "probability": 7.00177179169259e-06
+        },
+        {
+          "id": "common_voice_ja_28360073",
+          "positive": false,
+          "probability": 2.177785245294217e-05
+        },
+        {
+          "id": "common_voice_ja_27696032",
+          "positive": false,
+          "probability": 6.862309419375379e-06
+        },
+        {
+          "id": "common_voice_ja_39102013",
+          "positive": false,
+          "probability": 5.812662948301295e-06
+        },
+        {
+          "id": "common_voice_ja_39069675",
+          "positive": false,
+          "probability": 4.882879147771746e-05
+        },
+        {
+          "id": "common_voice_ja_20919671",
+          "positive": false,
+          "probability": 8.563018127460964e-06
+        },
+        {
+          "id": "common_voice_ja_39332995",
+          "positive": false,
+          "probability": 3.870841101161204e-05
+        },
+        {
+          "id": "common_voice_ja_36343281",
+          "positive": false,
+          "probability": 6.894655598443933e-06
+        },
+        {
+          "id": "common_voice_ja_38845067",
+          "positive": false,
+          "probability": 3.54031944880262e-05
+        },
+        {
+          "id": "common_voice_ja_39036874",
+          "positive": false,
+          "probability": 1.3079544260108378e-05
+        },
+        {
+          "id": "common_voice_ja_38830095",
+          "positive": false,
+          "probability": 4.43448698206339e-06
+        },
+        {
+          "id": "common_voice_ja_38996052",
+          "positive": false,
+          "probability": 2.1030566131230444e-05
+        },
+        {
+          "id": "common_voice_ja_38955915",
+          "positive": false,
+          "probability": 2.266558658448048e-05
+        },
+        {
+          "id": "common_voice_ja_39307191",
+          "positive": false,
+          "probability": 2.0333935026428662e-05
+        },
+        {
+          "id": "common_voice_ja_38821256",
+          "positive": false,
+          "probability": 1.4333270883071236e-05
+        },
+        {
+          "id": "common_voice_ja_38991394",
+          "positive": false,
+          "probability": 2.1153655325178988e-05
+        },
+        {
+          "id": "common_voice_ja_20934718",
+          "positive": false,
+          "probability": 3.207884219591506e-05
+        },
+        {
+          "id": "common_voice_ja_39028915",
+          "positive": false,
+          "probability": 0.00014124707377050072
+        },
+        {
+          "id": "common_voice_ja_38906099",
+          "positive": false,
+          "probability": 3.359437414474087e-06
+        },
+        {
+          "id": "common_voice_ja_38957010",
+          "positive": false,
+          "probability": 8.878489097696729e-06
+        },
+        {
+          "id": "common_voice_ja_39024671",
+          "positive": false,
+          "probability": 7.363963504758431e-06
+        },
+        {
+          "id": "common_voice_ja_39043161",
+          "positive": false,
+          "probability": 9.520740422885865e-05
+        },
+        {
+          "id": "common_voice_ja_38963823",
+          "positive": false,
+          "probability": 0.00026206509210169315
+        },
+        {
+          "id": "common_voice_ja_39195519",
+          "positive": false,
+          "probability": 1.570157655805815e-05
+        },
+        {
+          "id": "common_voice_ja_39074333",
+          "positive": false,
+          "probability": 1.6116440747282468e-05
+        },
+        {
+          "id": "common_voice_ja_38835411",
+          "positive": false,
+          "probability": 4.588888714351924e-06
+        },
+        {
+          "id": "common_voice_ja_38983326",
+          "positive": false,
+          "probability": 9.820879313338082e-06
+        },
+        {
+          "id": "common_voice_ja_39074450",
+          "positive": false,
+          "probability": 1.2488896572904196e-05
+        },
+        {
+          "id": "common_voice_ja_38936729",
+          "positive": false,
+          "probability": 7.822594852768816e-06
+        },
+        {
+          "id": "common_voice_ja_39027480",
+          "positive": false,
+          "probability": 1.0505969839869067e-05
+        },
+        {
+          "id": "common_voice_ja_39023761",
+          "positive": false,
+          "probability": 4.821415586775402e-06
+        },
+        {
+          "id": "common_voice_ja_39134788",
+          "positive": false,
+          "probability": 1.7518475942779332e-05
+        },
+        {
+          "id": "common_voice_ja_28578234",
+          "positive": false,
+          "probability": 1.960514418897219e-05
+        },
+        {
+          "id": "common_voice_ja_38992547",
+          "positive": false,
+          "probability": 3.9535157156933565e-06
+        },
+        {
+          "id": "common_voice_ja_39064962",
+          "positive": false,
+          "probability": 3.1474584829993546e-05
+        },
+        {
+          "id": "common_voice_ja_38971231",
+          "positive": false,
+          "probability": 1.3149778169463389e-05
+        },
+        {
+          "id": "common_voice_ja_39052876",
+          "positive": false,
+          "probability": 5.7179709983756766e-05
+        },
+        {
+          "id": "common_voice_ja_38867397",
+          "positive": false,
+          "probability": 0.000501820002682507
+        },
+        {
+          "id": "common_voice_ja_39221898",
+          "positive": false,
+          "probability": 1.295347829000093e-05
+        },
+        {
+          "id": "common_voice_ja_34983063",
+          "positive": false,
+          "probability": 2.9923075999249704e-05
+        },
+        {
+          "id": "common_voice_ja_39042007",
+          "positive": false,
+          "probability": 0.00016184925334528089
+        },
+        {
+          "id": "common_voice_ja_39042798",
+          "positive": false,
+          "probability": 0.00010402922634966671
+        },
+        {
+          "id": "common_voice_ja_39052074",
+          "positive": false,
+          "probability": 0.00020800490165129304
+        },
+        {
+          "id": "common_voice_ja_38841869",
+          "positive": false,
+          "probability": 7.391724466287997e-06
+        },
+        {
+          "id": "common_voice_ja_39364057",
+          "positive": false,
+          "probability": 1.853302092058584e-05
+        },
+        {
+          "id": "common_voice_ja_38987320",
+          "positive": false,
+          "probability": 6.764653335267212e-06
+        },
+        {
+          "id": "common_voice_ja_38895261",
+          "positive": false,
+          "probability": 9.670014151197392e-06
+        },
+        {
+          "id": "common_voice_ja_22279067",
+          "positive": false,
+          "probability": 1.1486171388241928e-05
+        },
+        {
+          "id": "common_voice_ja_39023302",
+          "positive": false,
+          "probability": 1.2764689017785713e-05
+        },
+        {
+          "id": "common_voice_ja_39068611",
+          "positive": false,
+          "probability": 2.1017009203205816e-05
+        },
+        {
+          "id": "common_voice_ja_38995349",
+          "positive": false,
+          "probability": 9.020170182338916e-06
+        },
+        {
+          "id": "common_voice_ja_38827384",
+          "positive": false,
+          "probability": 7.88953730079811e-06
+        },
+        {
+          "id": "common_voice_ja_27745967",
+          "positive": false,
+          "probability": 1.5164318938332144e-05
+        },
+        {
+          "id": "common_voice_ja_39336607",
+          "positive": false,
+          "probability": 1.7984948499361053e-05
+        },
+        {
+          "id": "common_voice_ja_38960452",
+          "positive": false,
+          "probability": 3.015508809767198e-06
+        },
+        {
+          "id": "common_voice_ja_39041810",
+          "positive": false,
+          "probability": 4.582320980262011e-05
+        },
+        {
+          "id": "common_voice_ja_37917606",
+          "positive": false,
+          "probability": 6.791062787669944e-06
+        },
+        {
+          "id": "common_voice_ja_39859615",
+          "positive": false,
+          "probability": 4.031375647173263e-05
+        },
+        {
+          "id": "common_voice_ja_39012885",
+          "positive": false,
+          "probability": 1.3591014067060314e-05
+        },
+        {
+          "id": "common_voice_ja_39039861",
+          "positive": false,
+          "probability": 6.282357844611397e-06
+        },
+        {
+          "id": "common_voice_ja_39047815",
+          "positive": false,
+          "probability": 7.512355296057649e-06
+        },
+        {
+          "id": "common_voice_ja_36205256",
+          "positive": false,
+          "probability": 1.0457187272550073e-05
+        },
+        {
+          "id": "common_voice_ja_25410625",
+          "positive": false,
+          "probability": 2.9113607524777763e-05
+        },
+        {
+          "id": "common_voice_ja_38987949",
+          "positive": false,
+          "probability": 1.6085130482679233e-05
+        },
+        {
+          "id": "common_voice_ja_38968014",
+          "positive": false,
+          "probability": 8.352822078450117e-06
+        },
+        {
+          "id": "common_voice_ja_36344467",
+          "positive": false,
+          "probability": 4.602559329214273e-06
+        },
+        {
+          "id": "common_voice_ja_39023833",
+          "positive": false,
+          "probability": 1.2419190170476213e-05
+        },
+        {
+          "id": "common_voice_en_1531516",
+          "positive": false,
+          "probability": 2.3479991796193644e-05
+        },
+        {
+          "id": "common_voice_en_19945699",
+          "positive": false,
+          "probability": 0.00018277046910952777
+        },
+        {
+          "id": "common_voice_en_20948511",
+          "positive": false,
+          "probability": 0.0006793821812607348
+        },
+        {
+          "id": "common_voice_en_31694143",
+          "positive": false,
+          "probability": 5.467662504088366e-06
+        },
+        {
+          "id": "common_voice_en_25804134",
+          "positive": false,
+          "probability": 8.734243237995543e-06
+        },
+        {
+          "id": "common_voice_en_17920623",
+          "positive": false,
+          "probability": 0.9999175071716309
+        },
+        {
+          "id": "common_voice_en_38038773",
+          "positive": false,
+          "probability": 5.357854206522461e-06
+        },
+        {
+          "id": "common_voice_en_18052440",
+          "positive": false,
+          "probability": 0.0003161840431857854
+        },
+        {
+          "id": "common_voice_en_20522530",
+          "positive": false,
+          "probability": 0.004242969676852226
+        },
+        {
+          "id": "common_voice_en_19451645",
+          "positive": false,
+          "probability": 6.128893801360391e-06
+        },
+        {
+          "id": "common_voice_en_37464066",
+          "positive": false,
+          "probability": 1.369745768897701e-05
+        },
+        {
+          "id": "common_voice_en_10057619",
+          "positive": false,
+          "probability": 3.6310731957200915e-05
+        },
+        {
+          "id": "common_voice_en_573656",
+          "positive": false,
+          "probability": 4.640693987312261e-06
+        },
+        {
+          "id": "common_voice_en_17520504",
+          "positive": false,
+          "probability": 7.96700842329301e-05
+        },
+        {
+          "id": "common_voice_en_25692379",
+          "positive": false,
+          "probability": 1.1773219739552587e-05
+        },
+        {
+          "id": "common_voice_en_38557143",
+          "positive": false,
+          "probability": 0.00035247995401732624
+        },
+        {
+          "id": "common_voice_en_17879821",
+          "positive": false,
+          "probability": 1.3725636563322041e-05
+        },
+        {
+          "id": "common_voice_en_19552206",
+          "positive": false,
+          "probability": 0.43371132016181946
+        },
+        {
+          "id": "common_voice_en_18243779",
+          "positive": false,
+          "probability": 1.4669403753941879e-05
+        },
+        {
+          "id": "common_voice_en_18363730",
+          "positive": false,
+          "probability": 2.84477137029171e-05
+        },
+        {
+          "id": "common_voice_en_90800",
+          "positive": false,
+          "probability": 3.801547791226767e-05
+        },
+        {
+          "id": "common_voice_en_20060201",
+          "positive": false,
+          "probability": 1.1922004887310322e-05
+        },
+        {
+          "id": "common_voice_en_17910706",
+          "positive": false,
+          "probability": 1.1686347534123342e-05
+        },
+        {
+          "id": "common_voice_en_18122999",
+          "positive": false,
+          "probability": 5.714906001230702e-05
+        },
+        {
+          "id": "common_voice_en_523806",
+          "positive": false,
+          "probability": 3.201156869181432e-05
+        },
+        {
+          "id": "common_voice_en_18971547",
+          "positive": false,
+          "probability": 4.6076100261416286e-05
+        },
+        {
+          "id": "common_voice_en_31255879",
+          "positive": false,
+          "probability": 0.0006122211343608797
+        },
+        {
+          "id": "common_voice_en_28098601",
+          "positive": false,
+          "probability": 2.1954920157440938e-05
+        },
+        {
+          "id": "common_voice_en_22453829",
+          "positive": false,
+          "probability": 4.204424385534367e-06
+        },
+        {
+          "id": "common_voice_en_13629954",
+          "positive": false,
+          "probability": 1.1297779565211385e-05
+        },
+        {
+          "id": "common_voice_en_37188960",
+          "positive": false,
+          "probability": 1.3261581443657633e-05
+        },
+        {
+          "id": "common_voice_en_38637802",
+          "positive": false,
+          "probability": 1.8892558728111908e-05
+        },
+        {
+          "id": "common_voice_en_39592890",
+          "positive": false,
+          "probability": 1.0954219760606065e-05
+        },
+        {
+          "id": "common_voice_en_20661459",
+          "positive": false,
+          "probability": 8.430096386291552e-06
+        },
+        {
+          "id": "common_voice_en_21162030",
+          "positive": false,
+          "probability": 8.716540833120234e-06
+        },
+        {
+          "id": "common_voice_en_250",
+          "positive": false,
+          "probability": 0.00015210334095172584
+        },
+        {
+          "id": "common_voice_en_265856",
+          "positive": false,
+          "probability": 8.25270853965776e-06
+        },
+        {
+          "id": "common_voice_en_25658099",
+          "positive": false,
+          "probability": 0.0005793693126179278
+        },
+        {
+          "id": "common_voice_en_20239215",
+          "positive": false,
+          "probability": 8.436860662186518e-05
+        },
+        {
+          "id": "common_voice_en_19641122",
+          "positive": false,
+          "probability": 3.0766118470637593e-06
+        },
+        {
+          "id": "common_voice_en_530054",
+          "positive": false,
+          "probability": 0.00011263228225288913
+        },
+        {
+          "id": "common_voice_en_25362314",
+          "positive": false,
+          "probability": 8.464349775749724e-06
+        },
+        {
+          "id": "common_voice_en_19878214",
+          "positive": false,
+          "probability": 3.0205288567231037e-05
+        },
+        {
+          "id": "common_voice_en_31733908",
+          "positive": false,
+          "probability": 1.1680049283313565e-05
+        },
+        {
+          "id": "common_voice_en_18274329",
+          "positive": false,
+          "probability": 0.00013127423881087452
+        },
+        {
+          "id": "common_voice_en_8957952",
+          "positive": false,
+          "probability": 2.19210432987893e-05
+        },
+        {
+          "id": "common_voice_en_37547701",
+          "positive": false,
+          "probability": 4.947233719576616e-06
+        },
+        {
+          "id": "common_voice_en_20548125",
+          "positive": false,
+          "probability": 1.2409882401698269e-05
+        },
+        {
+          "id": "common_voice_en_38820243",
+          "positive": false,
+          "probability": 2.6009052817244083e-05
+        },
+        {
+          "id": "common_voice_en_64022",
+          "positive": false,
+          "probability": 0.02970203198492527
+        },
+        {
+          "id": "common_voice_en_19451125",
+          "positive": false,
+          "probability": 1.2153493116784375e-05
+        },
+        {
+          "id": "common_voice_en_28538941",
+          "positive": false,
+          "probability": 4.674906449508853e-05
+        },
+        {
+          "id": "common_voice_en_25603188",
+          "positive": false,
+          "probability": 1.4724370885232929e-05
+        },
+        {
+          "id": "common_voice_en_38390387",
+          "positive": false,
+          "probability": 0.03463255614042282
+        },
+        {
+          "id": "common_voice_en_36493055",
+          "positive": false,
+          "probability": 1.7205595213454217e-05
+        },
+        {
+          "id": "common_voice_en_19451197",
+          "positive": false,
+          "probability": 5.900287942495197e-05
+        },
+        {
+          "id": "common_voice_en_32390855",
+          "positive": false,
+          "probability": 1.2464996871131007e-05
+        },
+        {
+          "id": "common_voice_en_18596040",
+          "positive": false,
+          "probability": 1.8626757082529366e-05
+        },
+        {
+          "id": "common_voice_en_27034666",
+          "positive": false,
+          "probability": 4.306561550038168e-06
+        },
+        {
+          "id": "common_voice_en_25224986",
+          "positive": false,
+          "probability": 0.0001644754665903747
+        },
+        {
+          "id": "fs_398738",
+          "positive": false,
+          "probability": 0.0002065713342744857
+        },
+        {
+          "id": "fs_398739",
+          "positive": false,
+          "probability": 0.0004922799416817725
+        },
+        {
+          "id": "fs_398737",
+          "positive": false,
+          "probability": 0.0015158997848629951
+        },
+        {
+          "id": "fs_425044",
+          "positive": false,
+          "probability": 0.0014209807850420475
+        },
+        {
+          "id": "fs_432468",
+          "positive": false,
+          "probability": 0.4666096866130829
+        },
+        {
+          "id": "fs_398495",
+          "positive": false,
+          "probability": 0.39258143305778503
+        },
+        {
+          "id": "fs_427549",
+          "positive": false,
+          "probability": 0.00026658724527806044
+        },
+        {
+          "id": "fs_420469",
+          "positive": false,
+          "probability": 2.018880877585616e-06
+        },
+        {
+          "id": "fs_432686",
+          "positive": false,
+          "probability": 6.866043986519799e-05
+        },
+        {
+          "id": "fs_430611",
+          "positive": true,
+          "probability": 0.6929978728294373
+        },
+        {
+          "id": "fs_402801",
+          "positive": false,
+          "probability": 0.0002490348997525871
+        },
+        {
+          "id": "fs_409864",
+          "positive": true,
+          "probability": 0.9999997615814209
+        },
+        {
+          "id": "fs_431603",
+          "positive": false,
+          "probability": 6.215100256667938e-06
+        },
+        {
+          "id": "fs_422342",
+          "positive": true,
+          "probability": 0.9999996423721313
+        },
+        {
+          "id": "fs_243757",
+          "positive": false,
+          "probability": 2.5568099317752058e-06
+        },
+        {
+          "id": "fs_418099",
+          "positive": false,
+          "probability": 0.0001451596326660365
+        },
+        {
+          "id": "fs_409853",
+          "positive": true,
+          "probability": 0.999950647354126
+        },
+        {
+          "id": "fs_401013",
+          "positive": false,
+          "probability": 3.686172703964985e-06
+        },
+        {
+          "id": "fs_427667",
+          "positive": false,
+          "probability": 0.9999101161956787
+        },
+        {
+          "id": "fs_424136",
+          "positive": false,
+          "probability": 0.00023383009829558432
+        },
+        {
+          "id": "fs_409793",
+          "positive": true,
+          "probability": 0.8224840760231018
+        },
+        {
+          "id": "fs_405140",
+          "positive": false,
+          "probability": 0.00023875304032117128
+        },
+        {
+          "id": "fs_430343",
+          "positive": true,
+          "probability": 0.9999391436576843
+        },
+        {
+          "id": "fs_339182",
+          "positive": true,
+          "probability": 0.9999998807907104
+        },
+        {
+          "id": "fs_137022",
+          "positive": false,
+          "probability": 0.9999488592147827
+        },
+        {
+          "id": "fs_243774",
+          "positive": false,
+          "probability": 0.0032489115837961435
+        },
+        {
+          "id": "fs_240362",
+          "positive": true,
+          "probability": 0.9999988079071045
+        },
+        {
+          "id": "fs_251225",
+          "positive": true,
+          "probability": 0.9999997615814209
+        },
+        {
+          "id": "fs_238494",
+          "positive": true,
+          "probability": 0.9999996423721313
+        },
+        {
+          "id": "fs_238495",
+          "positive": true,
+          "probability": 1.0
+        },
+        {
+          "id": "fs_65620",
+          "positive": true,
+          "probability": 0.9999998807907104
+        },
+        {
+          "id": "fs_333564",
+          "positive": true,
+          "probability": 0.09212538599967957
+        },
+        {
+          "id": "fs_238492",
+          "positive": true,
+          "probability": 0.9999992847442627
+        },
+        {
+          "id": "fs_268869",
+          "positive": true,
+          "probability": 1.0
+        },
+        {
+          "id": "fs_65621",
+          "positive": true,
+          "probability": 1.0
+        },
+        {
+          "id": "fs_345961",
+          "positive": true,
+          "probability": 0.999622106552124
+        },
+        {
+          "id": "fs_65619",
+          "positive": true,
+          "probability": 0.9999988079071045
+        },
+        {
+          "id": "fs_252227",
+          "positive": true,
+          "probability": 5.8698340581031516e-05
+        },
+        {
+          "id": "fs_252225",
+          "positive": true,
+          "probability": 0.9999971985816956
+        },
+        {
+          "id": "fs_264042",
+          "positive": true,
+          "probability": 7.07447761669755e-05
+        },
+        {
+          "id": "fs_364483",
+          "positive": true,
+          "probability": 0.999916136264801
+        },
+        {
+          "id": "fs_234335",
+          "positive": true,
+          "probability": 1.0
+        },
+        {
+          "id": "fs_202606",
+          "positive": true,
+          "probability": 0.08463595062494278
+        },
+        {
+          "id": "fs_401333",
+          "positive": true,
+          "probability": 0.9999998807907104
+        },
+        {
+          "id": "fs_420855",
+          "positive": true,
+          "probability": 0.9999969005584717
+        },
+        {
+          "id": "fs_389996",
+          "positive": true,
+          "probability": 0.9999139308929443
+        },
+        {
+          "id": "fs_414693",
+          "positive": true,
+          "probability": 0.9999990463256836
+        },
+        {
+          "id": "fs_390002",
+          "positive": true,
+          "probability": 0.007211980409920216
+        },
+        {
+          "id": "fs_207778",
+          "positive": true,
+          "probability": 0.9999672174453735
+        },
+        {
+          "id": "fs_352627",
+          "positive": true,
+          "probability": 0.00028473310521803796
+        },
+        {
+          "id": "fs_163383",
+          "positive": true,
+          "probability": 1.0
+        },
+        {
+          "id": "fs_232472",
+          "positive": true,
+          "probability": 0.9999984502792358
+        },
+        {
+          "id": "fs_240365",
+          "positive": true,
+          "probability": 0.9999979734420776
+        },
+        {
+          "id": "fs_240371",
+          "positive": true,
+          "probability": 0.00018361159891355783
+        },
+        {
+          "id": "fs_343878",
+          "positive": true,
+          "probability": 0.9999997615814209
+        },
+        {
+          "id": "fs_240357",
+          "positive": true,
+          "probability": 0.9999992847442627
+        }
+      ],
+      "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+    }
+  },
+  "training_data": "Japanese 7997, English 2223; additional English preparation now completed to 2800",
+  "fresh_attempt_2_evaluated": false,
+  "training_config": {
+    "index": "cache/features_v2/index_extended_partial_v3.json",
+    "corpus": "cache/temporal_corpus/joint_extended_partial_v3",
+    "breath_manifest": "data/breath_cc0/manifest_v2.json",
+    "run": "gru96_extended_partial_v3",
+    "epochs": 35,
+    "steps_per_epoch": 300,
+    "batch_size": 64,
+    "channels": 96,
+    "dilations": "1,2,4,8",
+    "lookahead": 10,
+    "threads": 2,
+    "device": "cuda",
+    "gain_augment_db": 8.0,
+    "gain_augment_events_only": true,
+    "skip_lags": "0,2,4,6,8,10,12,14",
+    "skip_hidden": 32,
+    "architecture": "gru",
+    "gru_layers": 2,
+    "english_weight": 1.5,
+    "breath_selection_weight": 0.05,
+    "breath_viseme_loss_weight": 0.25,
+    "patience": 18,
+    "resume": "cache/tcn_experiments/gru96_skip_v2/extended_resume.pt",
+    "seed": 42,
+    "actual_device": "cuda",
+    "torch_version": "2.14.1+cu130",
+    "corpus_signature": "a09d93414902921103ab17db4fdb286c2cf462d0b7cce7acd22ac0825ad50baa/tcn-corpus-v1",
+    "resume_kind": "weights and feature normalization; optimizer starts fresh"
+  }
+}

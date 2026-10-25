@@ -29,6 +29,7 @@ class LipSyncEngine:
         self.model = load_model(model_path)
         self.features = StreamingFeatures(self.model.config, self.model.predict_proba if self.model.stateful else None)
         self.silence_db = float(silence_db)
+        self.breath_silence_db = self.silence_db + self.model.metadata.get("breath_gate_offset_db",0.)
         if smoothing_ms is None:
             smoothing_ms = self.model.metadata.get("recommended_smoothing_ms", 25.0)
         self.smoothing_ms = max(0.0, float(smoothing_ms))
@@ -59,7 +60,7 @@ class LipSyncEngine:
             # /m/ also closes lips; this auxiliary channel is an articulation cue.
             nasal = float(self.state[8])
             if self.model.has_breath_head:
-                breath_target = self.model.last_breath if diag["rms_db"] >= self.silence_db else 0.0
+                breath_target = self.model.last_breath if diag["rms_db"] >= self.breath_silence_db else 0.0
                 self.breath_state += alpha * (breath_target - self.breath_state)
                 breath = self.breath_state
             else:
