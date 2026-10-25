@@ -20,7 +20,7 @@
   "model_ms_p50": 3.5638999979710206,
   "model_ms_p95": 4.7580800208379515,
   "analysis_center_delay_ms": 12.5,
-  "timing_note": "Throughput is offline capacity, not the live update rate. The 10 ms smoothing time is an EMA time constant, not a fixed deadline.",
+  "timing_note": "Throughput is offline capacity, not the live update rate. The configured 25 ms smoothing time is an EMA time constant, not a fixed deadline.",
   "process_working_set_bytes": 156364800,
   "memory_scope": "This CLI process after imports and inference; GUI/driver/receiver memory excluded",
   "measurement_load": "GPU training active, audio preparation completed; CPU cost probe, not accuracy",

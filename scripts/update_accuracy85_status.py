@@ -23,11 +23,18 @@ def main():
         if not history:continue
         best=max(history,key=lambda r:r["selection_metric"]);validation=best["validation"]
         result["candidate_runs"][run]={"completed_epochs":history[-1]["epoch"],"selected_epoch":best["epoch"],"development_japanese_agreement":validation["ja"]["accuracy"],"development_speech_accuracy":validation["ja"]["speech_accuracy"],"development_breath_f1":validation.get("natural_breath",{}).get("f1"),"final_test_scored":False}
-    path=ROOT/"cache/features_v2/index_ja85_stage3_20261025.json"
+    path=ROOT/config.get("complete_training_index","cache/features_v2/index_ja85_stage3_20261025.json")
     if path.exists():
         raw=path.read_bytes();rows=json.loads(raw)["records"];counts=Counter((r["language"],r["split"]) for r in rows)
         result["training_data"]={"index":str(path.relative_to(ROOT)).replace("\\","/"),"sha256":hashlib.sha256(raw).hexdigest(),"counts":{lang:{split:counts[lang,split] for split in ("train","validation","test")} for lang in ("ja","en")},"derived_training_examples":sum("augmentation" in r for r in rows),"note":"Derived examples are not independent recordings; protected final speech index is separate"}
     protected=ROOT/config["protected_final_speech"]
+    result["cv22_data_preparation"]={}
+    for suffix in ("v1","v2"):
+        path=ROOT/f"cache/features_v2/index_ja85_cv22_{suffix}.json"
+        if path.exists():
+            progress=json.loads(path.read_text(encoding="utf8"))["cross_version_extension"]
+            result["cv22_data_preparation"][suffix]={key:progress[key] for key in ("selected","added","elapsed_seconds")}
+            result["cv22_data_preparation"][suffix]["source_revision"]=progress["source"]["revision"]
     result["protected_final_index_sha256"]=hashlib.sha256(protected.read_bytes()).hexdigest()
     result["active_lookahead_ms"]=200
     result["previous_float64_cost_probe"]="384 channels previously exceeded the frame budget; unintended float64 propagation corrected"

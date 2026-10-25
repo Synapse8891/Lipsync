@@ -1,5 +1,6 @@
 """Train a small causal TCN on sequences; model selection uses validation only."""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import time
@@ -37,6 +38,21 @@ def model_feature_config(lookahead):
     context=FeatureConfig().context
     if lookahead>max(context):context=context+(lookahead,)
     return FeatureConfig(context=context,lookahead_frames=lookahead)
+
+def speaker_sampling_weights(segments,english_weight,exponent=0.):
+    """Reduce dominant speakers while retaining the language sampling masses."""
+    from collections import Counter
+    weights=np.ones(len(segments),dtype=np.float64)
+    for language in ("ja","en"):
+        indices=[i for i,(row,start) in enumerate(segments) if row["language"]==language]
+        if not indices:continue
+        if exponent:
+            counts=Counter(segments[i][0]["speaker_hash"] for i in indices)
+            values=np.asarray([counts[segments[i][0]["speaker_hash"]]**-exponent for i in indices])
+            weights[indices]=values/values.mean()
+        if language=="en":weights[indices]*=english_weight
+    return weights
+
 
 class SequenceDataset(Dataset):
     def __init__(self,corpus,lookahead,context,frames=128,gain_db=0,events_only=False,channel_db=0,context_augment=False,random_crop=False):
@@ -146,6 +162,7 @@ def main():
     parser.add_argument("--resume")
     parser.add_argument("--lr-patience",type=int,default=3)
     parser.add_argument("--precision",choices=("fp32","bf16"),default="fp32")
+    parser.add_argument("--speaker-weight-exponent",type=float,default=0.)
     parser.add_argument("--seed",type=int,default=42)
     parser.add_argument("--selection-language",choices=["all","ja","en"],default="all")
     parser.add_argument("--selection-metric",choices=["balanced","accuracy"],default="balanced")
@@ -177,8 +194,8 @@ def main():
     network.to(device)
     (folder/"run_config.json").write_text(json.dumps({**vars(args),"actual_device":str(device),"torch_version":str(torch.__version__),"corpus_signature":corpus.metadata["signature"],"resume_kind":"weights and feature normalization; optimizer starts fresh"},indent=2),encoding="utf-8")
     dataset=SequenceDataset(corpus,args.lookahead,network.receptive_frames-1,frames=args.training_frames,gain_db=args.gain_augment_db,events_only=args.gain_augment_events_only,channel_db=args.channel_augment_db,context_augment=args.cmn_context_augment,random_crop=args.random_crop)
-    weights=np.ones(len(dataset))
-    weights[np.array([r[0]["language"]=="en" for r in dataset.segments])]*=args.english_weight
+    if not 0<=args.speaker_weight_exponent<=1:raise ValueError("Speaker weight exponent must be between 0 and 1")
+    weights=speaker_sampling_weights(dataset.segments,args.english_weight,args.speaker_weight_exponent)
     is_breath=np.array([r[0]["language"]=="breath" for r in dataset.segments])
     is_noise=np.array([r[0]["language"]=="noise" for r in dataset.segments])
     event_fraction=(.15 if is_breath.any() else 0)+(.10 if is_noise.any() else 0)
@@ -228,7 +245,7 @@ def main():
             from kotoba_lipsync.recurrent import export_recurrent
             from kotoba_lipsync.attention import export_attention
             exporter=export_attention if args.architecture=="attention" else export_recurrent if args.architecture=="gru" else export_temporal
-            exporter(folder/"best_int8.npz",{k:v.detach().cpu().numpy() for k,v in network.state_dict().items()},corpus.mean,corpus.scale,model_feature_config(args.lookahead),{"channels":args.channels,"gru_layers":args.gru_layers,"attention_layers":args.attention_layers,"attention_heads":args.attention_heads,"attention_context":args.attention_context,"architecture":args.architecture,"language_head":args.language_head,"feature_mode":args.feature_mode,"spectral_frontend":args.spectral_frontend,"selection_language":args.selection_language,"selection_metric":args.selection_metric,"english_sampling_weight":args.english_weight,"dilations":list(network.dilations),"skip_lags":list(skip_lags),"skip_hidden":args.skip_hidden,"gain_augmentation_db":args.gain_augment_db,"channel_augmentation_db":args.channel_augment_db,"cmn_context_augment":args.cmn_context_augment,"has_breath_head":bool(args.breath_manifest),"best_epoch":epoch,"seed":args.seed,"pipeline_version":"ctc-midpoint-v2","receptive_frames":network.receptive_frames if args.architecture=="tcn" else None,"training_warmup_frames":network.receptive_frames-1,"labels":["sil","PP","FF","TH","DD","kk","CH","SS","nn","RR","aa","E","ih","oh","ou","HH"],"recommended_smoothing_ms":10,"training_device":str(device),"torch_version":str(torch.__version__)})
+            exporter(folder/"best_int8.npz",{k:v.detach().cpu().numpy() for k,v in network.state_dict().items()},corpus.mean,corpus.scale,model_feature_config(args.lookahead),{"channels":args.channels,"gru_layers":args.gru_layers,"attention_layers":args.attention_layers,"attention_heads":args.attention_heads,"attention_context":args.attention_context,"architecture":args.architecture,"language_head":args.language_head,"feature_mode":args.feature_mode,"spectral_frontend":args.spectral_frontend,"selection_language":args.selection_language,"selection_metric":args.selection_metric,"english_sampling_weight":args.english_weight,"dilations":list(network.dilations),"skip_lags":list(skip_lags),"skip_hidden":args.skip_hidden,"gain_augmentation_db":args.gain_augment_db,"channel_augmentation_db":args.channel_augment_db,"cmn_context_augment":args.cmn_context_augment,"has_breath_head":bool(args.breath_manifest),"best_epoch":epoch,"seed":args.seed,"pipeline_version":"ctc-midpoint-v2","receptive_frames":network.receptive_frames if args.architecture=="tcn" else None,"training_warmup_frames":network.receptive_frames-1,"labels":["sil","PP","FF","TH","DD","kk","CH","SS","nn","RR","aa","E","ih","oh","ou","HH"],"recommended_smoothing_ms":10,"training_device":str(device),"torch_version":str(torch.__version__),"training_precision":args.precision,"training_run":args.run,"training_index_sha256":hashlib.sha256((ROOT/args.index).read_bytes()).hexdigest(),"corpus_signature":corpus.metadata["signature"],"speaker_weight_exponent":args.speaker_weight_exponent})
         temporary=folder/"history.tmp.json";temporary.write_text(json.dumps(history,indent=2),encoding="utf-8");temporary.replace(folder/"history.json")
         print(f"EPOCH {epoch}: validation={s['accuracy']:.4f} speech={s['speech_accuracy']:.4f} macroF1={s['macro_f1']:.4f} breath={validation.get('natural_breath',{}).get('f1')} best={best_epoch}",flush=True)
         if epoch-best_epoch>=args.patience:break

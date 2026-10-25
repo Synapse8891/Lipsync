@@ -1,0 +1,16 @@
+{
+  "repo": "fsicoli/common_voice_22_0",
+  "revision": "ae911de250fe9375d08e2daa2105b671d659d446",
+  "license": "CC0-1.0",
+  "license_source": "https://huggingface.co/datasets/fsicoli/common_voice_22_0/blob/ae911de250fe9375d08e2daa2105b671d659d446/README.md",
+  "purpose": "Additional Japanese training only after global speaker, recording and transcript exclusion; original source split names are explicitly reassigned",
+  "files": {
+    "README.md": "781a6ebdb9bfdc101a189153413b6381cf4e54453df725dadf64709d30213a30",
+    "transcript/ja/train.tsv": "977235eadb45e0b45b0ed5c3687c60b85b3a572f89f5cad12ce84dcbf183bd1d",
+    "transcript/ja/dev.tsv": "d99973e6e617ce318b74b75d5ce0c585007600a15c83536a46d19b4b40016702",
+    "transcript/ja/test.tsv": "11b2ee424381fe08d9a9eabaca1e138866b009f06da4846dafac1bc79f26ce8f",
+    "audio/ja/train/ja_train_0.tar": "debd6436cab57702b1686916b43232c07655bd0414a07be8bb0a108171e3d591",
+    "audio/ja/dev/ja_dev_0.tar": "81891e712b1866e293aca099a9a049223bdcf621dfa1c1fa6b43b3e709034fe2",
+    "audio/ja/test/ja_test_0.tar": "40cd0b6d2a9d35cf9c866f93cac15db6facdff04fac7131f940a936640958f4c"
+  }
+}

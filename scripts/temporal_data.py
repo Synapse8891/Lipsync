@@ -120,6 +120,7 @@ def pack_corpus(index_path,folder,breath_manifest=None,feature_mode="base"):
     for n,row in enumerate(rows):
         with np.load(ROOT/row.get("feature_root","cache/features_v2")/(row["id"]+".npz")) as data:
             if str(data["annotation_signature"])!=row.get("annotation_signature",index["annotation_signatures"][row["language"]]):raise RuntimeError("Cache signature mismatch")
+            if row.get("source_audio_sha256") and str(data.get("source_audio_sha256",""))!=row["source_audio_sha256"]:raise RuntimeError("Source audio receipt differs")
             if row.get("augmentation"):
                 if str(data["teacher_signature"])!=index["annotation_signatures"][row["language"]] or str(data["source_id"])!=row["source_recording_id"]:raise RuntimeError("Augmentation teacher/source receipt differs")
                 if abs(float(data["speed_factor"])-row["augmentation"]["factor"])>1e-6:raise RuntimeError("Augmentation speed differs")

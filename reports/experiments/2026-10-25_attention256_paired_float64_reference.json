@@ -22,5 +22,8 @@
   "analysis_center_delay_ms": 12.5,
   "timing_note": "Throughput is offline capacity, not the live update rate. The 10 ms smoothing time is an EMA time constant, not a fixed deadline.",
   "process_working_set_bytes": 113881088,
-  "memory_scope": "This CLI process after imports and inference; GUI/driver/receiver memory excluded"
+  "memory_scope": "This CLI process after imports and inference; GUI/driver/receiver memory excluded",
+  "measurement_load": "GPU training active; same fixed model and audio, reference then corrected runtime in one process",
+  "runtime_attention_compute": "float64_reference",
+  "runtime_reference_commit": "5d45243"
 }

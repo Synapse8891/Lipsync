@@ -52,3 +52,15 @@ def test_random_crop_keeps_future_input_and_target_labels_aligned(monkeypatch):
     np.testing.assert_array_equal(x.numpy()[:,0],np.arange(2,13))
     np.testing.assert_array_equal(y.numpy()[3:],np.arange(3,11)%16)
     assert (y.numpy()[:3]==-100).all()
+
+
+def test_speaker_balancing_retains_language_mass_and_event_weights():
+    from scripts.train_temporal import speaker_sampling_weights
+    segments=[({"language":"ja","speaker_hash":"many"},i) for i in range(12)]+[({"language":"ja","speaker_hash":"rare"},i) for i in range(2)]+[({"language":"en","speaker_hash":"english"},i) for i in range(5)]+[({"language":"breath"},0)]
+    original=speaker_sampling_weights(segments,.2,0.)
+    balanced=speaker_sampling_weights(segments,.2,1.)
+    assert original[:14].sum()==pytest.approx(14.)
+    assert balanced[:14].sum()==pytest.approx(14.)
+    assert balanced[14:19].sum()==pytest.approx(1.)
+    assert balanced[:12].sum()==pytest.approx(balanced[12:14].sum())
+    assert balanced[-1]==original[-1]==1.
