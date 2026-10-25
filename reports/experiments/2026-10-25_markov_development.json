@@ -1,0 +1,677 @@
+{
+  "status": "development-only diagnostic; no final test, runtime implementation or promotion",
+  "model_sha256": "c2fa6b43435a60a76a946c6c736a78ef84268fca61becefa8637ec1b3656258e",
+  "training_index_sha256": "7cca4e27362104efeabd6826d2201f29c8e0db121113c963666e53260e552fed",
+  "transition_training_original_japanese_recordings": 16033,
+  "comparison_clips": 116,
+  "comparison_scope": "Japanese speakers excluded from the calibration fit; all trials and baseline omit the same final two cached frames per clip for coverage equality",
+  "baseline": {
+    "accuracy": 0.7971389745849861,
+    "majority_class_baseline": 0.2832929337446746,
+    "speech_accuracy": 0.7285351917804709,
+    "macro_f1": 0.6659690081266003,
+    "frames": 54456,
+    "per_class": {
+      "sil": {
+        "precision": 0.9468259989883662,
+        "recall": 0.9707007195177286,
+        "f1-score": 0.9586147296994527,
+        "support": 15427.0
+      },
+      "PP": {
+        "precision": 0.63202416918429,
+        "recall": 0.564185544768069,
+        "f1-score": 0.5961812482188658,
+        "support": 1854.0
+      },
+      "FF": {
+        "precision": 0.375,
+        "recall": 0.6666666666666666,
+        "f1-score": 0.48,
+        "support": 18.0
+      },
+      "TH": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 0.0
+      },
+      "DD": {
+        "precision": 0.7378595002357379,
+        "recall": 0.708786231884058,
+        "f1-score": 0.723030723030723,
+        "support": 2208.0
+      },
+      "kk": {
+        "precision": 0.6532163742690058,
+        "recall": 0.729826853969291,
+        "f1-score": 0.6893997839839531,
+        "support": 3061.0
+      },
+      "CH": {
+        "precision": 0.7696526508226691,
+        "recall": 0.7123519458544839,
+        "f1-score": 0.7398945518453427,
+        "support": 1773.0
+      },
+      "SS": {
+        "precision": 0.6576055523423945,
+        "recall": 0.6493432324386065,
+        "f1-score": 0.653448275862069,
+        "support": 1751.0
+      },
+      "nn": {
+        "precision": 0.7426900584795322,
+        "recall": 0.6973988439306359,
+        "f1-score": 0.7193322402742585,
+        "support": 3460.0
+      },
+      "RR": {
+        "precision": 0.783641160949868,
+        "recall": 0.6955503512880562,
+        "f1-score": 0.7369727047146402,
+        "support": 1281.0
+      },
+      "aa": {
+        "precision": 0.7711499856610267,
+        "recall": 0.8162088329033237,
+        "f1-score": 0.7930398879303989,
+        "support": 6589.0
+      },
+      "E": {
+        "precision": 0.7388153749212351,
+        "recall": 0.7698621142481944,
+        "f1-score": 0.7540192926045016,
+        "support": 3046.0
+      },
+      "ih": {
+        "precision": 0.7633740288568257,
+        "recall": 0.73656029128293,
+        "f1-score": 0.749727490734685,
+        "support": 4669.0
+      },
+      "oh": {
+        "precision": 0.7953099436466097,
+        "recall": 0.7625936900819243,
+        "f1-score": 0.7786082932906211,
+        "support": 5737.0
+      },
+      "ou": {
+        "precision": 0.682632779406973,
+        "recall": 0.656328320802005,
+        "f1-score": 0.6692221689825907,
+        "support": 3192.0
+      },
+      "breath": {
+        "precision": 0.610126582278481,
+        "recall": 0.617948717948718,
+        "f1-score": 0.6140127388535032,
+        "support": 390.0
+      },
+      "accuracy": 0.7971389745849861,
+      "macro avg": {
+        "precision": 0.6662452600026884,
+        "recall": 0.6721445223490432,
+        "f1-score": 0.6659690081266003,
+        "support": 54456.0
+      },
+      "weighted avg": {
+        "precision": 0.7965852903208939,
+        "recall": 0.7971389745849861,
+        "f1-score": 0.796298750427559,
+        "support": 54456.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        14975,
+        8,
+        0,
+        1,
+        54,
+        95,
+        22,
+        39,
+        25,
+        0,
+        82,
+        20,
+        50,
+        24,
+        30,
+        2
+      ],
+      [
+        46,
+        1046,
+        0,
+        0,
+        26,
+        155,
+        9,
+        24,
+        144,
+        11,
+        81,
+        20,
+        90,
+        65,
+        132,
+        5
+      ],
+      [
+        0,
+        0,
+        12,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        94,
+        41,
+        0,
+        0,
+        1565,
+        89,
+        16,
+        50,
+        51,
+        24,
+        118,
+        45,
+        27,
+        64,
+        23,
+        1
+      ],
+      [
+        89,
+        101,
+        6,
+        0,
+        92,
+        2234,
+        36,
+        33,
+        57,
+        2,
+        129,
+        29,
+        67,
+        90,
+        82,
+        14
+      ],
+      [
+        43,
+        11,
+        0,
+        37,
+        12,
+        26,
+        1263,
+        186,
+        14,
+        0,
+        28,
+        11,
+        74,
+        28,
+        22,
+        18
+      ],
+      [
+        111,
+        51,
+        0,
+        0,
+        24,
+        182,
+        80,
+        1137,
+        6,
+        2,
+        48,
+        18,
+        27,
+        27,
+        33,
+        5
+      ],
+      [
+        36,
+        109,
+        0,
+        0,
+        45,
+        119,
+        6,
+        36,
+        2413,
+        16,
+        163,
+        110,
+        153,
+        157,
+        68,
+        29
+      ],
+      [
+        7,
+        17,
+        0,
+        0,
+        16,
+        20,
+        2,
+        14,
+        44,
+        891,
+        87,
+        65,
+        53,
+        19,
+        40,
+        6
+      ],
+      [
+        103,
+        67,
+        2,
+        0,
+        61,
+        152,
+        29,
+        32,
+        116,
+        53,
+        5378,
+        106,
+        72,
+        301,
+        103,
+        14
+      ],
+      [
+        39,
+        15,
+        0,
+        0,
+        63,
+        35,
+        10,
+        20,
+        60,
+        49,
+        64,
+        2345,
+        200,
+        32,
+        110,
+        4
+      ],
+      [
+        71,
+        40,
+        0,
+        0,
+        50,
+        102,
+        84,
+        55,
+        151,
+        29,
+        149,
+        232,
+        3439,
+        97,
+        144,
+        26
+      ],
+      [
+        122,
+        78,
+        1,
+        0,
+        92,
+        100,
+        31,
+        35,
+        111,
+        24,
+        417,
+        43,
+        107,
+        4375,
+        183,
+        18
+      ],
+      [
+        65,
+        57,
+        1,
+        0,
+        21,
+        92,
+        35,
+        56,
+        55,
+        36,
+        199,
+        126,
+        128,
+        214,
+        2095,
+        12
+      ],
+      [
+        15,
+        14,
+        10,
+        0,
+        0,
+        19,
+        16,
+        12,
+        2,
+        0,
+        30,
+        3,
+        18,
+        8,
+        2,
+        241
+      ]
+    ]
+  },
+  "trials": [
+    {
+      "transition_power": 0.0,
+      "emission_power": 1.0,
+      "lag_frames": 0,
+      "accuracy": 0.7971389745849861,
+      "speech_accuracy": 0.7285351917804709
+    },
+    {
+      "transition_power": 0.0,
+      "emission_power": 1.0,
+      "lag_frames": 1,
+      "accuracy": 0.7971389745849861,
+      "speech_accuracy": 0.7285351917804709
+    },
+    {
+      "transition_power": 0.0,
+      "emission_power": 1.0,
+      "lag_frames": 2,
+      "accuracy": 0.7971389745849861,
+      "speech_accuracy": 0.7285351917804709
+    },
+    {
+      "transition_power": 0.0,
+      "emission_power": 2.0,
+      "lag_frames": 0,
+      "accuracy": 0.7971389745849861,
+      "speech_accuracy": 0.7285351917804709
+    },
+    {
+      "transition_power": 0.0,
+      "emission_power": 2.0,
+      "lag_frames": 1,
+      "accuracy": 0.7971389745849861,
+      "speech_accuracy": 0.7285351917804709
+    },
+    {
+      "transition_power": 0.0,
+      "emission_power": 2.0,
+      "lag_frames": 2,
+      "accuracy": 0.7971389745849861,
+      "speech_accuracy": 0.7285351917804709
+    },
+    {
+      "transition_power": 0.05,
+      "emission_power": 1.0,
+      "lag_frames": 0,
+      "accuracy": 0.7967717055971794,
+      "speech_accuracy": 0.7278690204719568
+    },
+    {
+      "transition_power": 0.05,
+      "emission_power": 1.0,
+      "lag_frames": 1,
+      "accuracy": 0.7962391655648597,
+      "speech_accuracy": 0.7271772271900382
+    },
+    {
+      "transition_power": 0.05,
+      "emission_power": 1.0,
+      "lag_frames": 2,
+      "accuracy": 0.796202438666079,
+      "speech_accuracy": 0.7271516052166338
+    },
+    {
+      "transition_power": 0.05,
+      "emission_power": 2.0,
+      "lag_frames": 0,
+      "accuracy": 0.7970104304392537,
+      "speech_accuracy": 0.7283302159932358
+    },
+    {
+      "transition_power": 0.05,
+      "emission_power": 2.0,
+      "lag_frames": 1,
+      "accuracy": 0.7969186131923021,
+      "speech_accuracy": 0.728278972046427
+    },
+    {
+      "transition_power": 0.05,
+      "emission_power": 2.0,
+      "lag_frames": 2,
+      "accuracy": 0.796973703540473,
+      "speech_accuracy": 0.7283814599400446
+    },
+    {
+      "transition_power": 0.1,
+      "emission_power": 1.0,
+      "lag_frames": 0,
+      "accuracy": 0.7966431614514471,
+      "speech_accuracy": 0.7275103128442952
+    },
+    {
+      "transition_power": 0.1,
+      "emission_power": 1.0,
+      "lag_frames": 1,
+      "accuracy": 0.7961840752166887,
+      "speech_accuracy": 0.7271259832432294
+    },
+    {
+      "transition_power": 0.1,
+      "emission_power": 1.0,
+      "lag_frames": 2,
+      "accuracy": 0.7961840752166887,
+      "speech_accuracy": 0.727100361269825
+    },
+    {
+      "transition_power": 0.1,
+      "emission_power": 2.0,
+      "lag_frames": 0,
+      "accuracy": 0.7972124283825474,
+      "speech_accuracy": 0.7285608137538753
+    },
+    {
+      "transition_power": 0.1,
+      "emission_power": 2.0,
+      "lag_frames": 1,
+      "accuracy": 0.7968451593947407,
+      "speech_accuracy": 0.7280739962591919
+    },
+    {
+      "transition_power": 0.1,
+      "emission_power": 2.0,
+      "lag_frames": 2,
+      "accuracy": 0.7969186131923021,
+      "speech_accuracy": 0.7282021061262138
+    },
+    {
+      "transition_power": 0.2,
+      "emission_power": 1.0,
+      "lag_frames": 0,
+      "accuracy": 0.7942008226825327,
+      "speech_accuracy": 0.7242563222219376
+    },
+    {
+      "transition_power": 0.2,
+      "emission_power": 1.0,
+      "lag_frames": 1,
+      "accuracy": 0.7960738945203467,
+      "speech_accuracy": 0.7266904096953547
+    },
+    {
+      "transition_power": 0.2,
+      "emission_power": 1.0,
+      "lag_frames": 2,
+      "accuracy": 0.7962391655648597,
+      "speech_accuracy": 0.7268953854825899
+    },
+    {
+      "transition_power": 0.2,
+      "emission_power": 2.0,
+      "lag_frames": 0,
+      "accuracy": 0.7961106214191274,
+      "speech_accuracy": 0.7270491173230162
+    },
+    {
+      "transition_power": 0.2,
+      "emission_power": 2.0,
+      "lag_frames": 1,
+      "accuracy": 0.7969920669898634,
+      "speech_accuracy": 0.7280996182325963
+    },
+    {
+      "transition_power": 0.2,
+      "emission_power": 2.0,
+      "lag_frames": 2,
+      "accuracy": 0.797194064933157,
+      "speech_accuracy": 0.7283814599400446
+    },
+    {
+      "transition_power": 0.4,
+      "emission_power": 1.0,
+      "lag_frames": 0,
+      "accuracy": 0.7841927427648009,
+      "speech_accuracy": 0.7112916036793154
+    },
+    {
+      "transition_power": 0.4,
+      "emission_power": 1.0,
+      "lag_frames": 1,
+      "accuracy": 0.7958535331276627,
+      "speech_accuracy": 0.7262548361474801
+    },
+    {
+      "transition_power": 0.4,
+      "emission_power": 1.0,
+      "lag_frames": 2,
+      "accuracy": 0.795871896577053,
+      "speech_accuracy": 0.7262292141740757
+    },
+    {
+      "transition_power": 0.4,
+      "emission_power": 2.0,
+      "lag_frames": 0,
+      "accuracy": 0.7924746584398413,
+      "speech_accuracy": 0.7224627840836301
+    },
+    {
+      "transition_power": 0.4,
+      "emission_power": 2.0,
+      "lag_frames": 1,
+      "accuracy": 0.7967900690465697,
+      "speech_accuracy": 0.7277921545517436
+    },
+    {
+      "transition_power": 0.4,
+      "emission_power": 2.0,
+      "lag_frames": 2,
+      "accuracy": 0.7973042456294991,
+      "speech_accuracy": 0.7284583258602577
+    },
+    {
+      "transition_power": 0.8,
+      "emission_power": 1.0,
+      "lag_frames": 0,
+      "accuracy": 0.7548846775378287,
+      "speech_accuracy": 0.6746778036844397
+    },
+    {
+      "transition_power": 0.8,
+      "emission_power": 1.0,
+      "lag_frames": 1,
+      "accuracy": 0.7888386954605553,
+      "speech_accuracy": 0.7176458530836045
+    },
+    {
+      "transition_power": 0.8,
+      "emission_power": 1.0,
+      "lag_frames": 2,
+      "accuracy": 0.7935397385044807,
+      "speech_accuracy": 0.7244869199825771
+    },
+    {
+      "transition_power": 0.8,
+      "emission_power": 2.0,
+      "lag_frames": 0,
+      "accuracy": 0.7786102541501395,
+      "speech_accuracy": 0.704988598221835
+    },
+    {
+      "transition_power": 0.8,
+      "emission_power": 2.0,
+      "lag_frames": 1,
+      "accuracy": 0.795926986925224,
+      "speech_accuracy": 0.7269722514028031
+    },
+    {
+      "transition_power": 0.8,
+      "emission_power": 2.0,
+      "lag_frames": 2,
+      "accuracy": 0.7966798883502277,
+      "speech_accuracy": 0.7284839478336621
+    }
+  ],
+  "selected": {
+    "transition_power": 0.4,
+    "emission_power": 2.0,
+    "lag_frames": 2,
+    "accuracy": 0.7973042456294991,
+    "speech_accuracy": 0.7284583258602577
+  }
+}

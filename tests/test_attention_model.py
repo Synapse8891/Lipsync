@@ -18,6 +18,8 @@ def test_attention_stream_matches_torch_and_has_bounded_state(tmp_path):
     model=load_model(path);actual,bb=model.predict_sequence(base)
     np.testing.assert_allclose(actual,expected,atol=2e-6);np.testing.assert_allclose(bb,breath[0].sigmoid().numpy(),atol=2e-6)
     np.testing.assert_allclose(np.stack([model.predict_proba(row) for row in base]),expected,atol=2e-6)
+    assert model.last_embedding.dtype==np.float32
+    assert all(k.dtype==v.dtype==np.float32 for keys,values in model.cache for k,v in zip(keys,values))
     assert all(len(keys)==12 and len(values)==12 for keys,values in model.cache)
     model.reset();np.testing.assert_allclose(model.predict_proba(base[0]),expected[0],atol=2e-6)
 
@@ -52,6 +54,17 @@ def test_attention_widening_preserves_class_and_breath_logits():
     from scripts.widen_attention import widen_attention_state
     torch.manual_seed(49);old=AttentionNetwork(16,2,4,12).eval();new=AttentionNetwork(32,2,4,12).eval()
     new.load_state_dict(widen_attention_state(old.state_dict(),heads=4,context=12))
+    x=torch.randn(2,60,158)
+    with torch.inference_mode():expected=old(x);actual=new(x)
+    for a,b in zip(actual,expected):np.testing.assert_allclose(a.numpy(),b.numpy(),atol=3e-6)
+
+
+def test_widening_and_adding_identity_layers_preserves_outputs():
+    torch=pytest.importorskip("torch")
+    from scripts.attention_network import AttentionNetwork
+    from scripts.widen_attention import widen_attention_state
+    torch.manual_seed(53);old=AttentionNetwork(16,2,4,12).eval();new=AttentionNetwork(32,4,4,12).eval()
+    new.load_state_dict(widen_attention_state(old.state_dict(),heads=4,context=12,layers=4))
     x=torch.randn(2,60,158)
     with torch.inference_mode():expected=old(x);actual=new(x)
     for a,b in zip(actual,expected):np.testing.assert_allclose(a.numpy(),b.numpy(),atol=3e-6)

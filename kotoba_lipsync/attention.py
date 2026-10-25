@@ -49,7 +49,7 @@ class AttentionModel:
         for layer,(keys,values) in enumerate(cache):
             prefix=f"blocks.{layer}.";q,k,v=self._linear(self._norm(x,prefix+"norm1"),prefix+"qkv").reshape(3,self.heads,-1)
             keys.append(k);values.append(v);kk=np.stack(keys,axis=1);vv=np.stack(values,axis=1)
-            scores=np.einsum("hd,htd->ht",q,kk)/np.sqrt(q.shape[1])
+            scores=np.einsum("hd,htd->ht",q,kk)*np.float32(q.shape[1]**-.5)
             scores-=self.slopes[:,None]*np.arange(len(keys)-1,-1,-1,dtype=np.float32)[None]
             probability=np.exp(scores-scores.max(axis=1,keepdims=True));probability/=probability.sum(axis=1,keepdims=True)
             attended=np.einsum("ht,htd->hd",probability,vv).reshape(-1)

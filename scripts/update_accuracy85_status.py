@@ -30,7 +30,13 @@ def main():
     protected=ROOT/config["protected_final_speech"]
     result["protected_final_index_sha256"]=hashlib.sha256(protected.read_bytes()).hexdigest()
     result["active_lookahead_ms"]=200
-    result["rejected_for_cpu_cost"]="384 channels: real time factor 1.48"
+    result["previous_float64_cost_probe"]="384 channels previously exceeded the frame budget; unintended float64 propagation corrected"
+    result["float32_cost_probes"]={}
+    for name in ("attention256","attention384","attention512x6"):
+        path=ROOT/"reports/experiments"/f"2026-10-25_{name}_float32_cost_probe.json"
+        if path.exists():
+            cost=json.loads(path.read_text(encoding="utf8"))
+            result["float32_cost_probes"][name]={key:cost[key] for key in ("frame_ms_p50","frame_ms_p95","real_time_factor","model_sha256")}
     dest=ROOT/"reports/accuracy85_status.json";temp=dest.with_suffix(".tmp.json")
     temp.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf8");temp.replace(dest)
     print(result["status"])

@@ -1,5 +1,5 @@
 {
-  "updated_at_jst": "2026-10-25T21:37:32+09:00",
+  "updated_at_jst": "2026-10-25T22:03:51+09:00",
   "status": "training and development; 85 percent not verified",
   "target_japanese_agreement": 0.85,
   "production_unchanged_sha256": "b3328c5b0749cd57cd67587b9b764bc7739b8dea5b5c9fbda48b79d29cba17a3",
@@ -38,15 +38,23 @@
       "final_test_scored": false
     },
     "ja85_attention256_l20_stage3": {
-      "completed_epochs": 7,
-      "selected_epoch": 7,
-      "development_japanese_agreement": 0.7833320476227211,
-      "development_speech_accuracy": 0.7102904848626913,
-      "development_breath_f1": 0.9113924050632911,
+      "completed_epochs": 24,
+      "selected_epoch": 24,
+      "development_japanese_agreement": 0.7891906023125648,
+      "development_speech_accuracy": 0.7207125984961864,
+      "development_breath_f1": 0.8974358974358975,
+      "final_test_scored": false
+    },
+    "ja85_attention512_l20_stage4": {
+      "completed_epochs": 3,
+      "selected_epoch": 2,
+      "development_japanese_agreement": 0.7796420581655481,
+      "development_speech_accuracy": 0.7080125257697879,
+      "development_breath_f1": 0.8275862068965517,
       "final_test_scored": false
     }
   },
-  "active_run": "ja85_attention256_l20_stage3",
+  "active_run": "ja85_attention512_l20_bf16_stage4",
   "training_data": {
     "index": "cache/features_v2/index_ja85_stage3_20261025.json",
     "sha256": "7cca4e27362104efeabd6826d2201f29c8e0db121113c963666e53260e552fed",
@@ -67,5 +75,25 @@
   },
   "protected_final_index_sha256": "bfba0cd8b39df9c047074d3250252b8ad7ddde0fc6fa9dee3bf2e3f635c5cda5",
   "active_lookahead_ms": 200,
-  "rejected_for_cpu_cost": "384 channels: real time factor 1.48"
+  "previous_float64_cost_probe": "384 channels previously exceeded the frame budget; unintended float64 propagation corrected",
+  "float32_cost_probes": {
+    "attention256": {
+      "frame_ms_p50": 1.6796000127214938,
+      "frame_ms_p95": 2.6692500076023857,
+      "real_time_factor": 0.1896185225411412,
+      "model_sha256": "8162e239bc84358854c4e5000f88c5ffa6c4f171256d99b13195c9104932dc39"
+    },
+    "attention384": {
+      "frame_ms_p50": 2.1664000232703984,
+      "frame_ms_p95": 3.2783899921923876,
+      "real_time_factor": 0.23254673080584556,
+      "model_sha256": "370b0246204186afc76bf9eba4394f2ec6912bcce2b30870b1765bf74079aff7"
+    },
+    "attention512x6": {
+      "frame_ms_p50": 4.242299997713417,
+      "frame_ms_p95": 5.6751100200926885,
+      "real_time_factor": 0.437256874754153,
+      "model_sha256": "467ae8956bc9c33d1aeaa72a51828e3362d402e3c759a2e141ed82c3082cf624"
+    }
+  }
 }
