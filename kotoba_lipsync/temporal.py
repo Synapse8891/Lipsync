@@ -44,6 +44,7 @@ class TemporalModel:
             for name in self.metadata["state_names"]:
                 self.state[name]=(data[name+".q"].astype(np.float32)*data[name+".scale"][:,None,None]) if name+".q" in data else data[name].copy()
         self.dilations=tuple(self.metadata["dilations"])
+        self.skip_lags=tuple(self.metadata.get("skip_lags",()))
         self.parameters=sum(x.size for x in self.state.values())
         self.float_weights_bytes=sum(x.nbytes for x in self.state.values())
         self.has_breath_head=bool(self.metadata.get("has_breath_head",False))
@@ -80,8 +81,16 @@ class TemporalModel:
             z=self._conv_step(f"blocks.{i}.conv2",z,d)
             h=np.maximum(self._norm(f"blocks.{i}.norm",h+z),0)
         logit=float(self._conv_step("breath",h)[0])
+        logits=self._conv_step("head",h)
+        if self.skip_lags:
+            if "skip" not in self.history:
+                self.history["skip"]=deque([np.zeros_like(x) for _ in range(max(self.skip_lags)+1)],maxlen=max(self.skip_lags)+1)
+            history=self.history["skip"];history.append(x)
+            direct=np.maximum(self._conv_step("skip_project",np.concatenate([history[-1-lag] for lag in self.skip_lags])),0)
+            logits+=self._conv_step("skip_head",direct)
+            logit+=float(self._conv_step("skip_breath",direct)[0])
         self.last_breath=float(1/(1+np.exp(-np.clip(logit,-40,40))))
-        return self._softmax(self._conv_step("head",h)).astype(np.float32)
+        return self._softmax(logits).astype(np.float32)
 
     def _conv_sequence(self,key,x,dilation=1):
         w=self.state[key+".weight"];bias=self.state[key+".bias"]
@@ -99,4 +108,14 @@ class TemporalModel:
             z=self._conv_sequence(f"blocks.{i}.conv2",z,d)
             h=np.maximum(self._norm(f"blocks.{i}.norm",h+z),0)
         breath=self._conv_sequence("breath",h)[:,0]
-        return self._softmax(self._conv_sequence("head",h)).astype(np.float32),(1/(1+np.exp(-np.clip(breath,-40,40)))).astype(np.float32)
+        logits=self._conv_sequence("head",h)
+        if self.skip_lags:
+            shifted=[]
+            for lag in self.skip_lags:
+                part=np.zeros_like(x)
+                if lag<len(x):part[lag:]=x[:len(x)-lag]
+                shifted.append(part)
+            direct=np.maximum(self._conv_sequence("skip_project",np.concatenate(shifted,axis=-1)),0)
+            logits+=self._conv_sequence("skip_head",direct)
+            breath+=self._conv_sequence("skip_breath",direct)[:,0]
+        return self._softmax(logits).astype(np.float32),(1/(1+np.exp(-np.clip(breath,-40,40)))).astype(np.float32)

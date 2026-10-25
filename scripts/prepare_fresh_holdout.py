@@ -20,15 +20,17 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def main():
     p=argparse.ArgumentParser();p.add_argument("--ja-count",type=int,default=200);p.add_argument("--en-count",type=int,default=60);p.add_argument("--threads",type=int,default=2)
+    p.add_argument("--shard",type=int,default=1);p.add_argument("--folder",default="cache/features_fresh_v2");p.add_argument("--exclude-index",action="append",default=[])
     args=p.parse_args()
     baseline=json.loads((ROOT/"cache/features_v2/index_five_hour.json").read_text(encoding="utf-8"))
     old=baseline["records"]
+    for file in args.exclude_index:old+=json.loads((ROOT/file).read_text(encoding="utf-8"))["records"]
     ids={r["id"] for r in old};speakers={r["speaker_hash"] for r in old};texts={r["transcript_hash"] for r in old}
     pinned=json.loads((ROOT/"configs/training_sources.json").read_text(encoding="utf-8"))["dataset"]
-    folder=ROOT/"cache/features_fresh_v2";folder.mkdir(exist_ok=True)
+    folder=ROOT/args.folder;folder.mkdir(exist_ok=True)
     records=[];signatures={};skipped=[]
     for lang,limit,shards in (("ja",args.ja_count,8),("en",args.en_count,19)):
-        source=f"{lang}/test-00001-of-{shards:05d}.parquet"
+        source=f"{lang}/test-{args.shard:05d}-of-{shards:05d}.parquet"
         path=ROOT/"data/common_voice_17"/source
         download(f"https://huggingface.co/datasets/{pinned['repo']}/resolve/{pinned['revision']}/{source}",path)
         candidates=[]
@@ -66,7 +68,7 @@ def main():
         del teacher
         print(f"Fresh {lang}: {count} recordings, {len({r['speaker_hash'] for r in records if r['language']==lang})} previously unused speakers",flush=True)
         if count<limit:raise RuntimeError(f"Only {count} eligible {lang} recordings; need another unused shard")
-    result={"records":records,"pipeline_version":PIPELINE_VERSION,"annotation_signatures":signatures,"feature_config":FeatureConfig().to_dict(),"source":pinned,"source_shard":1,"skipped":skipped,"overlap_check":"recording IDs, speaker hashes and transcript hashes absent from all previous train/validation/test records","note":"Labels only; no candidate inference or metric calculated"}
+    result={"records":records,"pipeline_version":PIPELINE_VERSION,"annotation_signatures":signatures,"feature_config":FeatureConfig().to_dict(),"source":pinned,"source_shard":args.shard,"excluded_indices":args.exclude_index,"skipped":skipped,"overlap_check":"recording IDs, speaker hashes and transcript hashes absent from all previous train/validation/test records","note":"Labels only; no candidate inference or metric calculated"}
     (folder/"index.json").write_text(json.dumps(result,indent=2),encoding="utf-8")
     print("Fresh holdout prepared. No model evaluated.",flush=True)
 

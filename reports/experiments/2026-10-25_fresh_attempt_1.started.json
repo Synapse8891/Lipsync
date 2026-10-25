@@ -1,0 +1,6 @@
+{
+  "model": "models\\candidates\\kotoba_tcn_calibrated_20261025.npz",
+  "sha256": "afacfe57856338c6d752237ac944f35f4b85c0572c818bc39b6c91dc65e5dc9f",
+  "time": 1792890341.926484,
+  "note": "Candidate frozen before fresh test inference"
+}

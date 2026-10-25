@@ -4,18 +4,25 @@ from kotoba_lipsync.features import FeatureConfig
 from kotoba_lipsync.temporal import expand_features,export_temporal,TemporalModel
 from kotoba_lipsync.features import extract_audio
 from kotoba_lipsync.runtime import LipSyncEngine
+from kotoba_lipsync.model import load_model
+import json
 
-def make_network(tmp_path,quantized=False):
+def make_network(tmp_path,quantized=False,skip_lags=()):
     torch=pytest.importorskip("torch")
     from scripts.tcn_network import TemporalNetwork
     torch.manual_seed(3)
-    network=TemporalNetwork(channels=8,dilations=(1,2)).eval()
+    network=TemporalNetwork(channels=8,dilations=(1,2),skip_lags=skip_lags,skip_hidden=8).eval()
+    if skip_lags:
+        with torch.no_grad():
+            network.skip_head.weight.uniform_(-.2,.2)
+            network.skip_breath.weight.uniform_(-.2,.2)
     path=tmp_path/"temporal.npz"
-    export_temporal(path,{k:v.detach().numpy() for k,v in network.state_dict().items()},np.zeros(118),np.ones(118),FeatureConfig(lookahead_frames=3),{"channels":8,"dilations":[1,2],"has_breath_head":True},quantized=quantized)
+    export_temporal(path,{k:v.detach().numpy() for k,v in network.state_dict().items()},np.zeros(118),np.ones(118),FeatureConfig(lookahead_frames=3),{"channels":8,"dilations":[1,2],"skip_lags":list(skip_lags),"has_breath_head":True},quantized=quantized)
     return torch,network,TemporalModel(path)
 
-def test_temporal_numpy_matches_pytorch_and_frame_stream(tmp_path):
-    torch,network,model=make_network(tmp_path)
+@pytest.mark.parametrize("skip_lags",[(),(0,2,5)])
+def test_temporal_numpy_matches_pytorch_and_frame_stream(tmp_path,skip_lags):
+    torch,network,model=make_network(tmp_path,skip_lags=skip_lags)
     base=np.random.default_rng(4).normal(size=(120,78)).astype(np.float32)
     with torch.inference_mode():
         logits,breath=network(torch.from_numpy(expand_features(base))[None])
@@ -89,3 +96,34 @@ def test_padded_future_has_no_training_target():
     _,target,_,valid=SequenceDataset(ShortCorpus(),lookahead=1,context=2,frames=4)[0]
     assert target.tolist()==[-100,-100,-100,10,11,-100]
     assert not valid[-1]
+
+
+@pytest.mark.parametrize("architecture",["tcn","gru"])
+def test_decoder_stream_matches_batch_and_has_no_future_input(tmp_path,architecture):
+    if architecture=="tcn":make_network(tmp_path,skip_lags=(0,2,5))
+    else:
+        pytest.importorskip("torch")
+        from scripts.gru_network import RecurrentNetwork
+        from kotoba_lipsync.recurrent import export_recurrent
+        network=RecurrentNetwork(8,2).eval()
+        export_recurrent(tmp_path/"temporal.npz",{k:v.detach().numpy() for k,v in network.state_dict().items()},np.zeros(118),np.ones(118),FeatureConfig(lookahead_frames=3),{"channels":8,"gru_layers":2,"has_breath_head":True},quantized=False)
+    path=tmp_path/"temporal.npz"
+    with np.load(path) as data:arrays={key:data[key].copy() for key in data.files}
+    metadata=json.loads(str(arrays["metadata"]))
+    metadata["feature_config"]["lookahead_frames"]=4
+    metadata["decoder"]={"offsets":[-1,0,1],"base_lookahead_frames":3,"classes":list(range(16))}
+    rng=np.random.default_rng(12)
+    arrays.update(metadata=np.array(json.dumps(metadata)),decoder_weight=rng.normal(0,.1,(16,49)).astype(np.float32),decoder_bias=np.zeros(16,dtype=np.float32),decoder_mean=np.zeros(49,dtype=np.float32),decoder_scale=np.ones(49,dtype=np.float32))
+    np.savez_compressed(path,**arrays)
+    model=load_model(path)
+    base=rng.normal(size=(100,78)).astype(np.float32)
+    expected,expected_breath=model.predict_sequence(base)
+    actual=[];breath=[]
+    for row in base:actual.append(model.predict_proba(row));breath.append(model.last_breath)
+    np.testing.assert_allclose(actual,expected,atol=2e-6)
+    np.testing.assert_allclose(breath,expected_breath,atol=2e-6)
+    changed=base.copy();changed[50:]*=10
+    other,_=model.predict_sequence(changed)
+    np.testing.assert_allclose(other[:50],expected[:50],atol=2e-6)
+    model.reset()
+    np.testing.assert_allclose(model.predict_proba(base[0]),actual[0],atol=2e-6)

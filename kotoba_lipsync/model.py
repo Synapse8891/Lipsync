@@ -62,5 +62,16 @@ def load_model(path):
         return TinyModel(path)
     if model_format == "kotoba-tcn-int8-v1":
         from .temporal import TemporalModel
-        return TemporalModel(path)
+        model = TemporalModel(path)
+        if "decoder" in model.metadata:
+            from .decoder import CalibratedModel
+            return CalibratedModel(model,path)
+        return model
+    if model_format == "kotoba-gru-int8-v1":
+        from .recurrent import RecurrentModel
+        model = RecurrentModel(path)
+        if "decoder" in model.metadata:
+            from .decoder import CalibratedModel
+            return CalibratedModel(model,path)
+        return model
     raise ValueError(f"Unsupported model format: {model_format}")

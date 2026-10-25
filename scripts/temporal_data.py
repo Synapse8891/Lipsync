@@ -4,10 +4,24 @@ import json
 from pathlib import Path
 import numpy as np
 from sklearn.preprocessing import StandardScaler
+from scipy.fft import dct
 from kotoba_lipsync.features import FeatureConfig,FeatureExtractor,read_audio
 from kotoba_lipsync.temporal import expand_features
 
 ROOT=Path(__file__).resolve().parents[1]
+
+
+def apply_gain(base,gain_db):
+    """Feature-domain constant waveform gain; MFCC excludes C0 by design."""
+    out=np.array(base,dtype=np.float32,copy=True)
+    factor=10**(gain_db/10)
+    floor=1.01e-10
+    out[:,:40]=np.log(np.maximum(np.exp(out[:,:40])-floor,0)*factor+floor)
+    out[:,40:53]=dct(out[:,:40],axis=-1,norm="ortho")[:,1:14]
+    rms=np.maximum(10**(out[:,68]*80/20)-1e-8,0)
+    new_rms=np.sqrt(np.maximum(rms*rms-1e-12,0)*factor+1e-12)
+    out[:,68]=20*np.log10(new_rms+1e-8)/80
+    return out
 
 def breath_features(record):
     audio_path=ROOT/record["path"]
@@ -15,13 +29,16 @@ def breath_features(record):
         raise ValueError("Event recordings must individually declare CC0-1.0")
     actual_hash=hashlib.sha256(audio_path.read_bytes()).hexdigest()
     if record.get("sha256")!=actual_hash:raise ValueError("Event audio hash does not match manifest")
-    signature=hashlib.sha256((actual_hash+record.get("kind","breath")+json.dumps(FeatureConfig().to_dict(),sort_keys=True)+"/event-weak-v1").encode()).hexdigest()
+    tail=record.get("event_pipeline")=="tail-v2"
+    signature=hashlib.sha256((actual_hash+record.get("kind","breath")+json.dumps(FeatureConfig().to_dict(),sort_keys=True)+("/event-weak-tail-v2" if tail else "/event-weak-v1")).encode()).hexdigest()
     folder=ROOT/"cache/breath_features";folder.mkdir(exist_ok=True)
-    path=folder/(record["id"]+"_"+record.get("kind","breath")+".npz")
+    path=folder/(record["id"]+"_"+record.get("kind","breath")+("_tail-v2" if tail else "")+".npz")
     if path.exists():
         with np.load(path) as d:
             if "signature" in d and str(d["signature"])==signature:return d["base"],d["y"],d["breath"]
     audio=read_audio(audio_path)
+    original_frames=len(audio)//160
+    if tail:audio=np.r_[audio,np.zeros(4000,dtype=np.float32)]
     cfg=FeatureConfig();extractor=FeatureExtractor(cfg)
     padded=np.r_[np.zeros(cfg.frame_size-cfg.hop_size,dtype=np.float32),audio]
     frames=[]
@@ -29,10 +46,12 @@ def breath_features(record):
         feat,_=extractor.frame(padded[end-cfg.frame_size:end]);frames.append(feat)
     base=np.stack(frames).astype(np.float16)
     db=base[:,68].astype(np.float32)*80
-    threshold=max(-65.,float(np.percentile(db,90))-35)
+    threshold=max(-65.,float(np.percentile(db[:original_frames],90))-35)
     active=db>threshold
     labels=np.where(active,15 if record.get("kind","breath")=="breath" else 0,0).astype(np.int16)
     breath=np.where(active,1 if record.get("kind","breath")=="breath" else 0,-1).astype(np.float16)
+    if tail:
+        labels[original_frames:]=0;breath[original_frames:]=-1
     np.savez_compressed(path,base=base,y=labels,breath=breath,signature=signature)
     return base,labels,breath
 
@@ -74,7 +93,7 @@ def pack_corpus(index_path,folder,breath_manifest=None):
         output.append({**row,"offset":offset,"frames":len(base)})
         offset=end
     for n,row in enumerate(rows):
-        with np.load(ROOT/"cache/features_v2"/(row["id"]+".npz")) as data:
+        with np.load(ROOT/row.get("feature_root","cache/features_v2")/(row["id"]+".npz")) as data:
             if str(data["annotation_signature"])!=index["annotation_signatures"][row["language"]]:raise RuntimeError("Cache signature mismatch")
             base=data["base"];y=data["y"]
             breath=np.where(y!=0,0,-1).astype(np.float16)
