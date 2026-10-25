@@ -8,6 +8,15 @@ from math import gcd
 def input_devices():
     return [(i,d["name"],int(d["default_samplerate"])) for i,d in enumerate(sd.query_devices()) if d["max_input_channels"]>0]
 
+def input_device_details():
+    apis=sd.query_hostapis()
+    return [{"id":i,"name":d["name"],"rate":int(d["default_samplerate"]),"hostapi":apis[d["hostapi"]]["name"]}
+            for i,d in enumerate(sd.query_devices()) if d["max_input_channels"]>0]
+
+def default_input_device():
+    device=int(sd.default.device[0])
+    return device if device>=0 else None
+
 class Microphone:
     def __init__(self, device=None, target_rate=16000):
         self.queue = queue.Queue(maxsize=8)

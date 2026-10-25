@@ -1,0 +1,116 @@
+{
+  "status": "assessment_only_no_new_training",
+  "target_language": "ja",
+  "target_agreement": 0.92,
+  "current_agreement": 0.7506009310628112,
+  "current_speech_only_agreement": 0.6580731144580904,
+  "needed_absolute_percentage_point_gain": 16.93990689371888,
+  "needed_error_reduction_percent": 67.9228954859699,
+  "speech_accuracy_needed_if_silence_predictions_stay_fixed": 0.8974253736690504,
+  "current_errors": 24590,
+  "top_confusions": [
+    {
+      "frames": 1050,
+      "expected": "aa",
+      "predicted": "oh"
+    },
+    {
+      "frames": 820,
+      "expected": "oh",
+      "predicted": "aa"
+    },
+    {
+      "frames": 561,
+      "expected": "ih",
+      "predicted": "E"
+    },
+    {
+      "frames": 559,
+      "expected": "E",
+      "predicted": "ih"
+    },
+    {
+      "frames": 531,
+      "expected": "ou",
+      "predicted": "oh"
+    },
+    {
+      "frames": 483,
+      "expected": "ou",
+      "predicted": "aa"
+    },
+    {
+      "frames": 470,
+      "expected": "CH",
+      "predicted": "SS"
+    },
+    {
+      "frames": 469,
+      "expected": "oh",
+      "predicted": "ou"
+    },
+    {
+      "frames": 430,
+      "expected": "ou",
+      "predicted": "ih"
+    },
+    {
+      "frames": 391,
+      "expected": "ih",
+      "predicted": "ou"
+    },
+    {
+      "frames": 371,
+      "expected": "kk",
+      "predicted": "aa"
+    },
+    {
+      "frames": 345,
+      "expected": "ih",
+      "predicted": "nn"
+    },
+    {
+      "frames": 338,
+      "expected": "nn",
+      "predicted": "ih"
+    },
+    {
+      "frames": 327,
+      "expected": "nn",
+      "predicted": "oh"
+    },
+    {
+      "frames": 306,
+      "expected": "nn",
+      "predicted": "aa"
+    },
+    {
+      "frames": 304,
+      "expected": "PP",
+      "predicted": "nn"
+    },
+    {
+      "frames": 303,
+      "expected": "ih",
+      "predicted": "aa"
+    },
+    {
+      "frames": 301,
+      "expected": "oh",
+      "predicted": "nn"
+    },
+    {
+      "frames": 290,
+      "expected": "aa",
+      "predicted": "E"
+    },
+    {
+      "frames": 286,
+      "expected": "kk",
+      "predicted": "oh"
+    }
+  ],
+  "source_report_sha256": "f7c0c7a3e499d838c695daf59f9c33bbedcde037d99525b1c42c6604aed9c4d9",
+  "model_sha256": "b3328c5b0749cd57cd67587b9b764bc7739b8dea5b5c9fbda48b79d29cba17a3",
+  "note": "Diagnostic analysis of an already evaluated test set, not a new independent evaluation. No model selection or new accuracy claim. Aiming at 92 percent requires separate development and a new frozen final evaluation."
+}
