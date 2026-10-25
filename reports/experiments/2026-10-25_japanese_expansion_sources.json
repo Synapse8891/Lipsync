@@ -1,0 +1,77 @@
+{
+  "source": {
+    "repo": "fixie-ai/common_voice_17_0",
+    "revision": "34f78a43893414e7b6e271ba94c1d5e05f18b239",
+    "license": "CC0-1.0"
+  },
+  "audio_license": "CC0-1.0",
+  "purpose": "Additional training candidates only after recording, global speaker and transcript exclusion; original source test/validation names are not the final model split",
+  "files": [
+    {
+      "source_file": "ja/validation-00001-of-00008.parquet",
+      "url": "https://huggingface.co/datasets/fixie-ai/common_voice_17_0/resolve/34f78a43893414e7b6e271ba94c1d5e05f18b239/ja/validation-00001-of-00008.parquet",
+      "sha256": "f1ec35dc6e408d5296045caedd583e154d518fdafa852ad488b9f110bc715e17",
+      "bytes": 23355851
+    },
+    {
+      "source_file": "ja/validation-00002-of-00008.parquet",
+      "url": "https://huggingface.co/datasets/fixie-ai/common_voice_17_0/resolve/34f78a43893414e7b6e271ba94c1d5e05f18b239/ja/validation-00002-of-00008.parquet",
+      "sha256": "2d0b4fcb9b371d5b4663e409cd5041b236095ed770a6a912f96716aa7b68c38e",
+      "bytes": 23362286
+    },
+    {
+      "source_file": "ja/validation-00003-of-00008.parquet",
+      "url": "https://huggingface.co/datasets/fixie-ai/common_voice_17_0/resolve/34f78a43893414e7b6e271ba94c1d5e05f18b239/ja/validation-00003-of-00008.parquet",
+      "sha256": "008afc7b7276d30b78f0e9d1be8ab1a665aa68cb005a97be9af8ceca663bf1a0",
+      "bytes": 22650919
+    },
+    {
+      "source_file": "ja/validation-00004-of-00008.parquet",
+      "url": "https://huggingface.co/datasets/fixie-ai/common_voice_17_0/resolve/34f78a43893414e7b6e271ba94c1d5e05f18b239/ja/validation-00004-of-00008.parquet",
+      "sha256": "f0cdecff8e0ba27714925eb8344a747f90b2a4b1d75609935e20e13c92a30740",
+      "bytes": 23178792
+    },
+    {
+      "source_file": "ja/validation-00005-of-00008.parquet",
+      "url": "https://huggingface.co/datasets/fixie-ai/common_voice_17_0/resolve/34f78a43893414e7b6e271ba94c1d5e05f18b239/ja/validation-00005-of-00008.parquet",
+      "sha256": "7d649d4bea8cd8dc508ebb41f1e2fd4b5964eb1167f30d9e00659f673805b09c",
+      "bytes": 22670640
+    },
+    {
+      "source_file": "ja/validation-00006-of-00008.parquet",
+      "url": "https://huggingface.co/datasets/fixie-ai/common_voice_17_0/resolve/34f78a43893414e7b6e271ba94c1d5e05f18b239/ja/validation-00006-of-00008.parquet",
+      "sha256": "6d876ef30ff8fdb5cb61188aa228a6a83b28066a028bf24edca5fb0ef3d259ef",
+      "bytes": 22929815
+    },
+    {
+      "source_file": "ja/validation-00007-of-00008.parquet",
+      "url": "https://huggingface.co/datasets/fixie-ai/common_voice_17_0/resolve/34f78a43893414e7b6e271ba94c1d5e05f18b239/ja/validation-00007-of-00008.parquet",
+      "sha256": "e2947c23e7d3b775a1ba608205c6cfb1217c7acd6739046bac00df794f920479",
+      "bytes": 23399323
+    },
+    {
+      "source_file": "ja/test-00004-of-00008.parquet",
+      "url": "https://huggingface.co/datasets/fixie-ai/common_voice_17_0/resolve/34f78a43893414e7b6e271ba94c1d5e05f18b239/ja/test-00004-of-00008.parquet",
+      "sha256": "7ba057f0d357b33d9b7233d85173ac82464e2845f2b02b932b70c6dab56ee61d",
+      "bytes": 26082668
+    },
+    {
+      "source_file": "ja/test-00005-of-00008.parquet",
+      "url": "https://huggingface.co/datasets/fixie-ai/common_voice_17_0/resolve/34f78a43893414e7b6e271ba94c1d5e05f18b239/ja/test-00005-of-00008.parquet",
+      "sha256": "aa5bcc9ff8e99d5fa15fd869577a6c8f20e262fc4b6bafd4d1746dae94acc8fe",
+      "bytes": 24097009
+    },
+    {
+      "source_file": "ja/test-00006-of-00008.parquet",
+      "url": "https://huggingface.co/datasets/fixie-ai/common_voice_17_0/resolve/34f78a43893414e7b6e271ba94c1d5e05f18b239/ja/test-00006-of-00008.parquet",
+      "sha256": "c0f64e5caa1e7256e87acea784d0a168c8a03b928857e95cd0a67712efc202bd",
+      "bytes": 24153924
+    },
+    {
+      "source_file": "ja/test-00007-of-00008.parquet",
+      "url": "https://huggingface.co/datasets/fixie-ai/common_voice_17_0/resolve/34f78a43893414e7b6e271ba94c1d5e05f18b239/ja/test-00007-of-00008.parquet",
+      "sha256": "77e1218877d9ef8ea6a8d906f751d27fb71b9f7bd2f42ab0b55b5cea76c71fa2",
+      "bytes": 24295703
+    }
+  ]
+}

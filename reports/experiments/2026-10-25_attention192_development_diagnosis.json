@@ -1,0 +1,29 @@
+{
+  "train": {
+    "recordings": 100,
+    "exact_accuracy": 0.8486764641751341,
+    "exact_speech_accuracy": 0.7914624709827186,
+    "stable_speech_accuracy_30ms": 0.855397441425902,
+    "speech_label_tolerance_diagnostics": {
+      "plus_minus_10ms": 0.8638444673716791,
+      "plus_minus_20ms": 0.8811581119422234,
+      "plus_minus_30ms": 0.8884446737167914,
+      "plus_minus_50ms": 0.896279339695641,
+      "plus_minus_100ms": 0.9092403920557132
+    }
+  },
+  "validation": {
+    "recordings": 100,
+    "exact_accuracy": 0.7930786165463037,
+    "exact_speech_accuracy": 0.7128575311848742,
+    "stable_speech_accuracy_30ms": 0.7438118811881188,
+    "speech_label_tolerance_diagnostics": {
+      "plus_minus_10ms": 0.787731432541001,
+      "plus_minus_20ms": 0.808934126672506,
+      "plus_minus_30ms": 0.8190522214503609,
+      "plus_minus_50ms": 0.8316469842036909,
+      "plus_minus_100ms": 0.8554169561146516
+    }
+  },
+  "scope": "Already available development and training data only. Stable/tolerant diagnostics do not replace the exact frame accuracy criterion. No untouched final test used."
+}

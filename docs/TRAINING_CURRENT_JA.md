@@ -51,7 +51,7 @@ New-Item -ItemType File -Path cache/tcn_experiments/my_gru96_experiment/STOP -Fo
 ```powershell
 .\.venv\Scripts\python.exe -m scripts.promote_candidate `
   models/candidates/kotoba_gru_candidate_v3.npz `
-  reports/experiments/2026-10-25_fresh_attempt_2.json
+  reports/experiments/2026-10-25_fresh_attempt_2.json --minimum-japanese 0.75
 ```
 
 ## 推論速度・動作の確認

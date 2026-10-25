@@ -74,4 +74,11 @@ def load_model(path):
             from .decoder import CalibratedModel
             return CalibratedModel(model,path)
         return model
+    if model_format == "kotoba-attention-int8-v1":
+        from .attention import AttentionModel
+        model = AttentionModel(path)
+        if "decoder" in model.metadata:
+            from .decoder import CalibratedModel
+            return CalibratedModel(model,path)
+        return model
     raise ValueError(f"Unsupported model format: {model_format}")

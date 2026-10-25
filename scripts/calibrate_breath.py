@@ -10,6 +10,7 @@ from threadpoolctl import threadpool_limits
 from kotoba_lipsync.model import load_model
 from kotoba_lipsync.temporal import expand_features
 from kotoba_lipsync.normalization import sequence_features
+from scripts.network_tools import build_network,infer_sequence
 if __package__:
     from .temporal_data import Corpus
     from .gru_network import RecurrentNetwork
@@ -30,15 +31,14 @@ def main():
     if "decoder" in metadata or metadata.get("breath_logit_bias",0):raise ValueError("Calibrate the unmodified base model before the posterior decoder")
     if not model.has_breath_head:raise ValueError("No independently trained breath head")
     corpus=Corpus(ROOT/args.corpus);lookahead=model.config.lookahead_frames
-    if metadata.get("architecture")=="gru":network=RecurrentNetwork(metadata["channels"],metadata["gru_layers"],features=len(model.mean),skip_lags=metadata.get("skip_lags",()),skip_hidden=metadata.get("skip_hidden",32),language_head=metadata.get("language_head",False),spectral_frontend=metadata.get("spectral_frontend",False))
-    else:network=TemporalNetwork(metadata["channels"],metadata["dilations"],skip_lags=metadata.get("skip_lags",()),skip_hidden=metadata.get("skip_hidden",64))
+    network=build_network(metadata,len(model.mean))
     network.load_state_dict({key:torch.from_numpy(value) for key,value in model.state.items()});network.to(args.device).eval()
     clips=[]
     with torch.inference_mode():
         for row in corpus.rows:
             if row["split"]!="validation":continue
             base,y,br=corpus.arrays(row);x=(sequence_features(base,metadata.get("feature_mode","base"))-model.mean)/model.scale
-            raw=network(torch.from_numpy(x)[None].to(args.device))[1][0,lookahead:].sigmoid().cpu().numpy()
+            raw=infer_sequence(network,x,args.device)[1][0,lookahead:].sigmoid().cpu().numpy()
             active=np.asarray(br[:len(raw)])>=0;db=np.asarray(base[:len(raw),68],dtype=np.float32)*80
             if active.any():clips.append((row["id"],row["language"]=="breath",raw[active],db[active]))
     truths=np.asarray([row[1] for row in clips]);trials=[]

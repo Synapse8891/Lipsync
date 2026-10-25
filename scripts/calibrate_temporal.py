@@ -16,6 +16,7 @@ from kotoba_lipsync.temporal import expand_features
 from kotoba_lipsync.model import load_model
 from kotoba_lipsync.features import FeatureConfig
 from kotoba_lipsync.normalization import sequence_features
+from scripts.network_tools import build_network,infer_sequence
 if __package__:
     from .tcn_network import TemporalNetwork
     from .gru_network import RecurrentNetwork
@@ -45,17 +46,17 @@ def main():
     if cache.exists():
         with np.load(cache) as data:x=data["x"];y=data["y"];fit=data["fit"];language=data["language"]
     else:
-        network=RecurrentNetwork(metadata["channels"],metadata["gru_layers"],features=len(model.mean),skip_lags=metadata.get("skip_lags",()),skip_hidden=metadata.get("skip_hidden",32),language_head=metadata.get("language_head",False),spectral_frontend=metadata.get("spectral_frontend",False)) if metadata.get("architecture")=="gru" else TemporalNetwork(metadata["channels"],metadata["dilations"],skip_lags=metadata.get("skip_lags",()),skip_hidden=metadata.get("skip_hidden",64))
+        network=build_network(metadata,len(model.mean))
         network.load_state_dict({key:torch.from_numpy(value) for key,value in model.state.items()});network.to(args.device).eval()
         torch.backends.cudnn.allow_tf32=False;torch.backends.cuda.matmul.allow_tf32=False
-        index=json.loads((ROOT/args.index).read_text())
+        index=json.loads((ROOT/args.index).read_text(encoding="utf8"))
         xs=[];ys=[];fits=[];langs=[]
         development_rows=[r for r in index["records"] if r["split"]=="validation"]
         with torch.inference_mode():
             for number,row in enumerate(development_rows):
                 with np.load(ROOT/row.get("feature_root","cache/features_v2")/(row["id"]+".npz")) as data:base=data["base"].astype(np.float32);truth=data["y"]
                 values=(sequence_features(base,metadata.get("feature_mode","base"))-model.mean)/model.scale
-                p=network(torch.from_numpy(values)[None].to(args.device))[0][0].softmax(-1).cpu().numpy()[lookahead:]
+                p=infer_sequence(network,values,args.device)[0][0].softmax(-1).cpu().numpy()[lookahead:]
                 target=np.arange(max(0,len(p)-max(offsets)))
                 positions=np.maximum(target[:,None]+np.asarray(offsets)[None,:],0)
                 xs.append(np.c_[np.log(np.maximum(p[positions],1e-6)).reshape(len(target),-1),base[target,68]])
@@ -78,6 +79,7 @@ def main():
     scaler=StandardScaler().fit(x);classifier=LogisticRegression(C=best["C"],max_iter=200,tol=2e-4).fit(scaler.transform(x),y)
     with np.load(path) as data:arrays={key:data[key].copy() for key in data.files}
     config=model.config.to_dict();config["lookahead_frames"]=lookahead+max(offsets)
+    if config["lookahead_frames"]>max(config["context"]):config["context"]=sorted(set(config["context"]+[config["lookahead_frames"]]))
     metadata={**metadata,"feature_config":config,"decoder":{"offsets":list(offsets),"base_lookahead_frames":lookahead,"extra_lookahead_frames":max(offsets),"classes":classifier.classes_.tolist(),"base_sha256":signature,"C":best["C"],"training_data":"previous validation speakers; selected C with speaker-disjoint development comparison; refit on all development data; fresh test untouched"}}
     arrays.update(metadata=np.array(json.dumps(metadata)),decoder_weight=classifier.coef_.astype(np.float32),decoder_bias=classifier.intercept_.astype(np.float32),decoder_mean=scaler.mean_.astype(np.float32),decoder_scale=scaler.scale_.astype(np.float32))
     dest=ROOT/args.output;dest.parent.mkdir(parents=True,exist_ok=True);np.savez_compressed(dest,**arrays)

@@ -1,0 +1,73 @@
+{
+  "status": "development only; no final test inference",
+  "run": "ja85_attention192_v1",
+  "configuration": {
+    "index": "cache/features_v2/index_ja85_stage1_20261025.json",
+    "corpus": "cache/temporal_corpus/ja85_stage1_cmn_v2",
+    "breath_manifest": "data/breath_cc0/manifest_v2.json",
+    "run": "ja85_attention192_v1",
+    "epochs": 60,
+    "steps_per_epoch": 300,
+    "batch_size": 48,
+    "channels": 192,
+    "dilations": "1,2,4,8",
+    "lookahead": 10,
+    "threads": 2,
+    "device": "cuda",
+    "gain_augment_db": 8.0,
+    "gain_augment_events_only": true,
+    "skip_lags": "",
+    "skip_hidden": 64,
+    "architecture": "attention",
+    "language_head": false,
+    "feature_mode": "cmn-v2",
+    "spectral_frontend": true,
+    "gru_layers": 2,
+    "attention_layers": 4,
+    "attention_heads": 4,
+    "attention_context": 32,
+    "english_weight": 0.3,
+    "breath_selection_weight": 0.01,
+    "breath_viseme_loss_weight": 0.25,
+    "patience": 18,
+    "resume": null,
+    "seed": 42,
+    "selection_language": "ja",
+    "selection_metric": "accuracy",
+    "learning_rate": 0.0007,
+    "class_weight_exponent": 0.1,
+    "actual_device": "cuda",
+    "torch_version": "2.14.1+cu130",
+    "corpus_signature": "d4d440802bb2e035e7a33bde520b4af44175e2e170bc7d94a54a3821104f07ea/tcn-corpus-v1/cmn-v2",
+    "resume_kind": "weights and feature normalization; optimizer starts fresh"
+  },
+  "epochs": 40,
+  "selected_epoch": 39,
+  "validation": {
+    "all": {
+      "accuracy": 0.7327498287540909,
+      "speech_accuracy": 0.6301540294741269,
+      "macro_f1": 0.5902629714775309
+    },
+    "ja": {
+      "accuracy": 0.7729362994788825,
+      "speech_accuracy": 0.6920090450096911,
+      "macro_f1": 0.622420751445488
+    },
+    "en": {
+      "accuracy": 0.6264962669595412,
+      "speech_accuracy": 0.46093545430741034,
+      "macro_f1": 0.4451463460784889
+    }
+  },
+  "natural_breath": {
+    "precision": 0.775,
+    "recall": 0.8378378378378378,
+    "f1": 0.8051948051948052,
+    "positive_clips": 37,
+    "negative_clips": 679,
+    "false_positive_rate": 0.013254786450662739,
+    "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+  },
+  "source_model_sha256": "fa2a585aead27a3aa855edb0b751651e553a67f7522f421c13911eb4f84b28b1"
+}

@@ -8,6 +8,7 @@ from threadpoolctl import threadpool_limits
 from kotoba_lipsync.model import load_model
 from kotoba_lipsync.normalization import sequence_features
 from scripts.gru_network import RecurrentNetwork
+from scripts.network_tools import build_network,infer_sequence
 
 
 def main():
@@ -17,7 +18,7 @@ def main():
     args=parser.parse_args();threadpool_limits(2);torch.set_num_threads(2)
     model=load_model(args.model);base=model.base if hasattr(model,"base") else model;meta=base.metadata
     lookahead=meta.get("decoder",{}).get("base_lookahead_frames",base.config.lookahead_frames)
-    network=RecurrentNetwork(meta["channels"],meta["gru_layers"],features=len(base.mean),skip_lags=meta.get("skip_lags",()),skip_hidden=meta.get("skip_hidden",32),language_head=meta.get("language_head",False))
+    network=build_network(meta,len(base.mean))
     network.load_state_dict({k:torch.from_numpy(v) for k,v in base.state.items()});network.cuda().eval()
     document=json.loads(Path(args.index).read_text(encoding="utf8"));output={}
     for split in ("train","validation"):
@@ -27,7 +28,7 @@ def main():
             for row in rows:
                 with np.load(Path(row.get("feature_root","cache/features_v2"))/(row["id"]+".npz")) as data:features=data["base"].astype(np.float32);truth=data["y"]
                 x=(sequence_features(features,meta.get("feature_mode","base"))-base.mean)/base.scale
-                probability=network(torch.from_numpy(x)[None].cuda())[0][0].softmax(-1).cpu().numpy()[lookahead:]
+                probability=infer_sequence(network,x,"cuda")[0][0].softmax(-1).cpu().numpy()[lookahead:]
                 if hasattr(model,"offsets"):
                     t=np.arange(len(probability)-model.extra);positions=np.maximum(t[:,None]+np.asarray(model.offsets),0)
                     probability=model._classify(np.c_[np.log(np.maximum(probability[positions],1e-6)).reshape(len(t),-1),features[t,68]])

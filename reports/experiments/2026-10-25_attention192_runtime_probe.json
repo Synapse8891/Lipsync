@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "model_sha256": "9cf87f50a148858c15cdc155352a1446cfca39cd17b97039fe66af02f94a3e5d",
+  "audio_seconds": 27.38825,
+  "output_frames": 2728,
+  "batch_stream_max_error": 0.0,
+  "different_audio_block_sizes_max_error": 0.0,
+  "finite_outputs": true,
+  "silence_recovery": true,
+  "natural_breath_is_independent": true,
+  "scope": "CPU inference and stream state only; no real avatar, microphone driver or rendered response measurement"
+}

@@ -14,3 +14,11 @@ def test_expanded_input_preserves_gru_and_time_branch():
     with torch.inference_mode():
         expected=old(x[:,:,:118]);actual=new(x)
     for a,b in zip(actual,expected):np.testing.assert_allclose(a.numpy(),b.numpy(),atol=3e-7)
+
+
+def test_explicit_longer_lookahead_keeps_legacy_context_unchanged():
+    from scripts.train_temporal import model_feature_config
+    from kotoba_lipsync.features import FeatureConfig
+    assert model_feature_config(10).context==FeatureConfig().context
+    assert model_feature_config(20).lookahead_frames==20
+    assert max(model_feature_config(20).context)==20

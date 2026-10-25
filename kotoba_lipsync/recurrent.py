@@ -10,7 +10,7 @@ from .normalization import CausalSpectralMean
 FORMAT="kotoba-gru-int8-v1"
 
 
-def export_recurrent(path,state,mean,scale,config,metadata,*,quantized=True):
+def export_recurrent(path,state,mean,scale,config,metadata,*,quantized=True,model_format=FORMAT):
     arrays={"mean":np.asarray(mean,dtype=np.float32),"scale":np.asarray(scale,dtype=np.float32)}
     for name,value in state.items():
         value=np.asarray(value,dtype=np.float32)
@@ -19,7 +19,7 @@ def export_recurrent(path,state,mean,scale,config,metadata,*,quantized=True):
             arrays[name+".q"]=np.clip(np.rint(value/factor[:,None]),-127,127).astype(np.int8)
             arrays[name+".scale"]=factor
         else:arrays[name]=value
-    arrays["metadata"]=np.array(json.dumps({**metadata,"format":FORMAT,"feature_config":config.to_dict(),"state_names":list(state),"quantized":quantized}))
+    arrays["metadata"]=np.array(json.dumps({**metadata,"format":model_format,"feature_config":config.to_dict(),"state_names":list(state),"quantized":quantized}))
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
     temporary=path.with_suffix(".tmp.npz");np.savez_compressed(temporary,**arrays);temporary.replace(path)
 
@@ -44,7 +44,7 @@ class RecurrentModel:
     def reset(self):
         self.hidden=np.zeros((self.metadata["gru_layers"],self.metadata["channels"]),dtype=np.float32);self.last_breath=0.
         self.feature_history=self._new_history()
-        self.spectral_mean=CausalSpectralMean()
+        self.spectral_mean=CausalSpectralMean(mode=self.feature_mode)
         self.frontend_history=self._new_frontend_history()
 
     def _new_history(self):
@@ -106,13 +106,13 @@ class RecurrentModel:
 
     def predict_proba(self,features):
         base=np.asarray(features)[:78];expanded=expand_features(base)
-        if self.feature_mode=="cmn-v1":expanded=np.r_[expanded,self.spectral_mean.push(base)]
+        if self.feature_mode in ("cmn-v1","cmn-v2"):expanded=np.r_[expanded,self.spectral_mean.push(base)]
         p,self.last_breath=self._step(expanded,self.hidden,self.feature_history,self.frontend_history);return p
 
     def predict_sequence(self,base):
-        hidden=np.zeros_like(self.hidden);probabilities=[];breaths=[];history=self._new_history();normalizer=CausalSpectralMean();frontend_history=self._new_frontend_history()
+        hidden=np.zeros_like(self.hidden);probabilities=[];breaths=[];history=self._new_history();normalizer=CausalSpectralMean(mode=self.feature_mode);frontend_history=self._new_frontend_history()
         for frame in base:
             expanded=expand_features(frame)
-            if self.feature_mode=="cmn-v1":expanded=np.r_[expanded,normalizer.push(frame)]
+            if self.feature_mode in ("cmn-v1","cmn-v2"):expanded=np.r_[expanded,normalizer.push(frame)]
             p,b=self._step(expanded,hidden,history,frontend_history);probabilities.append(p);breaths.append(b)
         return np.asarray(probabilities,dtype=np.float32),np.asarray(breaths,dtype=np.float32)

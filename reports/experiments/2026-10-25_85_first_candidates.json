@@ -1,0 +1,148 @@
+{
+  "candidates": [
+    {
+      "run": "ja85_cmn96_v1",
+      "configuration": {
+        "index": "cache/features_v2/index_extended_complete_v3.json",
+        "corpus": "cache/temporal_corpus/joint_complete_cmn_v1",
+        "breath_manifest": "data/breath_cc0/manifest_v2.json",
+        "run": "ja85_cmn96_v1",
+        "epochs": 50,
+        "steps_per_epoch": 300,
+        "batch_size": 64,
+        "channels": 96,
+        "dilations": "1,2,4,8",
+        "lookahead": 10,
+        "threads": 2,
+        "device": "cuda",
+        "gain_augment_db": 8.0,
+        "gain_augment_events_only": true,
+        "skip_lags": "0,2,4,6,8,10,12,14",
+        "skip_hidden": 32,
+        "architecture": "gru",
+        "language_head": false,
+        "feature_mode": "cmn-v1",
+        "gru_layers": 2,
+        "english_weight": 0.3,
+        "breath_selection_weight": 0.05,
+        "breath_viseme_loss_weight": 0.25,
+        "patience": 18,
+        "resume": "cache/tcn_experiments/ja85_cmn96_v1/initial.pt",
+        "seed": 42,
+        "selection_language": "ja",
+        "selection_metric": "accuracy",
+        "actual_device": "cuda",
+        "torch_version": "2.14.1+cu130",
+        "corpus_signature": "5880e35bd2c6c6d2ab7dd12cb33532b225cf30bbc951116024ba1dafce45b3eb/tcn-corpus-v1/cmn-v1",
+        "resume_kind": "weights and feature normalization; optimizer starts fresh"
+      },
+      "completed_epochs": 29,
+      "selected_epoch": 14,
+      "development": {
+        "all": {
+          "accuracy": 0.7318456503539083,
+          "speech_accuracy": 0.6250679026407556,
+          "macro_f1": 0.5821939543516801
+        },
+        "ja": {
+          "accuracy": 0.7665293243934982,
+          "speech_accuracy": 0.6790696561460602,
+          "macro_f1": 0.6020137816594513
+        },
+        "en": {
+          "accuracy": 0.6401415560067006,
+          "speech_accuracy": 0.47733372610631053,
+          "macro_f1": 0.46296646485139364
+        }
+      },
+      "breath": {
+        "precision": 0.8421052631578947,
+        "recall": 0.8648648648648649,
+        "f1": 0.8533333333333334,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.008836524300441826,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "parameters": 169698,
+      "bytes": 167766,
+      "sha256": "ec8806b7563e41ddb83377c13cc84d0283ea277b410390f2e7b26c6be5d7ac17",
+      "saved_candidate": "models\\candidates\\ja85_cmn96_v1_development.npz",
+      "status": "cooperative stop after plateau; checkpoint validated; training process returned exit code 1 after printing completion, no error text was returned; production unchanged",
+      "test_evaluated": false
+    },
+    {
+      "run": "ja85_cnn96_v1",
+      "configuration": {
+        "index": "cache/features_v2/index_extended_complete_v3.json",
+        "corpus": "cache/temporal_corpus/joint_complete_cmn_v1",
+        "breath_manifest": "data/breath_cc0/manifest_v2.json",
+        "run": "ja85_cnn96_v1",
+        "epochs": 50,
+        "steps_per_epoch": 300,
+        "batch_size": 64,
+        "channels": 96,
+        "dilations": "1,2,4,8",
+        "lookahead": 10,
+        "threads": 2,
+        "device": "cuda",
+        "gain_augment_db": 8.0,
+        "gain_augment_events_only": true,
+        "skip_lags": "0,2,4,6,8,10,12,14",
+        "skip_hidden": 32,
+        "architecture": "gru",
+        "language_head": false,
+        "feature_mode": "cmn-v1",
+        "spectral_frontend": true,
+        "gru_layers": 2,
+        "english_weight": 0.3,
+        "breath_selection_weight": 0.05,
+        "breath_viseme_loss_weight": 0.25,
+        "patience": 18,
+        "resume": "cache/tcn_experiments/ja85_cmn96_v1/initial.pt",
+        "seed": 42,
+        "selection_language": "ja",
+        "selection_metric": "accuracy",
+        "actual_device": "cuda",
+        "torch_version": "2.14.1+cu130",
+        "corpus_signature": "5880e35bd2c6c6d2ab7dd12cb33532b225cf30bbc951116024ba1dafce45b3eb/tcn-corpus-v1/cmn-v1",
+        "resume_kind": "weights and feature normalization; optimizer starts fresh"
+      },
+      "completed_epochs": 33,
+      "selected_epoch": 28,
+      "development": {
+        "all": {
+          "accuracy": 0.7308836288910876,
+          "speech_accuracy": 0.6235959486217955,
+          "macro_f1": 0.5827445628053974
+        },
+        "ja": {
+          "accuracy": 0.7672258259417456,
+          "speech_accuracy": 0.6799849249838482,
+          "macro_f1": 0.6060164326716371
+        },
+        "en": {
+          "accuracy": 0.6347943776971633,
+          "speech_accuracy": 0.46933097669547,
+          "macro_f1": 0.4551869268545643
+        }
+      },
+      "breath": {
+        "precision": 0.8611111111111112,
+        "recall": 0.8378378378378378,
+        "f1": 0.8493150684931506,
+        "positive_clips": 37,
+        "negative_clips": 679,
+        "false_positive_rate": 0.007363770250368188,
+        "annotation": "source-described breathing versus transcribed speech; weak clip labels, no gold frame boundaries"
+      },
+      "parameters": 186730,
+      "bytes": 190560,
+      "sha256": "6c40f5da88e9cecc9d777504355ba7589827006d5678bdd5fc0ffb87cde300d0",
+      "saved_candidate": "models\\candidates\\ja85_cnn96_v1_development.npz",
+      "status": "cooperative stop after plateau; checkpoint validated; training process returned exit code 1 after printing completion, no error text was returned; production unchanged",
+      "test_evaluated": false
+    }
+  ],
+  "status": "development only; 85 percent not established"
+}

@@ -24,6 +24,23 @@ def apply_gain(base,gain_db):
     out[:,68]=20*np.log10(new_rms+1e-8)/80
     return out
 
+
+def apply_channel_colour(base,curve_db):
+    """Training perturbation of mel/MFCC colour; not a full waveform simulator."""
+    out=np.array(base,dtype=np.float32,copy=True)
+    out[:,:40]+=np.asarray(curve_db,dtype=np.float32)*np.log(10)/10
+    out[:,40:53]=dct(out[:,:40],axis=-1,norm="ortho")[:,1:14]
+    return out
+
+
+def audit_augmentation_row(row,records_by_id):
+    if not row.get("augmentation"):return
+    source=records_by_id.get(row.get("source_recording_id"))
+    if source is None or source["split"]!="train" or row["split"]!="train":raise ValueError("Augmentation is restricted to existing training recordings")
+    for field in ("language","speaker_hash","transcript_hash"):
+        if row.get(field)!=source.get(field):raise ValueError("Augmentation source metadata differs: "+field)
+    if row["augmentation"].get("kind")!="waveform-speed-v1":raise ValueError("Unsupported augmentation provenance")
+
 def breath_features(record):
     audio_path=ROOT/record["path"]
     if record.get("audio_license",record.get("license"))!="CC0-1.0":
@@ -60,7 +77,7 @@ def pack_corpus(index_path,folder,breath_manifest=None,feature_mode="base"):
     index=json.loads(Path(index_path).read_text(encoding="utf-8"))
     digest=hashlib.sha256(Path(index_path).read_bytes())
     if breath_manifest:digest.update(Path(breath_manifest).read_bytes())
-    signature=digest.hexdigest()+"/tcn-corpus-v1"+("/cmn-v1" if feature_mode=="cmn-v1" else "")
+    signature=digest.hexdigest()+"/tcn-corpus-v1"+("/"+feature_mode if feature_mode!="base" else "")
     folder=Path(folder);folder.mkdir(parents=True,exist_ok=True)
     metadata=folder/"corpus.json"
     if metadata.exists():
@@ -79,17 +96,19 @@ def pack_corpus(index_path,folder,breath_manifest=None,feature_mode="base"):
             base,y,br=breath_features(record)
             extras.append(({"id":record["id"],"language":record.get("kind","breath"),"split":record["split"],"speaker_hash":hashlib.sha256(("uploader/"+record["author"]).encode()).hexdigest(),"transcript_hash":record["id"],"frames":len(y),"seconds":len(y)/100,"source":record["source"]},base,y,br))
     rows=index["records"]
+    records_by_id={row["id"]:row for row in rows}
+    for row in rows:audit_augmentation_row(row,records_by_id)
     count=sum(r["frames"] for r in rows)+sum(len(y) for _,_,y,_ in extras)
     base_map=np.memmap(folder/"features.f16",mode="w+",dtype=np.float16,shape=(count,78))
     y_map=np.memmap(folder/"labels.i16",mode="w+",dtype=np.int16,shape=(count,))
     br_map=np.memmap(folder/"breath.f16",mode="w+",dtype=np.float16,shape=(count,))
-    cmn_map=np.memmap(folder/"cmn.f16",mode="w+",dtype=np.float16,shape=(count,40)) if feature_mode=="cmn-v1" else None
+    cmn_map=np.memmap(folder/"cmn.f16",mode="w+",dtype=np.float16,shape=(count,40)) if feature_mode in ("cmn-v1","cmn-v2") else None
     scaler=StandardScaler();counts=np.zeros(16,dtype=np.int64);output=[];offset=0
     def write(row,base,y,breath):
         nonlocal offset
         end=offset+len(base)
         base_map[offset:end]=base;y_map[offset:end]=y;br_map[offset:end]=breath
-        normalized=spectral_residuals(base) if cmn_map is not None else None
+        normalized=spectral_residuals(base,feature_mode) if cmn_map is not None else None
         if cmn_map is not None:cmn_map[offset:end]=normalized
         if row["split"]=="train":
             expanded=expand_features(base[::2])
@@ -100,7 +119,10 @@ def pack_corpus(index_path,folder,breath_manifest=None,feature_mode="base"):
         offset=end
     for n,row in enumerate(rows):
         with np.load(ROOT/row.get("feature_root","cache/features_v2")/(row["id"]+".npz")) as data:
-            if str(data["annotation_signature"])!=index["annotation_signatures"][row["language"]]:raise RuntimeError("Cache signature mismatch")
+            if str(data["annotation_signature"])!=row.get("annotation_signature",index["annotation_signatures"][row["language"]]):raise RuntimeError("Cache signature mismatch")
+            if row.get("augmentation"):
+                if str(data["teacher_signature"])!=index["annotation_signatures"][row["language"]] or str(data["source_id"])!=row["source_recording_id"]:raise RuntimeError("Augmentation teacher/source receipt differs")
+                if abs(float(data["speed_factor"])-row["augmentation"]["factor"])>1e-6:raise RuntimeError("Augmentation speed differs")
             base=data["base"];y=data["y"]
             breath=np.where(y!=0,0,-1).astype(np.float16)
             write(row,base,y,breath)
@@ -121,7 +143,7 @@ class Corpus:
         self.base=np.memmap(self.folder/"features.f16",mode="r",dtype=np.float16,shape=(n,78))
         self.labels=np.memmap(self.folder/"labels.i16",mode="r",dtype=np.int16,shape=(n,))
         self.breath=np.memmap(self.folder/"breath.f16",mode="r",dtype=np.float16,shape=(n,))
-        self.cmn=np.memmap(self.folder/"cmn.f16",mode="r",dtype=np.float16,shape=(n,40)) if self.metadata.get("feature_mode")=="cmn-v1" else None
+        self.cmn=np.memmap(self.folder/"cmn.f16",mode="r",dtype=np.float16,shape=(n,40)) if self.metadata.get("feature_mode") in ("cmn-v1","cmn-v2") else None
         self.rows=self.metadata["records"]
         self.mean=np.asarray(self.metadata["mean"],dtype=np.float32)
         self.scale=np.asarray(self.metadata["scale"],dtype=np.float32)

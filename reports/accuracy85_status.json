@@ -1,0 +1,55 @@
+{
+  "updated_at_jst": "2026-10-25T21:16:05+09:00",
+  "status": "training",
+  "target_japanese_agreement": 0.85,
+  "production_unchanged_sha256": "b3328c5b0749cd57cd67587b9b764bc7739b8dea5b5c9fbda48b79d29cba17a3",
+  "final_test_scored": false,
+  "candidate_runs": {
+    "ja85_cmn96_v1": {
+      "completed_epochs": 29,
+      "selected_epoch": 14,
+      "development_japanese_agreement": 0.7665293243934982,
+      "development_speech_accuracy": 0.6790696561460602,
+      "final_test_scored": false
+    },
+    "ja85_cnn96_v1": {
+      "completed_epochs": 33,
+      "selected_epoch": 28,
+      "development_japanese_agreement": 0.7672258259417456,
+      "development_speech_accuracy": 0.6799849249838482,
+      "final_test_scored": false
+    },
+    "ja85_attention192_v1": {
+      "completed_epochs": 40,
+      "selected_epoch": 39,
+      "development_japanese_agreement": 0.7729362994788825,
+      "final_test_scored": false
+    },
+    "ja85_attention256_l20_stage2": {
+      "completed_epochs": 9,
+      "selected_epoch": 8,
+      "development_japanese_agreement": 0.7678778060634113,
+      "final_test_scored": false
+    }
+  },
+  "data_preparation": {
+    "index_ja85_extended_v1.json": {
+      "added": 1608,
+      "selected": 3527,
+      "elapsed_seconds": 942.9539999999979
+    },
+    "index_ja85_extended_v2.json": {
+      "added": 6428,
+      "selected": 6484,
+      "elapsed_seconds": 3812.155999999988
+    },
+    "index_ja85_speed_v1.json": {
+      "added": 7050,
+      "selected": 8000,
+      "elapsed_seconds": 3428.4070000000065
+    }
+  },
+  "active_run": "ja85_attention256_l20_stage2",
+  "active_lookahead_ms": 200,
+  "rejected_for_cpu_cost": "384 channels: real time factor 1.48"
+}
