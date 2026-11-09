@@ -4,7 +4,7 @@
 
 2026年10月24日時点。PowerShell用です。現在、こちらから動かしている学習・ラベル生成プロセスはありません。
 
-**2026年10月25日追記:** ユーザーによる5時間設定の実行が正常終了し、`models/kotoba_int8.npz` を保存しています。試すだけなら再学習は不要で、`Start_Kotoba.bat` を起動できます。以下は再学習・別環境での再現用です。実測結果は [RESULTS.md](../reports/RESULTS.md) を参照してください。
+2026年10月25日に5時間設定の学習が完了しました。同梱モデルは [READMEのCLI手順](../README.md#cliで試す) で試せます。以下は再学習・別環境での再現用です。実測結果は [RESULTS.md](../reports/RESULTS.md) を参照してください。
 
 ## このPCでそのまま実行する場合
 
@@ -77,8 +77,8 @@ cd C:\Users\harus\Downloads\Lipsync
 # 小型モデルの学習と最終評価
 .\.venv\Scripts\python.exe scripts\train.py --epochs 100 --hidden 192 96 --lookahead 3
 
-# アプリの起動
-.\.venv\Scripts\python.exe -m kotoba_lipsync gui
+# 音声ファイルで推論
+.\.venv\Scripts\python.exe -m kotoba_lipsync file input.wav --output outputs\visemes.jsonl
 ```
 
 **`train.py` だけを最初に実行しないでください。** v2ラベルがなければエラーで止まるようにしています。v2ラベルがすべて生成済みなら、次回からは次のコマンドで学習以降を実行できます。
@@ -102,16 +102,11 @@ cd C:\Users\harus\Downloads\Lipsync
 
 一致率は**自動音素ラベルとの一致率**です。実際の唇や人手正解ラベルに対して80%以上を保証する値ではありません。特に自然な吸気・吐気は未検証です。
 
-## テストとWindows実行ファイル化
+## テスト
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
-
-# 学習完了後に実行。Pythonを同梱した配布フォルダを作ります。
-powershell -NoProfile -File .\scripts\build_windows.ps1
 ```
-
-配布フォルダは `dist/KotobaLipSync/`、起動はその中の `KotobaLipSync.exe` です。モデルだけではなくPython・数値計算ライブラリも含むため、アプリ全体の容量はモデル容量より大きくなります。ビルドには成功しましたが、現在の試行ビルドは有効なモデルを同梱していません。学習後に作り直してください。
 
 Unity/VRChat/VMCの設定は [README](../README.md) を参照してください。
 

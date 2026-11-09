@@ -22,7 +22,7 @@ These teachers are used only for generating pseudo labels locally. They are not 
 
 ## Runtime dependencies
 
-Python (PSF), NumPy (BSD-3-Clause and bundled components), SciPy (BSD-3-Clause and bundled components), SoundFile (BSD-3-Clause, bundles libsndfile), python-sounddevice (MIT, bundles PortAudio), threadpoolctl (BSD-3-Clause), cffi (MIT), pycparser (BSD), Tcl/Tk (Tcl license). The installed distributions include full license texts in their `*.dist-info` directories. Redistributed bundled executables should retain these texts. Training dependencies include scikit-learn (BSD-3-Clause), ONNX Runtime (MIT), Apache Arrow (Apache-2.0), Requests (Apache-2.0) and pytest (MIT).
+Python (PSF), NumPy (BSD-3-Clause and bundled components), SciPy (BSD-3-Clause and bundled components), SoundFile (BSD-3-Clause, bundles libsndfile), python-sounddevice (MIT, bundles PortAudio), threadpoolctl (BSD-3-Clause), cffi (MIT), pycparser (BSD). The installed distributions include full license texts in their `*.dist-info` directories. Redistributed bundled executables should retain these texts. Training dependencies include scikit-learn (BSD-3-Clause), ONNX Runtime (MIT), Apache Arrow (Apache-2.0), Requests (Apache-2.0) and pytest (MIT).
 
 ## External specifications
 

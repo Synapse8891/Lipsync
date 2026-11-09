@@ -72,7 +72,7 @@ Ryzen 7 5700X、Windows、Python 3.11.9、CPU推論、BLASスレッド数1。日
 
 詳細は [benchmark.json](benchmark.json)。旧MLPの先読み30 msより90 ms増えています。
 
-Windows配布版でも同じ27.388秒の実音声を処理しました。特徴抽出＋推論はp50 0.714 ms、p95 0.922 ms、実時間係数0.0741でした。[配布版ベンチマーク](packaged_benchmark.json)
+当時のWindows配布版でも同じ27.388秒の実音声を処理しました。特徴抽出＋推論はp50 0.714 ms、p95 0.922 ms、実時間係数0.0741でした。
 
 ## 動作確認と未実施事項
 
@@ -83,6 +83,4 @@ Windows配布版でも同じ27.388秒の実音声を処理しました。特徴�
 - Unity DLL参照のC#コンパイルは成功。Editorはライセンス未認証のため再生できていません。VRChat実アバター、他プレイヤー同期、VMC受信アプリは未検証です。
 - Unity UDPとVRChatカスタムOSCは呼吸値を出力可能。VMCは5母音のみ。Unity/Quest/スマートフォン単体の推論、Live2D/VTube Studio専用APIは含みません。
 
-起動は `Start_Kotoba.bat`。元音声、教師モデル、CUDA/PyTorchの学習環境は配布しません。
-
-同日、UIをWindows標準の明るいテーマへ変更しました。[操作手順](../docs/UI_JA.md) と [レイアウト確認](ui_layout_validation.json) を保存しています。推論モデルは変更していません。92%については [既存評価の診断](../docs/ACCURACY_92_JA.md) の段階で、追加学習・達成確認は未実施です。
+同日、推論モデルを維持したまま、当時のUIをWindows標準の明るいテーマへ変更しました。92%については [既存評価の診断](../../../docs/ACCURACY_92_JA.md) の段階で、追加学習・達成確認は未実施です。

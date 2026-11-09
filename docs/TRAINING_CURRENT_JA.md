@@ -1,6 +1,6 @@
 # 現在のモデル・追加学習コマンド
 
-2026年10月25日。日本語75.06%の採用GRUは学習済みです。利用は `Start_Kotoba.bat` をダブルクリックします。再学習は不要です。詳細な結果・制約は [RESULTS.md](../reports/RESULTS.md) に記録しています。
+2026年10月25日。日本語75.06%の採用GRUは学習済みです。[READMEのCLI手順](../README.md#cliで試す) で同梱モデルを試せます。詳細な結果・制約は [RESULTS.md](../reports/RESULTS.md) に記録しています。
 
 ## このPCで追加実験する場合
 
@@ -62,10 +62,7 @@ New-Item -ItemType File -Path cache/tcn_experiments/my_gru96_experiment/STOP -Fo
 .\.venv\Scripts\python.exe -m kotoba_lipsync benchmark input.wav
 .\.venv\Scripts\python.exe -m scripts.validate_runtime input.wav
 .\.venv\Scripts\python.exe -m pytest -q
-powershell -NoProfile -File scripts/build_windows.ps1
 ```
-
-配布版は `dist/KotobaLipSync/KotobaLipSync.exe` です。Python・モデル・依存ライセンス・日本語文書を同梱します。元音声、教師、CUDA/PyTorch、学習キャッシュは含めません。
 
 ## GitHubにあるもの・ローカルだけにあるもの
 

@@ -11,7 +11,7 @@ from .features import read_audio
 from .runtime import LipSyncEngine
 from .transport import OutputSender
 
-ROOT = Path(sys.executable).resolve().parent if getattr(sys,"frozen",False) else Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MODEL = ROOT / "models" / "kotoba_int8.npz"
 
 def main():
@@ -75,7 +75,7 @@ def main():
             get_memory.argtypes=[wintypes.HANDLE,ctypes.POINTER(MemoryCounters),wintypes.DWORD]
             if get_memory(get_current(),ctypes.byref(counters),counters.cb):
                 result["process_working_set_bytes"]=counters.WorkingSetSize
-                result["memory_scope"]="This CLI process after imports and inference; GUI/driver/receiver memory excluded"
+                result["memory_scope"]="This CLI process after imports and inference; driver and receiver memory excluded"
         args.output.parent.mkdir(parents=True,exist_ok=True)
         args.output.write_text(json.dumps(result,indent=2),encoding="utf-8")
         print(json.dumps(result,indent=2))
